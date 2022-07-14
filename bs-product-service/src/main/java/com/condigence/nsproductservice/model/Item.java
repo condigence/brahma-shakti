@@ -1,39 +1,36 @@
 package com.condigence.nsproductservice.model;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "item")
+
 public class Item {
 
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "name")
+
 	private String name;
 
-	@Column(name = "code")
+
 	private String code;
 
-	@Column(name = "price")
+
 	private int price;
 
-	@Column(name = "mrp")
+
 	private Integer mrp;
 
-	@Column(name = "dispPrice")
+
 	private Integer dispPrice;
 
-	@Column(name = "discount")
+
 	private Integer discount;
 
-	@Column(name = "type")
+
 	private String type;
 
-	@Column(name = "description")
+
 	private String description;
 
 	public String getDescription() {
@@ -44,19 +41,19 @@ public class Item {
 		this.description = description;
 	}
 
-	@Column(name = "capacity")
+
 	private Integer capacity;
 
-	@Column(name = "brandId")
+
 	private Long brandId;
 
-	@Column(name = "imageId")
+
 	private Long imageId;
 
-	@Column(name = "dateCreated")
+
 	private Date dateCreated;
 
-	@Column(name = "quantity")
+
 	private Integer quantity;
 
 	public Long getId() {

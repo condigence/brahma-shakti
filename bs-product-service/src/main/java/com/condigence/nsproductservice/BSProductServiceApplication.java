@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class NsProductServiceApplication {
+public class BSProductServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NsProductServiceApplication.class, args);
+		SpringApplication.run(BSProductServiceApplication.class, args);
 	}
 
 	@Bean

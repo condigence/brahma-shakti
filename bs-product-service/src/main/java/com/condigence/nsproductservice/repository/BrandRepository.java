@@ -2,7 +2,7 @@ package com.condigence.nsproductservice.repository;
 
 
 import com.condigence.nsproductservice.model.Brand;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface BrandRepository extends JpaRepository<Brand, Long> {
+public interface BrandRepository extends MongoRepository<Brand, Long> {
 }
