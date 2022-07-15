@@ -17,7 +17,8 @@ public class HelperUtil {
 	public static Supplier<List<Product>> productSupplier = () ->
 			Arrays.asList(
 					Product.builder().id("1").name("Milk").description("Fresh farm Milk").quantityInStock(50).actualPrice(40).displayPrice(42).offer("FIRSTSELL").build(),
-					Product.builder().id("2").name("Lassi").description("Fresh farm Lassi").quantityInStock(500).actualPrice(10).displayPrice(12).offer("FIRSTSELL").build()
+					Product.builder().id("2").name("Lassi").description("Fresh farm Lassi").quantityInStock(500).actualPrice(10).displayPrice(12).offer("FIRSTSELL").build(),
+					Product.builder().id("3").name("Paneer").description("Fresh farm Paneer").quantityInStock(500).actualPrice(20).displayPrice(22).offer("FIRSTSELL").build()
 			);
 
 
