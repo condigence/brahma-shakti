@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.model.SuperHero;
+import com.spring.mongo.demo.model.User;
 
 public class HelperUtil {
 
@@ -19,6 +20,11 @@ public class HelperUtil {
 					Product.builder().id("1").name("Milk").description("Fresh farm Milk").quantityInStock(50).actualPrice(40).displayPrice(42).offer("FIRSTSELL").build(),
 					Product.builder().id("2").name("Lassi").description("Fresh farm Lassi").quantityInStock(500).actualPrice(10).displayPrice(12).offer("FIRSTSELL").build(),
 					Product.builder().id("3").name("Paneer").description("Fresh farm Paneer").quantityInStock(500).actualPrice(20).displayPrice(22).offer("FIRSTSELL").build()
+			);
+	public static Supplier<List<User>> userSupplier = () ->
+			Arrays.asList(
+					User.builder().id("1").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").address("onlyvishalaaryan@gmail.com").build(),
+					User.builder().id("2").firstName("Mukul").lastName("Bhatiya").address("Mathura").contact("9876543212").address("mukul@gmail.com@gmail.com").build()
 			);
 
 
