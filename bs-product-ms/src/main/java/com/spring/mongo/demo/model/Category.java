@@ -16,6 +16,6 @@ public class Category implements Serializable {
 
 	@Id
 	private String id;
-	private int name;
+	private String categoryName;
 	
 }
