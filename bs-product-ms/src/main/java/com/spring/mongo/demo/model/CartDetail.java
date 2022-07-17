@@ -12,14 +12,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User implements Serializable {
+public class CartDetail implements Serializable {
 
 	@Id
 	private String id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String contact;
-	private String address;
+	private String productId;
+	private int itemCount;
+	private int totalAmount;
 	
 }

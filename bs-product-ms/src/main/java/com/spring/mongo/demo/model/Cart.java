@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,8 +17,9 @@ public class Cart implements Serializable {
 
 	@Id
 	private String id;
-	private String productId;
 	private String userId;
-	private int quantity;
+	private List<CartDetail> itemDetails;
+	private int totalItemCount;
+	private int totalAmount;
 	
 }
