@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.spring.mongo.demo.model.Category;
 import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.model.SuperHero;
@@ -47,6 +48,17 @@ public class HelperUtil {
                     SuperHero.builder().name("Peter").superName("Spider Man").profession("Student").age(21).canFly(true).build()
             );
 
+	public static Supplier<List<Category>> categorySupplier = () ->
+			Arrays.asList(
+					Category.builder().categoryName("Milk").build(),
+					Category.builder().categoryName("Vegetables").build(),
+					Category.builder().categoryName("Fruits").build(),
+					Category.builder().categoryName("Curd").build(),
+					Category.builder().categoryName("Paneer").build(),
+					Category.builder().categoryName("Lassi").build(),
+					Category.builder().categoryName("Butter Milk").build()
+
+			);
 
 
 

@@ -1,8 +1,10 @@
 package com.spring.mongo.demo;
 
+import com.spring.mongo.demo.model.Category;
 import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.model.SuperHero;
+import com.spring.mongo.demo.repository.CategoryRepository;
 import com.spring.mongo.demo.repository.EmployeeRepository;
 import com.spring.mongo.demo.repository.ProductRepository;
 import com.spring.mongo.demo.repository.SuperHeroRepository;
@@ -39,6 +41,9 @@ public class SpringBootMongoDBApplication {
 	@Autowired
 	private SuperHeroRepository superHeroRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	
 	@Bean
 	CommandLineRunner runner() {
@@ -64,6 +69,15 @@ public class SpringBootMongoDBApplication {
 					LOGGER.info("******* Employees stored in DB Size :: {}", employees.size());
 					LOGGER.info("******* Employees stored in DB :: {}", employees);
 				}
+
+			List<Category> categories = categoryRepository.findAll();
+			if (categories.size() == 0) {
+				LOGGER.info("******* Inserting Categories to DB *******");
+				categoryRepository.saveAll(HelperUtil.categorySupplier.get());
+			} else {
+				LOGGER.info("******* Categories stored in DB Size :: {}", categories.size());
+				LOGGER.info("******* Categories stored in DB :: {}", categories);
+			}
 
 
 
