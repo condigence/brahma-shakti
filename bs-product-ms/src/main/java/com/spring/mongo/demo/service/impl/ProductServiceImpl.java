@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.service.impl;
 
+import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.repository.ProductRepository;
 import com.spring.mongo.demo.service.ProductService;
@@ -19,8 +20,19 @@ public class ProductServiceImpl implements ProductService {
 
 	
 	@Override
-	public List<Product> getAll() {
-		return repository.findAll();
+	public List<ProductDTO> getAll() {
+		List<ProductDTO> productDTOS = new ArrayList<>();
+		List<Product> products = repository.findAll();
+		for(Product product : products){
+			ProductDTO productDTO = new ProductDTO();
+			productDTO.setTitle(product.getName());
+			productDTO.setActualPrice(product.getActualPrice());
+			productDTO.setImage(product.getImageLink());
+
+			productDTOS.add(productDTO);
+		}
+
+		return productDTOS;
 	}
 	
 

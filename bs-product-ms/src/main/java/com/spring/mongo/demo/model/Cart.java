@@ -20,6 +20,10 @@ public class Cart implements Serializable {
 	private String userId;
 	private List<CartDetail> itemDetails;
 	private int totalItemCount;
-	private int totalAmount;
+	private float discountAmount;
+	private float taxAmount;
+	private float subtotalAmount;
+	private float grandTotal;
+	private String lastUpdated;
 	
 }

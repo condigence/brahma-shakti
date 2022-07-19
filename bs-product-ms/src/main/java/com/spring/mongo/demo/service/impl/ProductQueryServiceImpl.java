@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.service.impl;
 
+import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.repository.EmployeeQueryDao;
@@ -21,9 +22,20 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 	private ProductQueryDao productQueryDao;
 
 	@Override
-	public List<Product> getAll() {
+	public List<ProductDTO> getAll() {
 		System.out.println("Inside Product Query Service Impl");
-		return productQueryDao.getAll();
+		List<ProductDTO> productDTOS = new ArrayList<>();
+		List<Product> products = productQueryDao.getAll();
+		for(Product product : products){
+			ProductDTO productDTO = new ProductDTO();
+			productDTO.setTitle(product.getName());
+			productDTO.setActualPrice(product.getActualPrice());
+			productDTO.setImage(product.getImageLink());
+
+			productDTOS.add(productDTO);
+		}
+
+		return productDTOS;
 	}
 
 	@Override

@@ -21,4 +21,5 @@ public class Subscription implements Serializable {
 	private Integer noOfDays;
 	private String frequency;
 	private String userid;
+	private String productId;
 }

@@ -1,4 +1,4 @@
-package com.spring.mongo.demo.model;
+package com.spring.mongo.demo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,18 +12,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Product implements Serializable {
+public class ProductDTO implements Serializable {
 
-	@Id
 	private String id;
-	private String name;
-	private int quantityInStock;
-	private String imageLink;
+	private String title;
+	private int stockLeft;
+	private String image;
+	private String unit;
 	private String description;
-	private float displayPrice;
+	private int price;
+	private int discount;
 	private float actualPrice;
-	private String offer;
+	private String promoCode;
+	private String category;
+	private float rating;
 	private boolean isSubscribable;
-
-	
 }
