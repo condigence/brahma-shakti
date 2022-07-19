@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.controller;
 
+import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ProductController {
 	}
 	
 	@GetMapping
-	public List<Product> getAll() {
+	public List<ProductDTO> getAll() {
 		return productService.getAll();
 	}
 	

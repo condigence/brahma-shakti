@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.controller;
 
+import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.service.EmployeeQueryService;
@@ -17,7 +18,7 @@ public class ProductQueryController {
     private ProductQueryService productQueryService;
 
     @GetMapping
-    public List<Product> getAll() {
+    public List<ProductDTO> getAll() {
         return productQueryService.getAll();
     }
 

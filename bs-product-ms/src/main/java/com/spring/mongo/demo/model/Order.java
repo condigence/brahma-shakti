@@ -21,6 +21,12 @@ public class Order implements Serializable {
 	private String type;
 	private String dateTime;
 	private String status;
+	private int totalItemCount;
+	private float discountAmount;
+	private float taxAmount;
+	private float subtotalAmount;
+	private float grandTotal;
+	private String lastUpdated;
 	private List<OrderDetail> orderItems;
 	
 }
