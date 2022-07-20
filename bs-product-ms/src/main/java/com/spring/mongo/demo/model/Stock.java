@@ -12,22 +12,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Product implements Serializable {
+public class Stock implements Serializable {
 
 	@Id
 	private String id;
-	private String name;
+	private int productId;
 	private int quantityInStock;
-	private String imageLink;
-	private String description;
-	private float displayPrice;
-	private int actualPrice;
-	private String unit;
-	private String category;
-	private String offers;
-	private int discount;
-	private double rating;
-	private boolean isSubscribable;
-
 	
 }

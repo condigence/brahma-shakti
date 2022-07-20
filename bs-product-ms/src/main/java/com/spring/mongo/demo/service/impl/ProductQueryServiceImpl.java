@@ -28,9 +28,28 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 		List<Product> products = productQueryDao.getAll();
 		for(Product product : products){
 			ProductDTO productDTO = new ProductDTO();
+
 			productDTO.setTitle(product.getName());
-			productDTO.setActualPrice(product.getActualPrice());
+			productDTO.setPrice(product.getActualPrice());
 			productDTO.setImage(product.getImageLink());
+			productDTO.setId(product.getId());
+			productDTO.setCategory(product.getCategory());
+			productDTO.setDescription(product.getDescription());
+			productDTO.setDiscount(product.getDiscount());
+			if(product.getOffers() != null ){
+				if(product.getOffers().contains(",")){
+					productDTO.setPromoCodes(product.getOffers().split(","));
+				}else if(!product.getOffers().equalsIgnoreCase("")){
+					productDTO.setPromoCodes(new String[] {product.getOffers()});
+				}else{
+					productDTO.setPromoCodes(new String[] {"NA"});
+				}
+
+			}
+			productDTO.setStockLeft(product.getQuantityInStock());
+			productDTO.setRating(product.getRating());
+
+
 
 			productDTOS.add(productDTO);
 		}

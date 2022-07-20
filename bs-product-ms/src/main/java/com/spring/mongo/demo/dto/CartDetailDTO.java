@@ -12,18 +12,16 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDTO implements Serializable {
+public class CartDetailDTO implements Serializable {
 
+	@Id
 	private String id;
 	private String title;
-	private int stockLeft;
-	private String image;
-	private String unit;
-	private String description;
+	private int itemQuantity;
+	private int itemCount;
+	private int unit;
 	private int price;
+	private int totalAmount;
 	private int discount;
-	private String[] promoCodes;
-	private String category;
-	private double rating;
-	private boolean isSubscribable;
+	
 }

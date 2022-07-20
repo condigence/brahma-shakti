@@ -25,10 +25,26 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> products = repository.findAll();
 		for(Product product : products){
 			ProductDTO productDTO = new ProductDTO();
-			productDTO.setTitle(product.getName());
-			productDTO.setActualPrice(product.getActualPrice());
+			productDTO.setId(product.getId());
 			productDTO.setImage(product.getImageLink());
-
+			productDTO.setDiscount(product.getDiscount());
+			productDTO.setTitle(product.getName());
+			productDTO.setPrice(product.getActualPrice());
+			productDTO.setUnit(product.getUnit());
+			productDTO.setDescription(product.getDescription());
+			productDTO.setStockLeft(product.getQuantityInStock());
+			productDTO.setCategory(product.getCategory());
+			productDTO.setRating(product.getRating());
+			productDTO.setSubscribable(product.isSubscribable());
+			if(product.getOffers() != null ){
+				if(product.getOffers().contains(",")){
+					productDTO.setPromoCodes(product.getOffers().split(","));
+				}else if(!product.getOffers().equalsIgnoreCase("")){
+					productDTO.setPromoCodes(new String[] {product.getOffers()});
+				}else{
+					productDTO.setPromoCodes(new String[] {"NA"});
+				}
+			}
 			productDTOS.add(productDTO);
 		}
 
