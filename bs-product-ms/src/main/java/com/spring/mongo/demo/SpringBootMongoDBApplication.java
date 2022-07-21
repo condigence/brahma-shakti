@@ -1,8 +1,11 @@
 package com.spring.mongo.demo;
 
+import com.spring.mongo.demo.dto.CartDTO;
+import com.spring.mongo.demo.model.Cart;
 import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.model.SuperHero;
+import com.spring.mongo.demo.repository.CartRepository;
 import com.spring.mongo.demo.repository.EmployeeRepository;
 import com.spring.mongo.demo.repository.ProductRepository;
 import com.spring.mongo.demo.repository.SuperHeroRepository;
@@ -34,6 +37,9 @@ public class SpringBootMongoDBApplication {
 	private ProductRepository productRepository;
 
 	@Autowired
+	private CartRepository cartRepository;
+
+	@Autowired
 	private EmployeeRepository employeeRepository;
 
 	@Autowired
@@ -54,6 +60,15 @@ public class SpringBootMongoDBApplication {
 				LOGGER.info("******* Products stored in DB :: {}", products);
 			}
 
+			List<Cart> carts = cartRepository.findAll();
+			if (carts.size() == 0) {
+				LOGGER.info("******* Inserting carts to DB *******");
+				cartRepository.saveAll(HelperUtil.cartSupplier.get());
+			} else {
+				LOGGER.info("******* carts stored in DB Size :: {}", carts.size());
+				LOGGER.info("******* carts stored in DB :: {}", carts);
+			}
+
 
 
 			List<Employee> employees = employeeRepository.findAll();
@@ -64,12 +79,6 @@ public class SpringBootMongoDBApplication {
 					LOGGER.info("******* Employees stored in DB Size :: {}", employees.size());
 					LOGGER.info("******* Employees stored in DB :: {}", employees);
 				}
-
-
-
-
-
-
 
 
 			List<SuperHero> superHeroes = superHeroRepository.findAll();

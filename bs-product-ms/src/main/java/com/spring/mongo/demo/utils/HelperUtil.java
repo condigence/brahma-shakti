@@ -4,10 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-import com.spring.mongo.demo.model.Employee;
-import com.spring.mongo.demo.model.Product;
-import com.spring.mongo.demo.model.SuperHero;
-import com.spring.mongo.demo.model.User;
+import com.spring.mongo.demo.model.*;
 
 public class HelperUtil {
 
@@ -21,6 +18,12 @@ public class HelperUtil {
 					Product.builder().id("2").name("COW MILK").description("Fresh farm Cow Milk").quantityInStock(500).actualPrice(55).displayPrice(55).offers("FIRSTSELL").build(),
 					Product.builder().id("3").name("PANEER").description("Fresh farm Paneer").quantityInStock(500).actualPrice(320).displayPrice(320).imageLink("https://img.freepik.com/premium-photo/homemade-indian-paneer-cheese-wooden-bowl_114420-600.jpg").build()
 			);
+
+	public static Supplier<List<Cart>> cartSupplier = () ->
+			Arrays.asList(
+					Cart.builder().id("1").userId("1").totalItemCount(5).subtotalAmount(620).lastUpdated("09: 41 20 - 07 - 2022").grandTotal(500).itemDetails(Arrays.asList(CartDetail.builder().id("1").productId("1").itemCount(2).totalAmount(140).build())).build()
+					);
+
 	public static Supplier<List<User>> userSupplier = () ->
 			Arrays.asList(
 					User.builder().id("1").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").address("onlyvishalaaryan@gmail.com").build(),
