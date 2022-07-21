@@ -50,13 +50,12 @@ public class HelperUtil {
 
 	public static Supplier<List<Category>> categorySupplier = () ->
 			Arrays.asList(
-					Category.builder().categoryName("Milk").build(),
+
 					Category.builder().categoryName("Vegetables").build(),
 					Category.builder().categoryName("Fruits").build(),
-					Category.builder().categoryName("Curd").build(),
-					Category.builder().categoryName("Paneer").build(),
-					Category.builder().categoryName("Lassi").build(),
-					Category.builder().categoryName("Butter Milk").build()
+					Category.builder().categoryName("Dairy Products").build(),
+					Category.builder().categoryName("Sweets").build()
+
 
 			);
 
