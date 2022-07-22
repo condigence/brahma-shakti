@@ -15,4 +15,5 @@ public interface CartService {
 
 	CartDTO getCartByUserId(String userId);
 
+	void deleteCartByUserId(String userId);
 }

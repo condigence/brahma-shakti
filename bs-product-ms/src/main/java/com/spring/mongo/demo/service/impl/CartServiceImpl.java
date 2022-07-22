@@ -91,5 +91,13 @@ public class CartServiceImpl implements CartService {
 
 	}
 
+	/**
+	 * @param userId
+	 */
+	@Override
+	public void deleteCartByUserId(String userId) {
+		repository.delete(repository.findByUserId(userId));
+	}
+
 
 }
