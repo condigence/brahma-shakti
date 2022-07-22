@@ -1,8 +1,9 @@
 package com.spring.mongo.demo.service.impl;
 
+import com.spring.mongo.demo.bean.CartBean;
+import com.spring.mongo.demo.bean.CartDetailBean;
 import com.spring.mongo.demo.dto.CartDTO;
 import com.spring.mongo.demo.dto.CartDetailDTO;
-import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.model.Cart;
 import com.spring.mongo.demo.model.CartDetail;
 import com.spring.mongo.demo.model.Product;
@@ -25,6 +26,31 @@ public class CartServiceImpl implements CartService {
 	private ProductRepository productRepository;
 
 	@Override
+	public void addToCart(CartBean cartBean){
+		Cart cart = new Cart();
+		/////
+		cart.setUserId(cartBean.getUserId());
+		cart.setDiscountAmount(cartBean.getDiscountAmount());
+		cart.setGrandTotal(cartBean.getGrandTotal());
+		cart.setLastUpdated(cartBean.getLastUpdated());
+		cart.setSubtotalAmount(cartBean.getSubtotalAmount());
+		cart.setTaxAmount(cartBean.getTaxAmount());
+		List<CartDetail> cartDetails = new ArrayList<>();
+		for(CartDetailBean items :cartBean.getItems()) {
+			CartDetail cartDetail = new CartDetail();
+			Product product = productRepository.findOneById(items.getProductId());
+			cartDetail.setItemCount(items.getItemCount());
+			cartDetail.setTotalAmount(items.getTotalAmount());
+			cartDetails.add(cartDetail);
+		}
+
+		cart.setItemDetails(cartDetails);
+		//////////
+		repository.save(cart);
+
+	}
+
+	@Override
 	public CartDTO getCartByUserId(String userId) {
 		Cart cart = repository.findByUserId(userId);
 		if(cart != null){
@@ -41,16 +67,22 @@ public class CartServiceImpl implements CartService {
 			for(CartDetail items :cart.getItemDetails()){
 				CartDetailDTO cartDetailDTO = new CartDetailDTO();
 				Product product = productRepository.findOneById(items.getProductId());
-				cartDetailDTO.setDiscount(product.getDiscount());
+
+				if(product != null){
+					cartDetailDTO.setDiscount(product.getDiscount());
+					cartDetailDTO.setPrice(product.getActualPrice());
+					cartDetailDTO.setUnit(product.getUnit());
+					cartDetailDTO.setTitle(product.getName());
+				}
+
 				cartDetailDTO.setId(items.getId());
-				cartDetailDTO.setPrice(product.getActualPrice());
-				cartDetailDTO.setUnit(product.getUnit());
 				cartDetailDTO.setItemCount(items.getItemCount());
-				cartDetailDTO.setTitle(product.getName());
 				cartDetailDTO.setTotalAmount(items.getTotalAmount());
+
 				cartDetailDTOS.add(cartDetailDTO);
-				cartDTO.setItemDetails(cartDetailDTOS);
+
 			}
+			cartDTO.setItemDetails(cartDetailDTOS);
 
 			return cartDTO;
 		}else{

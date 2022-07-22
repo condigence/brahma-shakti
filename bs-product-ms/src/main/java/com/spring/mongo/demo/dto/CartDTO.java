@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 public class CartDTO implements Serializable {
 
-	@Id
 	private String id;
 	private String userId;
 	private int totalItemCount;
