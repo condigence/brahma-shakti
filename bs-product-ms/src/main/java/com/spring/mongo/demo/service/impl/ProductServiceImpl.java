@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.service.impl;
 
+import com.spring.mongo.demo.bean.ProductBean;
 import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.repository.ProductRepository;
@@ -9,79 +10,133 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	
 
-	@Autowired
-	private ProductRepository repository;
-	
 
-	
-	@Override
-	public List<ProductDTO> getAll() {
-		List<ProductDTO> productDTOS = new ArrayList<>();
-		List<Product> products = repository.findAll();
-		for(Product product : products){
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setId(product.getId());
-			productDTO.setImage(product.getImageLink());
-			productDTO.setDiscount(product.getDiscount());
-			productDTO.setTitle(product.getName());
-			productDTO.setPrice(product.getActualPrice());
-			productDTO.setUnit(product.getUnit());
-			productDTO.setDescription(product.getDescription());
-			productDTO.setStockLeft(product.getQuantityInStock());
-			productDTO.setCategory(product.getCategory());
-			productDTO.setRating(product.getRating());
-			productDTO.setSubscribable(product.isSubscribable());
-			if(product.getOffers() != null ){
-				if(product.getOffers().contains(",")){
-					productDTO.setPromoCodes(product.getOffers().split(","));
-				}else if(!product.getOffers().equalsIgnoreCase("")){
-					productDTO.setPromoCodes(new String[] {product.getOffers()});
-				}else{
-					productDTO.setPromoCodes(new String[] {"NA"});
-				}
-			}
-			productDTOS.add(productDTO);
-		}
+    @Autowired
+    private ProductRepository repository;
 
-		return productDTOS;
-	}
-	
 
-	@Override
-	public Product getProductById(String productId) {
-		List<Product> products = repository.findAll();
-		for (Product product : products) {
-			if (productId == product.getId())
-				return product;
-		}
-		return Product.builder().id("0").name("Not Found").build();
-	}
+    @Override
+    public List<ProductDTO> getAll() {
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        List<Product> products = repository.findAll();
+        for (Product product : products) {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setImage(product.getImageLink());
+            productDTO.setDiscount(product.getDiscount());
+            productDTO.setTitle(product.getName());
+            productDTO.setPrice(product.getActualPrice());
+            productDTO.setUnit(product.getUnit());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setStockLeft(product.getQuantityInStock());
+            productDTO.setCategory(product.getCategory());
+            productDTO.setRating(product.getRating());
+            productDTO.setSubscribable(product.isSubscribable());
+            if (product.getOffers() != null) {
+                if (product.getOffers().contains(",")) {
+                    productDTO.setPromoCodes(product.getOffers().split(","));
+                } else if (!product.getOffers().equalsIgnoreCase("")) {
+                    productDTO.setPromoCodes(new String[]{product.getOffers()});
+                } else {
+                    productDTO.setPromoCodes(new String[]{"NA"});
+                }
+            }
+            productDTOS.add(productDTO);
+        }
 
-	@Override
-	public List<Product> getProductByName(String name) {
-		List<Product> products = new ArrayList<>();
-		List<Product> list = repository.findAll();
-		for (Product p : list) {
-			if (p.getName().equalsIgnoreCase(name))
-				products.add(p);
-		}
-		return products;
-	}
+        return productDTOS;
+    }
 
-	@Override
-	public Product getOneProductByName(String name) {
-		return repository.findByName(name);
-	}
 
-	@Override
-	public List<Product> getProductByNameLike(String name) {
-		return repository.findByNameLike(name);
-	}
+    @Override
+    public ProductDTO getProductById(String productId) {
+        Optional<Product> productData = repository.findById(productId);
+        ProductDTO productDTO = new ProductDTO();
+        if (productData.isPresent()) {
+            Product product = productData.get();
+            productDTO.setId(product.getId());
+            productDTO.setImage(product.getImageLink());
+            productDTO.setDiscount(product.getDiscount());
+            productDTO.setTitle(product.getName());
+            productDTO.setPrice(product.getActualPrice());
+            productDTO.setUnit(product.getUnit());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setStockLeft(product.getQuantityInStock());
+            productDTO.setCategory(product.getCategory());
+            productDTO.setRating(product.getRating());
+            productDTO.setSubscribable(product.isSubscribable());
+            if (product.getOffers() != null) {
+                if (product.getOffers().contains(",")) {
+                    productDTO.setPromoCodes(product.getOffers().split(","));
+                } else if (!product.getOffers().equalsIgnoreCase("")) {
+                    productDTO.setPromoCodes(new String[]{product.getOffers()});
+                } else {
+                    productDTO.setPromoCodes(new String[]{"NA"});
+                }
+            }
+            return productDTO;
+        } else {
+            return productDTO.builder().id("0").title("Not Found").build();
+        }
+
+    }
+
+    /**
+     * @param id
+     */
+    @Override
+    public void deleteById(String id) {
+        repository.deleteById(id);
+    }
+
+    /**
+     * @param productBean
+     */
+    @Override
+    public void save(ProductBean productBean) {
+        Product product = new Product();
+        product.setImageLink(productBean.getImage());
+        product.setDiscount(productBean.getDiscount());
+        product.setName(productBean.getTitle());
+        product.setDisplayPrice(productBean.getPrice());
+        product.setUnit(productBean.getUnit());
+        product.setDescription(productBean.getDescription());
+        product.setQuantityInStock(productBean.getStockLeft());
+        product.setCategory(productBean.getCategory());
+        product.setRating(productBean.getRating());
+        product.setSubscribable(productBean.isSubscribable());
+        if (productBean.getPromoCodes() != null && productBean.getPromoCodes().length > 0) {
+            product.setOffers(productBean.getPromoCodes().toString());
+        }
+        repository.save(product);
+
+    }
+
+    @Override
+    public List<Product> getProductByName(String name) {
+        List<Product> products = new ArrayList<>();
+        List<Product> list = repository.findAll();
+        for (Product p : list) {
+            if (p.getName().equalsIgnoreCase(name))
+                products.add(p);
+        }
+        return products;
+    }
+
+    @Override
+    public Product getOneProductByName(String name) {
+        return repository.findByName(name);
+    }
+
+    @Override
+    public List<Product> getProductByNameLike(String name) {
+        return repository.findByNameLike(name);
+    }
 
 //	@Override
 //	public Employee getEmployeeByFirstName(Employee employee) {
@@ -111,8 +166,6 @@ public class ProductServiceImpl implements ProductService {
 //	}
 
 
-
-	
 //
 //
 //	@Override
