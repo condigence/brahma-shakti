@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/bs-cart")
@@ -41,17 +42,29 @@ public class CartController {
 		 else {
 			return new ResponseEntity(new CustomErrorType("Cart not found for User Id : "+userId), HttpStatus.NOT_FOUND);
 		}
-
-
-
 	}
 
-	@PostMapping("/add")
+	@PostMapping("/")
 	public ResponseEntity<?> addToCart(@RequestBody CartBean cartBean) {
 		logger.info("Entering addBrands with Brand Details >>>>>>>>  : {}", cartBean);
 		HttpHeaders headers = new HttpHeaders();
 		cartService.addToCart(cartBean);
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	@DeleteMapping(value = "/{userId}")
+	public ResponseEntity<?> clearCart(@PathVariable("userId") String userId) {
+		logger.info("Fetching & Deleting Cart with id {}", userId);
+		CartDTO item = cartService.getCartByUserId(userId);
+		if (item != null) {
+			cartService.deleteCartByUserId(userId);
+		} else {
+			logger.error("Unable to delete. Item with id {} not found.", userId);
+			return new ResponseEntity(new CustomErrorType("Unable to delete. Cart with userId " + userId + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<CartDTO>(HttpStatus.OK);
 	}
 	
 
