@@ -37,7 +37,7 @@ public class SpringBootMongoDBApplication {
 	private EmployeeRepository employeeRepository;
 
 	@Autowired
-	private SuperHeroRepository superHeroRepository;
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -66,17 +66,6 @@ public class SpringBootMongoDBApplication {
 				LOGGER.info("******* carts stored in DB :: {}", carts);
 			}
 
-
-
-			List<Employee> employees = employeeRepository.findAll();
-				if (employees.size() == 0) {
-					LOGGER.info("******* Inserting Employees to DB *******");
-					employeeRepository.saveAll(HelperUtil.employeeSupplier.get());
-				} else {
-					LOGGER.info("******* Employees stored in DB Size :: {}", employees.size());
-					LOGGER.info("******* Employees stored in DB :: {}", employees);
-				}
-
 			List<Category> categories = categoryRepository.findAll();
 			if (categories.size() == 0) {
 				LOGGER.info("******* Inserting Categories to DB *******");
@@ -86,13 +75,13 @@ public class SpringBootMongoDBApplication {
 				LOGGER.info("******* Categories stored in DB :: {}", categories);
 			}
 
-			List<SuperHero> superHeroes = superHeroRepository.findAll();
-			if (superHeroes.size() == 0) {
-				LOGGER.info("******* Inserting Super heroes to DB *******");
-				superHeroRepository.saveAll(HelperUtil.superHeroesSupplier.get());
+			List<Order> orders = orderRepository.findAll();
+			if (orders.size() == 0) {
+				LOGGER.info("******* Inserting Orders to DB *******");
+				orderRepository.saveAll(HelperUtil.orderSupplier.get());
 			} else {
-				LOGGER.info("******* Super heroes stored in DB Size :: {}", superHeroes.size());
-				LOGGER.info("******* Super heroes stored in DB :: {}", superHeroes);
+				LOGGER.info("******* Orders stored in DB Size :: {}", orders.size());
+				LOGGER.info("******* Orders stored in DB :: {}", orders);
 			}
 		};
 

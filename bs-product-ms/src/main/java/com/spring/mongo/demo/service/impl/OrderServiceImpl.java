@@ -1,0 +1,110 @@
+package com.spring.mongo.demo.service.impl;
+
+import com.spring.mongo.demo.bean.OrderBean;
+import com.spring.mongo.demo.bean.OrderDetailBean;
+import com.spring.mongo.demo.dto.CartDTO;
+import com.spring.mongo.demo.dto.CartDetailDTO;
+import com.spring.mongo.demo.dto.OrderDTO;
+import com.spring.mongo.demo.dto.OrderDetailDTO;
+import com.spring.mongo.demo.model.*;
+import com.spring.mongo.demo.repository.OrderRepository;
+import com.spring.mongo.demo.repository.ProductRepository;
+import com.spring.mongo.demo.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	@Autowired
+	private OrderRepository repository;
+
+	@Autowired
+	private ProductRepository productRepository;
+
+	@Override
+	public void placeOrder(OrderBean orderBean){
+		Order order = new Order();
+		/////
+		order.setUserId(orderBean.getUserId());
+		order.setDiscountAmount(orderBean.getDiscountAmount());
+		order.setGrandTotal(orderBean.getGrandTotal());
+		order.setLastUpdated(orderBean.getLastUpdated());
+		order.setSubtotalAmount(orderBean.getSubtotalAmount());
+		order.setTaxAmount(orderBean.getTaxAmount());
+		order.setDateTime(orderBean.getDateTime());
+		order.setGst(orderBean.getGst());
+		order.setNumber(orderBean.getNumber());
+		order.setServiceCharge(orderBean.getServiceCharge());
+		order.setTotalItemCount(orderBean.getTotalItemCount());
+		order.setType(orderBean.getType());
+		order.setStatus(orderBean.getStatus());
+
+
+		List<OrderDetail> orderDetails = new ArrayList<>();
+		for(OrderDetailBean items :orderBean.getOrderItems()) {
+			OrderDetail orderDetail = new OrderDetail();
+			Product product = productRepository.findOneById(items.getProductId());
+			orderDetail.setOrderDiscount(product.getDiscount());
+			orderDetail.setId(items.getId());
+			orderDetail.setQuantity(items.getQuantity());
+			orderDetail.setProductId(product.getId());
+			orderDetails.add(orderDetail);
+		}
+
+		order.setOrderItems(orderDetails);
+		//////////
+		repository.save(order);
+
+	}
+
+	@Override
+	public OrderDTO getOrderByUserId(String userId) {
+		Order order = repository.findByUserId(userId);
+		if(order != null){
+			OrderDTO orderDTO = new OrderDTO();
+			orderDTO.setUserId(order.getUserId());
+			orderDTO.setDiscountAmount(order.getDiscountAmount());
+			orderDTO.setGrandTotal(order.getGrandTotal());
+			orderDTO.setLastUpdated(order.getLastUpdated());
+			orderDTO.setSubtotalAmount(order.getSubtotalAmount());
+			orderDTO.setTaxAmount(order.getTaxAmount());
+			orderDTO.setDateTime(order.getDateTime());
+			orderDTO.setGst(order.getGst());
+			orderDTO.setNumber(order.getNumber());
+			orderDTO.setServiceCharge(order.getServiceCharge());
+			orderDTO.setTotalItemCount(order.getTotalItemCount());
+			orderDTO.setType(order.getType());
+			orderDTO.setStatus(order.getStatus());
+
+			List<OrderDetailDTO> orderDetails = new ArrayList<>();
+			for(OrderDetail items :order.getOrderItems()) {
+				OrderDetailDTO orderDetail = new OrderDetailDTO();
+				Product product = productRepository.findOneById(items.getProductId());
+				orderDetail.setOrderDiscount(product.getDiscount());
+				orderDetail.setId(items.getId());
+				orderDetail.setQuantity(items.getQuantity());
+				orderDetail.setProductId(product.getId());
+				orderDetails.add(orderDetail);
+			}
+			orderDTO.setOrderItems(orderDetails);
+			return orderDTO;
+		}else{
+			return OrderDTO.builder().id("0").userId("Not Found").build();
+		}
+
+	}
+
+	/**
+	 * @param userId
+	 */
+	@Override
+	public void deleteOrderByUserId(String userId) {
+		repository.delete(repository.findByUserId(userId));
+	}
+
+
+}

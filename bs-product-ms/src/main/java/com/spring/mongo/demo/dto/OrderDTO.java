@@ -1,4 +1,4 @@
-package com.spring.mongo.demo.model;
+package com.spring.mongo.demo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Order implements Serializable {
+public class OrderDTO implements Serializable {
 
-	@Id
 	private String id;
 	private String number;
 	private String userId;
@@ -30,6 +29,6 @@ public class Order implements Serializable {
 	private float subtotalAmount;
 	private float grandTotal;
 	private String lastUpdated;
-	private List<OrderDetail> orderItems;
+	private List<OrderDetailDTO> orderItems;
 	
 }

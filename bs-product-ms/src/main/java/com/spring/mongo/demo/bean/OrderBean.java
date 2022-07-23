@@ -1,10 +1,9 @@
-package com.spring.mongo.demo.model;
+package com.spring.mongo.demo.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,9 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Order implements Serializable {
+public class OrderBean implements Serializable {
 
-	@Id
 	private String id;
 	private String number;
 	private String userId;
@@ -30,6 +28,6 @@ public class Order implements Serializable {
 	private float subtotalAmount;
 	private float grandTotal;
 	private String lastUpdated;
-	private List<OrderDetail> orderItems;
+	private List<OrderDetailBean> orderItems;
 	
 }
