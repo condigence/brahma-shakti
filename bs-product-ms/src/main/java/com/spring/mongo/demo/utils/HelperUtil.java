@@ -56,6 +56,17 @@ public class HelperUtil {
                     SuperHero.builder().name("Peter").superName("Spider Man").profession("Student").age(21).canFly(true).build()
             );
 
+	public static Supplier<List<Category>> categorySupplier = () ->
+			Arrays.asList(
+
+					Category.builder().categoryName("Vegetables").build(),
+					Category.builder().categoryName("Fruits").build(),
+					Category.builder().categoryName("Dairy Products").build(),
+					Category.builder().categoryName("Sweets").build()
+
+
+			);
+
 
 
 

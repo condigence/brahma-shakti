@@ -1,14 +1,8 @@
 package com.spring.mongo.demo;
 
 import com.spring.mongo.demo.dto.CartDTO;
-import com.spring.mongo.demo.model.Cart;
-import com.spring.mongo.demo.model.Employee;
-import com.spring.mongo.demo.model.Product;
-import com.spring.mongo.demo.model.SuperHero;
-import com.spring.mongo.demo.repository.CartRepository;
-import com.spring.mongo.demo.repository.EmployeeRepository;
-import com.spring.mongo.demo.repository.ProductRepository;
-import com.spring.mongo.demo.repository.SuperHeroRepository;
+import com.spring.mongo.demo.model.*;
+import com.spring.mongo.demo.repository.*;
 import com.spring.mongo.demo.utils.HelperUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +39,9 @@ public class SpringBootMongoDBApplication {
 	@Autowired
 	private SuperHeroRepository superHeroRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	
 	@Bean
 	CommandLineRunner runner() {
@@ -80,6 +77,14 @@ public class SpringBootMongoDBApplication {
 					LOGGER.info("******* Employees stored in DB :: {}", employees);
 				}
 
+			List<Category> categories = categoryRepository.findAll();
+			if (categories.size() == 0) {
+				LOGGER.info("******* Inserting Categories to DB *******");
+				categoryRepository.saveAll(HelperUtil.categorySupplier.get());
+			} else {
+				LOGGER.info("******* Categories stored in DB Size :: {}", categories.size());
+				LOGGER.info("******* Categories stored in DB :: {}", categories);
+			}
 
 			List<SuperHero> superHeroes = superHeroRepository.findAll();
 			if (superHeroes.size() == 0) {
@@ -90,6 +95,10 @@ public class SpringBootMongoDBApplication {
 				LOGGER.info("******* Super heroes stored in DB :: {}", superHeroes);
 			}
 		};
+
+
+
+
 	}
 
 }
