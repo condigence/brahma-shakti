@@ -9,7 +9,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/categories-jpa")
+@RequestMapping("/bs-category")
 public class CategoryController {
 
     @Autowired(required=true)
