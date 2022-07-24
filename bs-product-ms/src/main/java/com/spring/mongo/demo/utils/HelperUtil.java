@@ -26,8 +26,8 @@ public class HelperUtil {
 
 	public static Supplier<List<User>> userSupplier = () ->
 			Arrays.asList(
-					User.builder().id("1").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").address("onlyvishalaaryan@gmail.com").build(),
-					User.builder().id("2").firstName("Mukul").lastName("Bhatiya").address("Mathura").contact("9876543212").address("mukul@gmail.com@gmail.com").build()
+					User.builder().id("1").firstName("Vishal").lastName("Aryan").email("S M Nagar").contact("9742503868").address("onlyvishalaaryan@gmail.com").build(),
+					User.builder().id("2").firstName("Mukul").lastName("Bhatiya").email("Mathura").contact("9876543212").address("mukul@gmail.com@gmail.com").build()
 			);
 
 
@@ -66,6 +66,7 @@ public class HelperUtil {
 
 
 			);
+
 
 
 

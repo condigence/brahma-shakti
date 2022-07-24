@@ -42,6 +42,9 @@ public class SpringBootMongoDBApplication {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	
 	@Bean
 	CommandLineRunner runner() {
@@ -93,6 +96,14 @@ public class SpringBootMongoDBApplication {
 			} else {
 				LOGGER.info("******* Super heroes stored in DB Size :: {}", superHeroes.size());
 				LOGGER.info("******* Super heroes stored in DB :: {}", superHeroes);
+			}
+			List<User> users = userRepository.findAll();
+			if (categories.size() == 0) {
+				LOGGER.info("******* Inserting Categories to DB *******");
+				userRepository.saveAll(HelperUtil.userSupplier.get());
+			} else {
+				LOGGER.info("******* Categories stored in DB Size :: {}", categories.size());
+				LOGGER.info("******* Categories stored in DB :: {}", categories);
 			}
 		};
 
