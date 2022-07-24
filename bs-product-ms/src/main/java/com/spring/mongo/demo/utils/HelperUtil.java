@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
-import ch.qos.logback.classic.util.LogbackMDCAdapter;
 import com.spring.mongo.demo.model.*;
 
 public class HelperUtil {
