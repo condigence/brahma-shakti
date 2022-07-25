@@ -8,6 +8,8 @@ import com.spring.mongo.demo.dto.UserDTO;
 import com.spring.mongo.demo.model.User;
 import com.spring.mongo.demo.service.JwtUserDetailsService;
 import com.spring.mongo.demo.utils.CustomErrorType;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
+@Api
 public class JwtAuthenticationController {
 
     public static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationController.class);
@@ -47,6 +50,7 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    @ApiOperation(value = "This method is used to get the clients.")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         logger.info("Entering Verify User registration  with user Details >>>>>>>>  : {}", user);
