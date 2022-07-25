@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.spring.mongo.demo.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class HelperUtil {
+
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
 
     public static Supplier<List<Product>> productSupplier = () ->
             Arrays.asList(
@@ -20,8 +25,8 @@ public class HelperUtil {
             );
     public static Supplier<List<User>> userSupplier = () ->
             Arrays.asList(
-                    User.builder().id("1").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").address("onlyvishalaaryan@gmail.com").build(),
-                    User.builder().id("2").firstName("Mukul").lastName("Bhatiya").address("Mathura").contact("9876543212").address("mukul@gmail.com@gmail.com").build()
+                    User.builder().id("1").username("condigence").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").email("onlyvishalaaryan@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").build(),
+                    User.builder().id("2").username("mukul").firstName("Mukul").lastName("Bhatiya").address("Mathura").contact("9876543212").email("mukul@gmail.com@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").build()
             );
     public static Supplier<List<Category>> categorySupplier = () ->
             Arrays.asList(

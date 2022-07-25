@@ -1,6 +1,8 @@
 package com.spring.mongo.demo.service;
 
+import com.spring.mongo.demo.dto.UserDTO;
 import com.spring.mongo.demo.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -21,4 +23,10 @@ public interface UserService {
     List<User> getUserByContact(String contact);
 
     List<User> getUserByAddress(String address);
+
+    void save(User user);
+
+    User getUserByUsername(String userName);
+
+
 }

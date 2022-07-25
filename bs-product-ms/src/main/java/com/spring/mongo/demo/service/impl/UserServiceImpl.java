@@ -1,6 +1,7 @@
 package com.spring.mongo.demo.service.impl;
 
 
+import com.spring.mongo.demo.dto.UserDTO;
 import com.spring.mongo.demo.model.User;
 
 import com.spring.mongo.demo.repository.UserRepository;
@@ -9,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository repository;
+
 
     @Override
     public List<User> getAll() {
@@ -68,4 +71,23 @@ public class UserServiceImpl implements UserService {
     public List<User> getUserByAddress(String address) {
         return repository.findByAddress(address);
     }
+
+    /**
+     * @param user
+     */
+    @Override
+    public void save(User user) {
+
+    }
+
+    /**
+     * @param userName
+     * @return
+     */
+    @Override
+    public User getUserByUsername(String userName) {
+        return null;
+    }
+
+
 }

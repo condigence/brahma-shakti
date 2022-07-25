@@ -2,20 +2,17 @@ package com.spring.mongo.demo.controller;
 
 
 
-import com.spring.mongo.demo.model.Employee;
 import com.spring.mongo.demo.model.User;
 import com.spring.mongo.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/user-jpa")
+@RequestMapping("/api/bs-user")
 public class UserController {
 
     @Autowired
@@ -26,9 +23,9 @@ public class UserController {
         return "Hello Spring boot";
     }
 
-    @GetMapping
-    public List<User> getAll() {
-        return userService.getAll();
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAll() {
+        return ResponseEntity.ok().body(userService.getAll());
     }
 
     @GetMapping("/firstName/{firstName}")

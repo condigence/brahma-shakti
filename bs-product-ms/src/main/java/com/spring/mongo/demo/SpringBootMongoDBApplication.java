@@ -28,6 +28,9 @@ public class SpringBootMongoDBApplication {
     private CartRepository cartRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
     @Autowired
@@ -79,6 +82,15 @@ public class SpringBootMongoDBApplication {
             } else {
                 LOGGER.info("******* Orders stored in DB Size :: {}", orders.size());
                 LOGGER.info("******* Orders stored in DB :: {}", orders);
+            }
+
+            List<User> users = userRepository.findAll();
+            if (users.size() == 0) {
+                LOGGER.info("******* Inserting users to DB *******");
+                userRepository.saveAll(HelperUtil.userSupplier.get());
+            } else {
+                LOGGER.info("******* users stored in DB Size :: {}", users.size());
+                LOGGER.info("******* users stored in DB :: {}", users);
             }
 
         };
