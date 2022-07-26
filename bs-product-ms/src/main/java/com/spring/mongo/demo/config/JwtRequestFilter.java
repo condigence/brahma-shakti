@@ -3,6 +3,7 @@ package com.spring.mongo.demo.config;
 //import com.techgeeknext.service.JwtUserDetailsService;
 //import io.jsonwebtoken.ExpiredJwtException;
 import com.spring.mongo.demo.service.JwtUserDetailsService;
+import com.spring.mongo.demo.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,11 +26,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private JwtUserDetailsService jwtUserDetailsService;
 
 	@Autowired
+	RequestService requestService;
+
+	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
+
+		//logger.info("This request is coming from IP : "+ requestService.getClientIp(request));
 
 		final String requestTokenHeader = request.getHeader("Authorization");
 
@@ -46,7 +52,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 				System.out.println("JWT Token has expired");
 			}
 		} else {
-			logger.warn("JWT Token does not begin with Bearer String");
+			//logger.warn("JWT Token does not begin with Bearer String");
 		}
 
 		//Once we get the token validate it.
