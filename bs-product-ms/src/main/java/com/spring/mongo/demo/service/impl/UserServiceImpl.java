@@ -1,7 +1,10 @@
 package com.spring.mongo.demo.service.impl;
 
 
+import com.spring.mongo.demo.bean.UserBean;
+import com.spring.mongo.demo.dto.ProductDTO;
 import com.spring.mongo.demo.dto.UserDTO;
+import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.model.User;
 
 import com.spring.mongo.demo.repository.UserRepository;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -21,8 +25,24 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public List<User> getAll() {
-        return repository.findAll();
+    public List<UserDTO> getAll() {
+        List<UserDTO> userDTOS = new ArrayList<>();
+        List<User> users = repository.findAll();
+        for (User user : users) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setFirstName(user.getFirstName());
+            userDTO.setLastName(user.getLastName());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setContact(user.getContact());
+            userDTO.setAddress(user.getAddress());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setPassword(user.getPassword());
+            userDTOS.add(userDTO);
+        }
+
+
+        return userDTOS;
     }
 
     @Override
@@ -73,11 +93,44 @@ public class UserServiceImpl implements UserService{
     }
 
     /**
-     * @param user
      */
     @Override
-    public void save(User user) {
+    public void save(UserBean userBean) {
 
+        User user = new User();
+        user.setId(userBean.getId());
+        user.setFirstName(userBean.getFirstName());
+        user.setLastName(userBean.getLastName());
+        user.setEmail(userBean.getEmail());
+        user.setContact(userBean.getContact());
+        user.setAddress(userBean.getAddress());
+        user.setPassword(userBean.getPassword());
+        repository.save(user);
+    }
+
+    @Override
+    public UserDTO getUserById(String userId) {
+        Optional<User> userData = repository.findById(userId);
+        UserDTO userDTO = new UserDTO();
+        if (userData.isPresent()) {
+            User user = userData.get();
+            userDTO.setId(user.getId());
+            userDTO.setFirstName(user.getFirstName());
+            userDTO.setLastName(user.getLastName());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setContact(user.getContact());
+            userDTO.setAddress(user.getAddress());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setPassword(user.getPassword());
+            return userDTO;
+        } else {
+            return userDTO.builder().id("0").build();
+        }
+    }
+
+   @Override
+    public void deleteById(String id) {
+        repository.deleteById(id);
     }
 
     /**
