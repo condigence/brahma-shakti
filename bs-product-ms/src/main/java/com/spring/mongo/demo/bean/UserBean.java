@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class UserBean implements Serializable {
 	private String email;
 	private String contact;
 	private String address;
+	private String username;
+	@JsonIgnore
 	private String password;
 	
 }
