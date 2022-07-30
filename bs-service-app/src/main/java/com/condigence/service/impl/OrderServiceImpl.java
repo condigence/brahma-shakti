@@ -11,7 +11,6 @@ import com.condigence.repository.OrderRepository;
 import com.condigence.repository.ProductRepository;
 import com.condigence.service.OrderService;
 import com.condigence.utils.Signature;
-import com.spring.mongo.demo.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

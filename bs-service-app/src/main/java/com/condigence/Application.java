@@ -17,7 +17,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class SpringBootMongoDBApplication {
+public class Application {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
@@ -39,7 +39,7 @@ public class SpringBootMongoDBApplication {
     private StockRepository StockRepository;
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootMongoDBApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean
