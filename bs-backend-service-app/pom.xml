@@ -9,10 +9,10 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.spring.mongo.demo</groupId>
+    <groupId>com.condigence</groupId>
     <artifactId>spring-boot-mongodb</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bs-product-ms</name>
+    <name>bs-backend-service-app</name>
     <description>Condigence project for BrahmaShakti</description>
 
     <properties>
