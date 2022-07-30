@@ -6,6 +6,7 @@ import com.spring.mongo.demo.bean.OrderBean;
 import com.spring.mongo.demo.bean.ProductBean;
 import com.spring.mongo.demo.dto.CartDTO;
 import com.spring.mongo.demo.dto.OrderDTO;
+import com.spring.mongo.demo.model.Order;
 
 public interface OrderService {
 
@@ -14,6 +15,12 @@ public interface OrderService {
 	OrderDTO getOrderByUserId(String userId);
 
 	void deleteOrderByUserId(String userId);
+
+	public Order saveOrder(final String razorpayOrderId, final String userId);
+
+	public String validateAndUpdateOrder(final String razorpayOrderId, final String razorpayPaymentId, final String razorpaySignature, final String secret);
+
+
 
 
 }

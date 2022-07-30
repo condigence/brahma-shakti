@@ -2,8 +2,8 @@ package com.spring.mongo.demo.controller;
 
 import com.spring.mongo.demo.bean.CartBean;
 import com.spring.mongo.demo.dto.CartDTO;
-import com.spring.mongo.demo.dto.ProductDTO;
-import com.spring.mongo.demo.model.Product;
+import com.spring.mongo.demo.dto.ShopingDTO;
+import com.spring.mongo.demo.exception.NotEnoughProductsInStockException;
 import com.spring.mongo.demo.service.CartService;
 import com.spring.mongo.demo.service.ProductService;
 import com.spring.mongo.demo.utils.CustomErrorType;
@@ -15,17 +15,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/bs-cart")
 public class CartController {
 
 	public static final Logger logger = LoggerFactory.getLogger(CartController.class);
-	
+	private final ProductService productService;
+	private final CartService cartService;
 	@Autowired
-	private CartService cartService;
+	public CartController(CartService cartService, ProductService productService) {
+		this.cartService = cartService;
+		this.productService = productService;
+	}
 
 	@GetMapping("/healthCheck")
 	public String sayHello() {
@@ -66,8 +68,36 @@ public class CartController {
 		}
 		return new ResponseEntity<CartDTO>(HttpStatus.OK);
 	}
-	
 
+	@GetMapping("/shoppingCart")
+	public ResponseEntity<?> shoppingCart() {
+		ShopingDTO dto = new ShopingDTO();
+		dto.setProductsInCart(cartService.getProductsInCart());
+		dto.setTotal(cartService.getTotal().toString());
+		return ResponseEntity.status(HttpStatus.OK).body(dto);
+	}
+
+	@GetMapping("/shoppingCart/addProduct/{productId}")
+	public ResponseEntity<?> addProductToCart(@PathVariable("productId") String productId) {
+		productService.findById(productId).ifPresent(cartService::addProduct);
+		return shoppingCart();
+	}
+
+	@GetMapping("/shoppingCart/removeProduct/{productId}")
+	public ResponseEntity<?> removeProductFromCart(@PathVariable("productId") String productId) {
+		productService.findById(productId).ifPresent(cartService::removeProduct);
+		return shoppingCart();
+	}
+
+	@GetMapping("/shoppingCart/checkout")
+	public ResponseEntity<?> checkout() {
+		try {
+			cartService.checkout();
+		} catch (NotEnoughProductsInStockException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+		return shoppingCart();
+	}
 }
 
 

@@ -2,6 +2,7 @@ package com.spring.mongo.demo.service.impl;
 
 import com.spring.mongo.demo.bean.OrderBean;
 import com.spring.mongo.demo.bean.OrderDetailBean;
+import com.spring.mongo.demo.controller.JwtAuthenticationController;
 import com.spring.mongo.demo.dto.CartDTO;
 import com.spring.mongo.demo.dto.CartDetailDTO;
 import com.spring.mongo.demo.dto.OrderDTO;
@@ -10,14 +11,20 @@ import com.spring.mongo.demo.model.*;
 import com.spring.mongo.demo.repository.OrderRepository;
 import com.spring.mongo.demo.repository.ProductRepository;
 import com.spring.mongo.demo.service.OrderService;
+import com.spring.mongo.demo.utils.Signature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+	public static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 	@Autowired
 	private OrderRepository repository;
@@ -107,4 +114,36 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 
+	@Transactional
+	@Override
+	public Order saveOrder(final String razorpayOrderId, final String userId) {
+		Order order = new Order();
+		order.setRazorpayOrderId(razorpayOrderId);
+		order.setUserId(userId);
+		return repository.save(order);
+	}
+
+	@Transactional
+	@Override
+	public String validateAndUpdateOrder(final String razorpayOrderId, final String razorpayPaymentId, final String razorpaySignature, final String secret) {
+		String errorMsg = null;
+		try {
+			Order order = repository.findByRazorpayOrderId(razorpayOrderId);
+			// Verify if the razorpay signature matches the generated one to
+			// confirm the authenticity of the details returned
+			String generatedSignature = Signature.calculateRFC2104HMAC(order.getRazorpayOrderId() + "|" + razorpayPaymentId, secret);
+			if (generatedSignature.equals(razorpaySignature)) {
+				order.setRazorpayOrderId(razorpayOrderId);
+				order.setRazorpayPaymentId(razorpayPaymentId);
+				order.setRazorpaySignature(razorpaySignature);
+				repository.save(order);
+			} else {
+				errorMsg = "Payment validation failed: Signature doesn't match";
+			}
+		} catch (Exception e) {
+			logger.error("Payment validation failed", e);
+			errorMsg = e.getMessage();
+		}
+		return errorMsg;
+	}
 }

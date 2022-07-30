@@ -30,7 +30,7 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 			ProductDTO productDTO = new ProductDTO();
 
 			productDTO.setTitle(product.getName());
-			productDTO.setPrice(product.getActualPrice());
+			productDTO.setPrice(product.getPrice());
 			productDTO.setImage(product.getImageLink());
 			productDTO.setId(product.getId());
 			productDTO.setCategory(product.getCategory());

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -20,14 +21,15 @@ public class Product implements Serializable {
 	private int quantityInStock;
 	private String imageLink;
 	private String description;
-	private float displayPrice;
-	private int actualPrice;
+	private BigDecimal displayPrice;
+	private BigDecimal price;
 	private String unit;
 	private String category;
 	private String offers;
 	private int discount;
 	private double rating;
 	private boolean isSubscribable;
+	private int quantity;
 
 	
 }
