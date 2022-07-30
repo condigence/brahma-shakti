@@ -8,7 +8,12 @@ export const environment = {
   USERS_API_URL: 'http://localhost:9092/neerseva/api/v1/users/',
   BRANDS_API_URL: 'http://localhost:9091/neerseva/api/v1/products/brands/',
   ITEMS_API_URL: 'http://localhost:9091/neerseva/api/v1/products/items/',
-  IMAGES_API_URL: 'http://localhost:9090/neerseva/api/v1/images/'
+  PRODUCT_API_URL: 'http://ec2-3-108-59-192.ap-south-1.compute.amazonaws.com:8090/bs-products/',
+  IMAGES_API_URL: 'http://localhost:9090/neerseva/api/v1/images/',
+  apiBaseUrl: 'http://localhost:8080/',
+  clientUrl: '?redirect_uri=http://localhost:8081/login'
+
+
 };
 
 /*

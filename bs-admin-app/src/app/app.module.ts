@@ -43,6 +43,12 @@ import { EditItemComponent } from './item/edit-item/edit-item.component';
 import { InterceptorService } from './service/interceptorService';
 import { NumberDirective } from './Directives/numberOnlyDirective';
 import { PaginationComponent } from './pagination/pagination.component';
+import { AddProductComponent } from './product/add-product/add-product.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
+import { ListProductComponent } from './product/list-product/list-product.component';
+import { BSProductService } from './service/bs-product.service';
+import { OrderComponent } from './order/order.component';
+import { OrderService } from './service/order.service';
 
 // import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
@@ -76,6 +82,10 @@ import { PaginationComponent } from './pagination/pagination.component';
     AlertComponent,
     NumberDirective,
     PaginationComponent,
+    AddProductComponent,
+    EditProductComponent,
+    ListProductComponent,
+    OrderComponent,
 
   ],
   imports: [
@@ -105,6 +115,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     CustomerService,
     ItemService,
     BrandService,
+    BSProductService,
+    OrderService
 
 
 

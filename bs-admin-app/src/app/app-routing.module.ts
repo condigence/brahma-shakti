@@ -25,9 +25,15 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
 
 import { AuthGuard } from './_guards';
 import { OTPComponent } from './otp/otp.component';
+import { AddProductComponent } from './product/add-product/add-product.component';
+import { EditProductComponent } from './product/edit-product/edit-product.component';
+import { ListProductComponent } from './product/list-product/list-product.component';
+import { OrderComponent } from './order/order.component';
 
 const routes: Routes = [
 
+
+  { path: 'order', component: OrderComponent },
 
 
   {
@@ -66,6 +72,17 @@ const routes: Routes = [
       {path: 'list-item', component: ListItemComponent, canActivate: [AuthGuard]},
     ]
   },
+
+  {
+    path: 'product',
+    children: [
+      {path: 'add-product', component: AddProductComponent},
+      {path: 'edit-product', component: EditProductComponent},
+      {path: 'list-product', component: ListProductComponent},
+    ]
+  },
+
+
   {
     path: 'brand',
     children: [
@@ -102,8 +119,10 @@ const routes: Routes = [
     path: 'register',
     component: RegistrationComponent
   }, // otherwise redirect to home
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 
+
+ 
 
 
 ];

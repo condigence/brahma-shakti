@@ -1,0 +1,258 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+                <h4 class="form-header text-uppercase">
+                  <i class="zmdi zmdi-view-list"></i>
+                  Add Product
+                  <!-- <p style="float:right;color: #ff3300;font-size: 11px;" class="text-lowercase">{{mandatoryFields}}</p> -->
+                </h4>
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Descr.
+                        <span style="color: red;">*</span>
+                      </label>
+                      <div class="col-sm-10">
+                        <input formControlName="description" type="text" placeholder="Enter Description" class="form-control" id="description"
+                          name="name" [ngClass]="{
+                            'is-invalid': submitted && f.description.errors
+                          }" />
+                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                          <ng-container *ngIf="f.description.errors.required">
+                            <strong>Description is required</strong>
+                          </ng-container>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="capacity" class="col-sm-2 col-form-label">Category
+                      <span style="color: red;">*</span>
+                    </label>
+                    <div class="col-sm-10">
+                      <select class="form-control" formControlName="category" id="category"
+                        [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+                        <option value="">Select Category</option>
+                        <option *ngFor="let c of category" [value]="c.categoryName">
+                          {{ c.categoryName }}
+                        </option>
+                      </select>
+                      <div class="invalid-feedback" *ngIf="submitted && handleError('category', 'required')">
+                        <strong>you must select a category!</strong>
+                      </div>
+                    </div>
+                  </div>
+  
+                <!-- <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">NAME
+                        <span style="color: red;">*</span>
+                      </label>
+                      <div class="col-sm-10">
+                        <input formControlName="name" type="text" placeholder="Enter item name" class="form-control" id="name"
+                          name="name" [ngClass]="{
+                            'is-invalid': submitted && f.name.errors
+                          }" />
+                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                          <ng-container *ngIf="f.name.errors.required">
+                            <strong>Item name is required</strong>
+                          </ng-container>
+                        </div>
+                      </div>
+                </div> -->
+  
+                <div class="form-group row">
+                  <label for="title" class="col-sm-2 col-form-label">Title
+                    <span style="color: red;">*</span>
+                  </label>
+                  <div class="col-sm-10">
+                    <input formControlName="title" type="text" placeholder="Enter titel" class="form-control" id="title"
+                      name="title" [ngClass]="{
+                        'is-invalid': submitted && f.title.errors
+                      }" />
+                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                      <ng-container *ngIf="f.title.errors.required">
+                        <strong>Title is required</strong>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+               
+                <div class="form-group row">
+                  <label for="price" class="col-sm-2 col-form-label">Price
+                    <span style="color: red;">*</span>
+                  </label>
+                  <div class="col-sm-10">
+                    <input formControlName="price" type="text" placeholder="Enter Price" class="form-control" id="price"
+                      name="price" numbersOnly [ngClass]="{
+                        'is-invalid': submitted && f.price.errors
+                      }" />
+                    <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                      <ng-container *ngIf="f.price.errors.required">
+                        <strong>Price is required</strong>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="unit" class="col-sm-2 col-form-label">Unit
+                    <span style="color: red;">*</span>
+                  </label>
+                  <div class="col-sm-10">
+                    <input formControlName="unit" type="text" placeholder="Enter unit" class="form-control" id="unit"
+                      name="unit" numbersOnly [ngClass]="{
+                        'is-invalid': submitted && f.unit.errors
+                      }" />
+                    <div *ngIf="submitted && f.unit.errors" class="invalid-feedback">
+                      <ng-container *ngIf="f.unit.errors.required">
+                        <strong>unit is required</strong>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="promoCodes" class="col-sm-2 col-form-label">PromoCode
+                      <span style="color: red;">*</span>
+                    </label>
+                    <div class="col-sm-10">
+                      <input formControlName="promoCodes" type="text" placeholder="Enter promoCodes" class="form-control" id="promoCodes"
+                        name="unit" [ngClass]="{
+                          'is-invalid': submitted && f.promoCodes.errors
+                        }" />
+                      <div *ngIf="submitted && f.promoCodes.errors" class="invalid-feedback">
+                        <ng-container *ngIf="f.promoCodes.errors.required">
+                          <strong>PromoCode is required</strong>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="form-group row">
+                    <label for="rating" class="col-sm-2 col-form-label">Rating
+                      <span style="color: red;">*</span>
+                    </label>
+                    <div class="col-sm-10">
+                      <input formControlName="rating" type="text" placeholder="Enter rating" class="form-control" id="rating"
+                        name="rating" [ngClass]="{
+                          'is-invalid': submitted && f.rating.errors
+                        }" />
+                      <div *ngIf="submitted && f.rating.errors" class="invalid-feedback">
+                        <ng-container *ngIf="f.rating.errors.required">
+                          <strong>Rating is required</strong>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group row">
+                    <label for="stockLeft" class="col-sm-2 col-form-label">Stock Left
+                      <span style="color: red;">*</span>
+                    </label>
+                    <div class="col-sm-10">
+                      <input formControlName="stockLeft" type="text" placeholder="Enter stockLeft" class="form-control" id="stockLeft"
+                        name="stockLeft" [ngClass]="{
+                          'is-invalid': submitted && f.stockLeft.errors
+                        }" />
+                      <div *ngIf="submitted && f.stockLeft.errors" class="invalid-feedback">
+                        <ng-container *ngIf="f.stockLeft.errors.required">
+                          <strong>stockLeft is required</strong>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                  <div class="form-group row">
+                    <label for="stockLeft" class="col-sm-2 col-form-label">Subscribe
+                      <span style="color: red;">*</span>
+                    </label>
+                    <div class="col-sm-10">
+                      <input formControlName="subscribe" type="text" placeholder="Enter subscribe" class="form-control" id="subscribe"
+                        name="subscribe" [ngClass]="{
+                          'is-invalid': submitted && f.subscribe.errors
+                        }" />
+                      <div *ngIf="submitted && f.subscribe.errors" class="invalid-feedback">
+                        <ng-container *ngIf="f.subscribe.errors.required">
+                          <strong>subscribe is required</strong>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                  <div class="form-group row">
+                    <label for="discount" class="col-sm-2 col-form-label">Discount
+                      <span style="color: red;">*</span>
+                    </label>
+                    <div class="col-sm-10">
+                      <input formControlName="discount" type="text" placeholder="Enter Discount" class="form-control" id="subscribe"
+                        name="discount" [ngClass]="{
+                          'is-invalid': submitted && f.discount.errors
+                        }" />
+                      <div *ngIf="submitted && f.discount.errors" class="invalid-feedback">
+                        <ng-container *ngIf="f.discount.errors.required">
+                          <strong>Discount is required</strong>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+                  
+
+
+               
+  
+                <!-- <div class="form-group">
+                  <input type="hidden" class="form-group" formControlName="imageId" />
+                </div> -->
+  
+                <!-- <label class="col-sm-2 col-form-label">Choose Item Image</label>
+                <app-upload-image (messageEvent)="receiveMessage($event)" [receivedParentMessage]="messageToSendP">
+                </app-upload-image> -->
+  
+                <div class="form-group row">
+                  <label class="col-lg-2 col-form-label form-control-label">Image
+                    <span style="color: red;">*</span>
+                  </label>
+                  <div class="col-lg-10">
+                    <app-upload-image (messageEvent)="receiveMessage($event)" [receivedParentMessage]="messageToSendP">
+                    </app-upload-image>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <p style="float: right;color: #ff0000; font-size: 13px;font-weight: 600;margin: 1%;">
+                    Note: {{ mandatoryFields }}
+                  </p>
+                </div>
+  
+                <div class="form-footer">
+                  <button type="submit" class="btn btn-success">
+                    <i class="zmdi zmdi-plus"></i> Add
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End Row-->
+    </div>
+  </div>

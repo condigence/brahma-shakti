@@ -25,6 +25,8 @@ export class ListItemComponent implements OnInit {
 
   getAllItems() {
     this.itemService.getAllItems().subscribe((data) => {
+      console.log(data);
+      
       this.items = data;
     });
   }
