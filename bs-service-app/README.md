@@ -76,7 +76,7 @@ Or
    
 3. #### Model class
     Below are the model classes which we will store in MongoDB and perform CRUD operations.  
-    **com.spring.mongo.demo.model.SuperHero.java**  
+    **SuperHero.java**  
     ```
     @Data
     @AllArgsConstructor
@@ -97,7 +97,7 @@ Or
         // Constructor, Getter and Setter
     }
     ```
-    **com.spring.mongo.demo.model.Employee.java**  
+    **Employee.java**  
     ```
     @Data
     @AllArgsConstructor
@@ -120,7 +120,7 @@ Or
    
 4. #### CRUD operation for Super Heroes
 
-    In **com.spring.mongo.demo.controller.SuperHeroController.java** class, 
+    In **SuperHeroController.java** class, 
     we have exposed 5 endpoints for basic CRUD operations
     - GET All Super Heroes
     - GET by ID
@@ -150,19 +150,19 @@ Or
     }
     ```
    
-    In **com.spring.mongo.demo.repository.SuperHeroRepository.java**, we are extending `MongoRepository<Class, ID>` interface which enables CRUD related methods.
+    In **SuperHeroRepository.java**, we are extending `MongoRepository<Class, ID>` interface which enables CRUD related methods.
     ```
     public interface SuperHeroRepository extends MongoRepository<SuperHero, String> {
     }
     ```
    
-   In **com.spring.mongo.demo.service.impl.SuperHeroServiceImpl.java**, we are autowiring above interface using `@Autowired` annotation and doing CRUD operation.
+   In **SuperHeroServiceImpl.java**, we are autowiring above interface using `@Autowired` annotation and doing CRUD operation.
 
 
 
 5. #### JPA And Query operation for Employee
-    In **com.spring.mongo.demo.controller.EmployeeController.java** class JPA related queries API Endpoints are placed.
-    In **com.spring.mongo.demo.controller.EmployeeQueryController.java** class Mongo queries API Endpoints are placed.
+    In **EmployeeController.java** class JPA related queries API Endpoints are placed.
+    In **EmployeeQueryController.java** class Mongo queries API Endpoints are placed.
     
  
  
