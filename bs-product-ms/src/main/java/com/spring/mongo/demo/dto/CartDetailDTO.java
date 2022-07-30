@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class CartDetailDTO implements Serializable {
 	private int itemQuantity;
 	private int itemCount;
 	private String unit;
-	private int price;
+	private BigDecimal price;
 	private int totalAmount;
 	private int discount;
 	

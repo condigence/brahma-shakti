@@ -4,6 +4,7 @@ import com.spring.mongo.demo.bean.CartBean;
 import com.spring.mongo.demo.bean.CartDetailBean;
 import com.spring.mongo.demo.dto.CartDTO;
 import com.spring.mongo.demo.dto.CartDetailDTO;
+import com.spring.mongo.demo.exception.NotEnoughProductsInStockException;
 import com.spring.mongo.demo.model.Cart;
 import com.spring.mongo.demo.model.CartDetail;
 import com.spring.mongo.demo.model.Product;
@@ -13,8 +14,8 @@ import com.spring.mongo.demo.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -24,6 +25,8 @@ public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	private Map<Product, Integer> products = new HashMap<>();
 
 	@Override
 	public void addToCart(CartBean cartBean){
@@ -70,7 +73,7 @@ public class CartServiceImpl implements CartService {
 
 				if(product != null){
 					cartDetailDTO.setDiscount(product.getDiscount());
-					cartDetailDTO.setPrice(product.getActualPrice());
+					cartDetailDTO.setPrice(product.getPrice());
 					cartDetailDTO.setUnit(product.getUnit());
 					cartDetailDTO.setTitle(product.getName());
 				}
@@ -100,4 +103,74 @@ public class CartServiceImpl implements CartService {
 	}
 
 
+	/**
+	 * If product is in the map just increment quantity by 1.
+	 * If product is not in the map with, add it with quantity 1
+	 *
+	 * @param product
+	 */
+	@Override
+	public void addProduct(Product product) {
+		if (products.containsKey(product)) {
+			products.replace(product, products.get(product) + 1);
+		} else {
+			products.put(product, 1);
+		}
+	}
+
+	/**
+	 * If product is in the map with quantity > 1, just decrement quantity by 1.
+	 * If product is in the map with quantity 1, remove it from map
+	 *
+	 * @param product
+	 */
+	@Override
+	public void removeProduct(Product product) {
+		if (products.containsKey(product)) {
+			if (products.get(product) > 1)
+				products.replace(product, products.get(product) - 1);
+			else if (products.get(product) == 1) {
+				products.remove(product);
+			}
+		}
+	}
+
+	/**
+	 * @return unmodifiable copy of the map
+	 */
+	@Override
+	public Map<Product, Integer> getProductsInCart() {
+		return Collections.unmodifiableMap(products);
+	}
+
+
+	/**
+	 * Checkout will rollback if there is not enough of some product in stock
+	 *
+	 * @throws NotEnoughProductsInStockException
+	 */
+	@Override
+	public void checkout() throws NotEnoughProductsInStockException {
+		Product product;
+		for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+			// Refresh quantity for every product before checking
+			//product = productRepository.findOne(entry.getKey().getId());
+			product = productRepository.findOneById(entry.getKey().getId());
+			if (product.getQuantity() < entry.getValue())
+				throw new NotEnoughProductsInStockException(product);
+			entry.getKey().setQuantity(product.getQuantity() - entry.getValue());
+		}
+		//productRepository.save(products.keySet());
+		productRepository.saveAll(products.keySet());
+		//productRepository.flush();
+		products.clear();
+	}
+
+	@Override
+	public BigDecimal getTotal() {
+		return products.entrySet().stream()
+				.map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
+				.reduce(BigDecimal::add)
+				.orElse(BigDecimal.ZERO);
+	}
 }

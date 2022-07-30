@@ -1,5 +1,6 @@
 package com.spring.mongo.demo.utils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -15,9 +16,9 @@ public class HelperUtil {
 
     public static Supplier<List<Product>> productSupplier = () ->
             Arrays.asList(
-                    Product.builder().id("1").name("BUFFALO MILK").description("Fresh farm Buffalo Milk").quantityInStock(50).actualPrice(70).displayPrice(70).offers("FIRSTSELL,SAAVAN").imageLink("https://media-exp1.licdn.com/dms/image/C5622AQHN1-hZ79vEGQ/feedshare-shrink_800/0/1650417387213?e=2147483647&v=beta&t=vzNvN4dUEwEiuhBA0rQTOdGSFEP5FjnQbzKvDGB30Ls").rating(4.5).unit("in Liter").category("Dairy Products").isSubscribable(true).build(),
-                    Product.builder().id("2").name("COW MILK").description("Fresh farm Cow Milk").quantityInStock(500).actualPrice(55).displayPrice(55).offers("FIRSTSELL").build(),
-                    Product.builder().id("3").name("PANEER").description("Fresh farm Paneer").quantityInStock(500).actualPrice(320).displayPrice(320).imageLink("https://img.freepik.com/premium-photo/homemade-indian-paneer-cheese-wooden-bowl_114420-600.jpg").build()
+                    Product.builder().id("1").name("BUFFALO MILK").description("Fresh farm Buffalo Milk").quantityInStock(50).price(BigDecimal.valueOf(70.00)).displayPrice(BigDecimal.valueOf(70.00)).offers("FIRSTSELL,SAAVAN").imageLink("https://media-exp1.licdn.com/dms/image/C5622AQHN1-hZ79vEGQ/feedshare-shrink_800/0/1650417387213?e=2147483647&v=beta&t=vzNvN4dUEwEiuhBA0rQTOdGSFEP5FjnQbzKvDGB30Ls").rating(4.5).unit("in Liter").category("Dairy Products").isSubscribable(true).build(),
+                    Product.builder().id("2").name("COW MILK").description("Fresh farm Cow Milk").quantityInStock(500).price(BigDecimal.valueOf(55)).displayPrice(BigDecimal.valueOf(55)).offers("FIRSTSELL").build(),
+                    Product.builder().id("3").name("PANEER").description("Fresh farm Paneer").quantityInStock(500).price(BigDecimal.valueOf(320)).displayPrice(BigDecimal.valueOf(320)).imageLink("https://img.freepik.com/premium-photo/homemade-indian-paneer-cheese-wooden-bowl_114420-600.jpg").build()
             );
     public static Supplier<List<Cart>> cartSupplier = () ->
             Arrays.asList(

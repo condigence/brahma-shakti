@@ -6,6 +6,8 @@ import com.spring.mongo.demo.model.Product;
 import com.spring.mongo.demo.repository.ProductRepository;
 import com.spring.mongo.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +21,20 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Override
+    public Page<Product> findAllProductsPageable(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    /**
+     * @param productId
+     * @return
+     */
+    @Override
+    public Optional<Product> findById(String productId) {
+        return repository.findById(productId);
+    }
+
 
     @Override
     public List<ProductDTO> getAll() {
@@ -30,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setImage(product.getImageLink());
             productDTO.setDiscount(product.getDiscount());
             productDTO.setTitle(product.getName());
-            productDTO.setPrice(product.getActualPrice());
+            productDTO.setPrice(product.getPrice());
             productDTO.setUnit(product.getUnit());
             productDTO.setDescription(product.getDescription());
             productDTO.setStockLeft(product.getQuantityInStock());
@@ -63,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setImage(product.getImageLink());
             productDTO.setDiscount(product.getDiscount());
             productDTO.setTitle(product.getName());
-            productDTO.setPrice(product.getActualPrice());
+            productDTO.setPrice(product.getPrice());
             productDTO.setUnit(product.getUnit());
             productDTO.setDescription(product.getDescription());
             productDTO.setStockLeft(product.getQuantityInStock());

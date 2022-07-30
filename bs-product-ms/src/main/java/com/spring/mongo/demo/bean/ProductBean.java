@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class ProductBean implements Serializable {
 	private String image;
 	private String unit;
 	private String description;
-	private int price;
+	private BigDecimal price;
 	private int discount;
 	private String[] promoCodes;
 	private String category;
