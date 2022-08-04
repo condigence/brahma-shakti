@@ -38,6 +38,9 @@ public class Application {
     @Autowired
     private StockRepository StockRepository;
 
+    @Autowired
+    private FavouriteRepository favouriteRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -90,6 +93,15 @@ public class Application {
             } else {
                 LOGGER.info("******* users stored in DB Size :: {}", users.size());
                 LOGGER.info("******* users stored in DB :: {}", users);
+            }
+
+            List<Favourite> favourites = favouriteRepository.findAll();
+            if (favourites.size() == 0) {
+                LOGGER.info("******* Inserting favourites to DB *******");
+                favouriteRepository.saveAll(HelperUtil.favouriteSupplier.get());
+            } else {
+                LOGGER.info("******* favourites stored in DB Size :: {}", favourites.size());
+                LOGGER.info("******* favourites stored in DB :: {}", favourites);
             }
 
         };
