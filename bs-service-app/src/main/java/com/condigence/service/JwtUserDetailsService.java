@@ -36,6 +36,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         return userDao.findByUsername(username);
     }
 
+    public User findByUserContact(String contact) {
+        return userDao.findByContact(contact);
+    }
+
     public User save(UserDTO userDTO) {
         User user = new User();
        // user.setUsername(userDTO.getUsername());
@@ -46,6 +50,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         user.setFirstName(userDTO.getFirstName());
         user.setAddress(userDTO.getAddress());
         user.setId(userDTO.getId());
+        user.setOtp("1234");// Need to update later
         return userDao.save(user);
     }
 }

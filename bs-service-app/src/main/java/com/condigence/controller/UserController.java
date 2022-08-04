@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/one-by-contact/{contact}")
-    public List<User> getUserByContact(@PathVariable String contact) {
+    public User getUserByContact(@PathVariable String contact) {
         return userService.getUserByContact(contact);
     }
 

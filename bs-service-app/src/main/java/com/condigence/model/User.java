@@ -24,9 +24,10 @@ public class User implements Serializable {
 	private String email;
 	private String contact;
 	private String address;
-
 	private String username;
 	@JsonIgnore
 	private String password;
+	@JsonIgnore
+	private String otp;
 	
 }

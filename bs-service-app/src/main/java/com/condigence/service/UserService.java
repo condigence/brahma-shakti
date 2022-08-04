@@ -3,6 +3,7 @@ package com.condigence.service;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.User;
+import com.condigence.model.Wallet;
 
 import java.util.List;
 
@@ -10,19 +11,19 @@ public interface UserService {
 
     List<UserDTO> getAll();
 
-    List<User> getUserByFirstName(String firstName);
+    List<com.condigence.model.User> getUserByFirstName(String firstName);
 
-    User getSingleUserByFirstName(String firstName);
+    com.condigence.model.User getSingleUserByFirstName(String firstName);
 
-    List<User> getUserByFirstNameLike(String firstName);
+    List<com.condigence.model.User> getUserByFirstNameLike(String firstName);
 
-    User getSingleUserByLastName(String lastName);
+    com.condigence.model.User getSingleUserByLastName(String lastName);
 
-    List<User> getUserByEmail(String email);
+    List<com.condigence.model.User> getUserByEmail(String email);
 
-    List<User> getUserByContact(String contact);
+    User getUserByContact(String contact);
 
-    List<User> getUserByAddress(String address);
+    List<com.condigence.model.User> getUserByAddress(String address);
 
     void save(UserBean userbean);
 
@@ -33,4 +34,7 @@ public interface UserService {
     User getUserByUsername(String userName);
 
 
+    void addBalance(String userId, int amount);
+
+    Wallet getBalance(String userId);
 }

@@ -4,9 +4,10 @@ package com.condigence.service.impl;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.User;
+import com.condigence.model.Wallet;
 import com.condigence.repository.UserRepository;
+import com.condigence.repository.WalletRepository;
 import com.condigence.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private WalletRepository walletRepository;
 
 
     @Override
@@ -80,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserByContact(String contact) {
+    public User getUserByContact(String contact) {
         return repository.findByContact(contact);
     }
 
@@ -125,7 +130,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-   @Override
+    @Override
     public void deleteById(String id) {
         repository.deleteById(id);
     }
@@ -136,8 +141,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User getUserByUsername(String userName) {
-        return null;
+        return repository.findByUsername(userName);
     }
 
+    @Override
+    public void addBalance(String userId, int amount) {
+        Wallet wallet = getBalance(userId);
+        wallet.setBalance(wallet.getBalance() + amount);
+        walletRepository.save(wallet);
+    }
+
+    @Override
+    public Wallet getBalance(String userId) {
+        return walletRepository.getByUserId(userId);
+    }
 
 }

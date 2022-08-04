@@ -22,6 +22,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin
 @Api
@@ -66,14 +68,13 @@ public class JwtAuthenticationController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody UserDTO user) throws Exception {
         logger.info("Entering login with user Details >>>>>>>>  : {}", user);
-        // HttpHeaders headers = new HttpHeaders();
 
-        // Check If Username Not Provided
-        if (user.getUsername() == null || user.getUsername() == "") {
+        // Check If User exist with Contact
+        if (user.getContact()== null || user.getContact() == "") {
             return new ResponseEntity(new CustomErrorType("Please provide contact!"), HttpStatus.NOT_FOUND);
         }
         // Verify Contact
-        User userDetails = userDetailsService.findByUserName(user.getUsername());
+        User userDetails = userDetailsService.findByUserContact(user.getContact());
         if (userDetails != null) {
             return new ResponseEntity(userDetails, HttpStatus.OK);
         } else {
@@ -82,6 +83,40 @@ public class JwtAuthenticationController {
         }
 
     }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @PostMapping(value = "/v1/verify/otp")
+    public ResponseEntity<?> verifyOTP(@RequestBody UserDTO dto) {
+        logger.info("Entering otp with user Details >>>>>>>>  : {}", dto);
+        // HttpHeaders headers = new HttpHeaders();
+        System.out.println("Inside verifyOTP with contact " + dto.getContact());
+
+        User userDetails = userDetailsService.findByUserContact(dto.getContact());
+        if (userDetails != null) {
+            System.out.println("User present");
+            if (userDetails.getOtp().equalsIgnoreCase(dto.getOtp())) {
+                System.out.println("OTP Match");
+                dto.setFirstName(userDetails.getFirstName());
+                dto.setContact(userDetails.getContact());
+                if(!userDetails.getEmail().equalsIgnoreCase("")) {
+                    dto.setEmail(userDetails.getEmail());
+                }
+                dto.setId(userDetails.getId());
+                dto.setOtp("");
+
+                return new ResponseEntity(dto, HttpStatus.OK);
+            } else {
+                System.out.println("OTP did not Match");
+                return new ResponseEntity(new CustomErrorType("Sorry, Invalid OTP. Try again!"), HttpStatus.NOT_FOUND);
+            }
+
+        } else {
+            System.out.println("User Not present");
+            return new ResponseEntity(new CustomErrorType("Sorry, Contact Admin!"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 
 
     private void authenticate(String username, String password) throws Exception {
