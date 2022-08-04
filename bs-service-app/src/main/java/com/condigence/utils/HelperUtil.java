@@ -42,7 +42,17 @@ public class HelperUtil {
                     Order.builder().id("1").dateTime("").discountAmount(0).build()
             );
 
+    public static Supplier<List<Favourite>> favouriteSupplier = () ->
+            Arrays.asList(
+                    Favourite.builder().productId("1").userId("2").build(),
+                    Favourite.builder().productId("3").userId("4").build(),
+                    Favourite.builder().productId("5").userId("6").build(),
+                    Favourite.builder().productId("7").userId("8").build()
+            );
+
     private HelperUtil() {
     }
+
+
 
 }
