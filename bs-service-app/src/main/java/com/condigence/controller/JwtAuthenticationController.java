@@ -65,54 +65,65 @@ public class JwtAuthenticationController {
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> login(@RequestBody UserDTO user) throws Exception {
-        logger.info("Entering login with user Details >>>>>>>>  : {}", user);
+    @RequestMapping(value = "/get-otp", method = RequestMethod.POST)
+    public ResponseEntity<?> getOTP(@RequestBody String contactNumber) throws Exception {
+        logger.info("Entering getOTP with user contact number >>>>>>>>  : {}", contactNumber);
 
-        // Check If User exist with Contact
-        if (user.getContact()== null || user.getContact() == "") {
+        // Check If User exist already
+        if (contactNumber == null || contactNumber == "") {
+            logger.info("Please provide contact!");
             return new ResponseEntity(new CustomErrorType("Please provide contact!"), HttpStatus.NOT_FOUND);
         }
         // Verify Contact
-        User userDetails = userDetailsService.findByUserContact(user.getContact());
+        User userDetails = userDetailsService.findByUserContact(contactNumber);
         if (userDetails != null) {
-            return new ResponseEntity(userDetails, HttpStatus.OK);
+            logger.info("User is already Registered! OTP Generated!");
+            UserDTO userDTO = new UserDTO();
+            userDTO.setRegistered(true);
+            userDTO.setContact(userDetails.getContact());
+            return new ResponseEntity(userDTO, HttpStatus.OK);
         } else {
-            System.out.println("User Not Found!");
-            return new ResponseEntity(new CustomErrorType("Contact Not Found! Please Register"), HttpStatus.NOT_FOUND);
+            logger.info("User not Registered! OTP Generated!");
+            UserDTO userDTO = new UserDTO();
+            userDTO.setContact(contactNumber);
+            userDTO.setRegistered(false);
+            return new ResponseEntity(userDTO, HttpStatus.OK);
         }
 
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @PostMapping(value = "/v1/verify/otp")
-    public ResponseEntity<?> verifyOTP(@RequestBody UserDTO dto) {
-        logger.info("Entering otp with user Details >>>>>>>>  : {}", dto);
+    @PostMapping(value = "/validate-otp")
+    public ResponseEntity<?> validateOTP(@RequestBody String userContact, String otp) {
+        logger.info("Entering validateOTP user Details >>>>>>>>  : {}", userContact , otp);
         // HttpHeaders headers = new HttpHeaders();
-        System.out.println("Inside verifyOTP with contact " + dto.getContact());
+        System.out.println("Inside verifyOTP with contact " + userContact);
 
-        User userDetails = userDetailsService.findByUserContact(dto.getContact());
+        User userDetails = userDetailsService.findByUserContact(userContact);
+
         if (userDetails != null) {
             System.out.println("User present");
-            if (userDetails.getOtp().equalsIgnoreCase(dto.getOtp())) {
+            if (userDetails.getOtp().equalsIgnoreCase(otp)) {
                 System.out.println("OTP Match");
-                dto.setFirstName(userDetails.getFirstName());
-                dto.setContact(userDetails.getContact());
-                if(!userDetails.getEmail().equalsIgnoreCase("")) {
-                    dto.setEmail(userDetails.getEmail());
-                }
-                dto.setId(userDetails.getId());
-                dto.setOtp("");
-
-                return new ResponseEntity(dto, HttpStatus.OK);
+                UserDTO userDTO = new UserDTO();
+                userDTO.setRegistered(true);
+                userDTO.setContact(userDetails.getContact());
+                userDTO.setAddress(userDetails.getAddress());
+                userDTO.setFirstName(userDetails.getFirstName());
+                userDTO.setEmail(userDetails.getEmail());
+                userDTO.setLastName(userDetails.getLastName());
+                userDTO.setId(userDetails.getId());
+                return new ResponseEntity(userDTO, HttpStatus.OK);
             } else {
                 System.out.println("OTP did not Match");
                 return new ResponseEntity(new CustomErrorType("Sorry, Invalid OTP. Try again!"), HttpStatus.NOT_FOUND);
             }
 
         } else {
-            System.out.println("User Not present");
-            return new ResponseEntity(new CustomErrorType("Sorry, Contact Admin!"), HttpStatus.INTERNAL_SERVER_ERROR);
+            UserDTO userDTO = new UserDTO();
+            userDTO.setContact(userContact);
+            userDTO.setRegistered(false);
+            return new ResponseEntity(userDTO, HttpStatus.OK);
         }
 
     }

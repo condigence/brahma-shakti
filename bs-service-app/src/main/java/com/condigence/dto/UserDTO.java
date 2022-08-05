@@ -25,5 +25,6 @@ public class UserDTO implements Serializable {
 	private String password;
 	@JsonIgnore
 	private String otp;
+	private boolean isRegistered;
 	
 }
