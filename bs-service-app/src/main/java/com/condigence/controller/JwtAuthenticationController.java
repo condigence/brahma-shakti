@@ -52,7 +52,7 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @ApiOperation(value = "This method is used to get the clients.")
+    @ApiOperation(value = "This method is used to register the users.")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         logger.info("Entering Verify User registration  with user Details >>>>>>>>  : {}", user);
@@ -94,18 +94,17 @@ public class JwtAuthenticationController {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @PostMapping(value = "/validate-otp")
-    public ResponseEntity<?> validateOTP(@RequestBody String userContact, String otp) {
-        logger.info("Entering validateOTP user Details >>>>>>>>  : {}", userContact , otp);
+    public ResponseEntity<?> validateOTP(@RequestBody UserDTO userDTO) {
+        logger.info("Entering validateOTP user Details >>>>>>>>  : {}", userDTO.getContact() , userDTO.getOtp());
         // HttpHeaders headers = new HttpHeaders();
-        System.out.println("Inside verifyOTP with contact " + userContact);
+        System.out.println("Inside verifyOTP with contact " + userDTO.getContact());
 
-        User userDetails = userDetailsService.findByUserContact(userContact);
+        User userDetails = userDetailsService.findByUserContact(userDTO.getContact());
 
         if (userDetails != null) {
             System.out.println("User present");
-            if (userDetails.getOtp().equalsIgnoreCase(otp)) {
+            if (userDetails.getOtp().equalsIgnoreCase(userDTO.getOtp())) {
                 System.out.println("OTP Match");
-                UserDTO userDTO = new UserDTO();
                 userDTO.setRegistered(true);
                 userDTO.setContact(userDetails.getContact());
                 userDTO.setAddress(userDetails.getAddress());
@@ -120,8 +119,6 @@ public class JwtAuthenticationController {
             }
 
         } else {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setContact(userContact);
             userDTO.setRegistered(false);
             return new ResponseEntity(userDTO, HttpStatus.OK);
         }
