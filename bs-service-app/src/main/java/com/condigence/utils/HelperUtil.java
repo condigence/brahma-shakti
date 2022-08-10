@@ -26,8 +26,8 @@ public class HelperUtil {
             );
     public static Supplier<List<User>> userSupplier = () ->
             Arrays.asList(
-                    User.builder().id("1").username("condigence").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").email("onlyvishalaaryan@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").build(),
-                    User.builder().id("2").username("mukul").firstName("Mukul").lastName("Bhatiya").address("Mathura").contact("9876543212").email("mukul@gmail.com@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").build()
+                    User.builder().id("9742503868").username("condigence").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").email("onlyvishalaaryan@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").otp("1234").build(),
+                    User.builder().id("9876543212").username("mukul").firstName("Mukul").lastName("Bhatiya").address("Mathura").contact("9876543212").email("mukul@gmail.com@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").otp("1234").build()
             );
     public static Supplier<List<Category>> categorySupplier = () ->
             Arrays.asList(

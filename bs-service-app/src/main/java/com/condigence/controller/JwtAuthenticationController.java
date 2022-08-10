@@ -57,7 +57,7 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         logger.info("Entering Verify User registration  with user Details >>>>>>>>  : {}", user);
         // Verify username
-        User userDetails = userDetailsService.findByUserName(user.getUsername());
+        User userDetails = userDetailsService.findByUserContact(user.getContact());
         if (userDetails != null) {
             return new ResponseEntity(new CustomErrorType("User Already Registered!"), HttpStatus.CONFLICT);
         } else {
@@ -65,10 +65,11 @@ public class JwtAuthenticationController {
         }
     }
 
-    @RequestMapping(value = "/get-otp", method = RequestMethod.POST)
-    public ResponseEntity<?> getOTP(@RequestBody String contactNumber) throws Exception {
-        logger.info("Entering getOTP with user contact number >>>>>>>>  : {}", contactNumber);
+    @GetMapping( {"/", "/login", "get-otp"} )
+    public ResponseEntity<?> getOTP(@RequestBody UserDTO userDTO) throws Exception {
+        logger.info("Entering getOTP with user contact number >>>>>>>>  : {}", userDTO.getContact());
 
+        String contactNumber= userDTO.getContact();
         // Check If User exist already
         if (contactNumber == null || contactNumber == "") {
             logger.info("Please provide contact!");
@@ -78,14 +79,11 @@ public class JwtAuthenticationController {
         User userDetails = userDetailsService.findByUserContact(contactNumber);
         if (userDetails != null) {
             logger.info("User is already Registered! OTP Generated!");
-            UserDTO userDTO = new UserDTO();
             userDTO.setRegistered(true);
-            userDTO.setContact(userDetails.getContact());
             return new ResponseEntity(userDTO, HttpStatus.OK);
         } else {
             logger.info("User not Registered! OTP Generated!");
-            UserDTO userDTO = new UserDTO();
-            userDTO.setContact(contactNumber);
+            saveUser(userDTO);
             userDTO.setRegistered(false);
             return new ResponseEntity(userDTO, HttpStatus.OK);
         }
@@ -103,7 +101,7 @@ public class JwtAuthenticationController {
 
         if (userDetails != null) {
             System.out.println("User present");
-            if (userDetails.getOtp().equalsIgnoreCase(userDTO.getOtp())) {
+            if (userDetails.getOtp() != null && userDetails.getOtp().equalsIgnoreCase(userDTO.getOtp())) {
                 System.out.println("OTP Match");
                 userDTO.setRegistered(true);
                 userDTO.setContact(userDetails.getContact());
@@ -111,10 +109,12 @@ public class JwtAuthenticationController {
                 userDTO.setFirstName(userDetails.getFirstName());
                 userDTO.setEmail(userDetails.getEmail());
                 userDTO.setLastName(userDetails.getLastName());
-                userDTO.setId(userDetails.getId());
+                userDTO.setId(userDetails.getContact());
                 return new ResponseEntity(userDTO, HttpStatus.OK);
             } else {
                 System.out.println("OTP did not Match");
+                //count
+                //
                 return new ResponseEntity(new CustomErrorType("Sorry, Invalid OTP. Try again!"), HttpStatus.NOT_FOUND);
             }
 

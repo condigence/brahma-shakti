@@ -4,6 +4,7 @@ import com.condigence.dto.UserDTO;
 import com.condigence.model.User;
 import com.condigence.repository.UserRepository;
 
+import com.condigence.utils.OTPGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,14 +44,15 @@ public class JwtUserDetailsService implements UserDetailsService {
     public User save(UserDTO userDTO) {
         User user = new User();
        // user.setUsername(userDTO.getUsername());
-        user.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
+        //user.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
         user.setContact(userDTO.getContact());
-        user.setLastName(userDTO.getLastName());
+        //user.setLastName(userDTO.getLastName());
         user.setFirstName(userDTO.getFirstName());
-        user.setAddress(userDTO.getAddress());
-        user.setId(userDTO.getId());
-        user.setOtp("1234");// Need to update later
+        //user.setAddress(userDTO.getAddress());
+        user.setId(userDTO.getContact());
+        //user.setOtp(bcryptEncoder.encode(OTPGenerator.getRandomNumberString()));
+        user.setOtp("1234");
         return userDao.save(user);
     }
 }
