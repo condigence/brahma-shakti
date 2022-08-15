@@ -34,8 +34,8 @@ export class ListUserComponent implements OnInit {
     this.userService.getAllUsers().subscribe((data) => {
       this.users = data;    
       console.log(this.users);
-      // let combined = this.users.filter(object => (object.type == 'VENDOR' || object.type == 'CUSTOMER'));
-      // this.res = [...combined];         
+      let combined = this.users.filter(object => (object));
+      this.res = [...combined];         
     });    
   }
 
@@ -55,9 +55,10 @@ export class ListUserComponent implements OnInit {
     } else if (this.name === '') {
       this.ngOnInit();
     }
-    // this.res = this.res.filter((res) => {
-    //   return res.name.toLowerCase().match(this.name.toLowerCase());
-    // });
+    this.res = this.res.filter((res) => {
+     // return res.firstName.toLowerCase().match(this.firstName.toLowerCase());
+     return res;
+    });
   }
 
   trackUser(user: { id: any }) {
@@ -72,7 +73,7 @@ export class ListUserComponent implements OnInit {
 
 
   deleteTheUser(user: User) {
-    // const currentUser = this.authenticationService.currentUserValue;
+    const currentUser = this.authenticationService.currentUserValue;
     // if ((user.type == 'ADMIN') && (user.contact === currentUser.contact)) {
     //   return Swal.fire({
     //     icon: 'error',
@@ -88,42 +89,42 @@ export class ListUserComponent implements OnInit {
     //   });
     // }
 
-    // if (user.contact === currentUser.contact) {
-    //   return Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'You are logged In Can not delete!',
-    //   });
-    // }
+    if (user.contact === currentUser.contact) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You are logged In Can not delete!',
+      });
+    }
 
-    // Swal.fire({
-    //   title: 'Are you sure?',
-    //   text: 'You will not be able to recover this user',
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   cancelButtonColor: '#3085d6',
-    //   confirmButtonColor: '#d33',
-    //   confirmButtonText: 'Yes, delete it!',
-    //   cancelButtonText: 'No, keep it'
-    // }).then((result) => {
-    //   if (result.value) {
-    //     this.userService.deleteUser(user.id).subscribe((data) => {
-    //       this.getAllUsers();
-    //     });
-    //     Swal.fire(
-    //     'Deleted!',
-    //     `<strong style="color:red;">Your selected User has been deleted.</strong>`,
-    //     'success'
-    //   );
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this user',
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        this.userService.deleteUser(user.id).subscribe((data) => {
+          this.getAllUsers();
+        });
+        Swal.fire(
+        'Deleted!',
+        `<strong style="color:red;">Your selected User has been deleted.</strong>`,
+        'success'
+      );
 
-    //   } else if (result.dismiss === Swal.DismissReason.cancel) {
-    //   Swal.fire(
-    //     'Cancelled',
-    //     'Your selected has been safe :)',
-    //     'error'
-    //   );
-    //   }
-    // });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled',
+        'Your selected has been safe :)',
+        'error'
+      );
+      }
+    });
   }
 
 
