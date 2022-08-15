@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
 
     const currentUser = localStorage.getItem('currentUser');
-    this.userService.getUserById(JSON.parse(currentUser).id).subscribe(data => {
+    this.userService.getUserByContact(JSON.parse(currentUser).contact).subscribe(data => {
       this.user = data;
 
       console.log(this.user);

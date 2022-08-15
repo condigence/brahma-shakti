@@ -40,8 +40,7 @@ export class MyProfileComponent implements OnInit {
   getProfileView(): void {
     const currentUser = localStorage.getItem("currentUser");
     console.log(currentUser);
-    this.userService
-      .getUserById(JSON.parse(currentUser).id)
+    this.userService.getUserByContact(JSON.parse(currentUser).contact)
       .subscribe((data) => {
         this.user = data;
       });

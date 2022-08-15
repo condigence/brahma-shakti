@@ -8,7 +8,7 @@
         <div class="card-body">
           <div class="card-content p-2">
             <div class="text-center">
-              <img src="assets/images/lg.png" alt="logo icon" width="200" />
+              <img src="assets/images/BSADMIN.jpg" alt="logo icon" width="200" />
             </div>
             <div class="card-title text-uppercase text-center py-3">OTP</div>
     
@@ -52,9 +52,11 @@
             </form>
           </div>
         </div>
-        <div class="card-footer text-center py-3">
+        <div class="card-footer text-center py-3" *ngIf="!userExist">
           <p class="text-muted mb-0">
-            Not yet Registered? <a routerLink="/register"> Sign Up here</a>
+           <strong>*Disclaimer</strong>  :You are not yet Registered.
+            By entering OTP you are agreeing to the Terms and Conditions for the Registration.
+            
           </p>
         </div>
       </div>

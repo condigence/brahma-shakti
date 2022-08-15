@@ -31,12 +31,12 @@ export class ListUserComponent implements OnInit {
   }
 
   getAllUsers() {    
-    // this.userService.getAllUsers().subscribe((data) => {
-    //   this.users = data;    
-    //   console.log(this.users);
-    //   let combined = this.users.filter(object => (object.type == 'VENDOR' || object.type == 'CUSTOMER'));
-    //   this.res = [...combined];         
-    // });    
+    this.userService.getAllUsers().subscribe((data) => {
+      this.users = data;    
+      console.log(this.users);
+      // let combined = this.users.filter(object => (object.type == 'VENDOR' || object.type == 'CUSTOMER'));
+      // this.res = [...combined];         
+    });    
   }
 
   addUser(): void {

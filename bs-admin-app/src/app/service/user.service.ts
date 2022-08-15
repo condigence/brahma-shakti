@@ -34,6 +34,9 @@ export class UserService {
     return this.http.get<User>(this.baseUrl + 'api/bs-user/one-by-contact/'+contact);
   }
 
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl+'api/bs-user/users');
+  }
 
     ///// Brahma Shakti APIS ends here 
 
@@ -47,9 +50,7 @@ export class UserService {
 
 
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersAPI);
-  }
+
 
   getUserById(id: any): Observable<User> {
     return this.http.get<User>(this.usersAPI + id);
