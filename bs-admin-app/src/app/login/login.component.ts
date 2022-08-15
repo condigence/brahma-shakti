@@ -6,7 +6,6 @@ import { AuthenticationService } from '../service/auth.service';
 import { AlertService } from '../service/alert.service';
 import Swal from 'sweetalert2';
 import { UserService } from '../service/user.service';
-import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -14,22 +13,23 @@ import { User } from '../model/user.model';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm: FormGroup; 
   submitted = false;
   returnUrl: string;
   userExist: false;
   error: string;
-  user: User;
+  user: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,    
     private router: Router,
+    private authenticationService: AuthenticationService,    
     private userService: UserService
   ) {
     // redirect to home if already logged in
-    // if (this.authenticationService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
+    if (this.authenticationService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnInit() {
@@ -37,16 +37,19 @@ export class LoginComponent implements OnInit {
       {
         contact: [
           '',
-          [
-            Validators.required,
+           [
+             Validators.required,
             Validators.minLength(10),
             Validators.maxLength(10),
-          ],
+           ],
         ],
       }
 
     );
-  
+    // let userInput = this.loginForm.value.contact;
+    // this.userService.getUserByContact(userInput).subscribe((user) => (this.user = user));
+    // get return url from route parameters or default to '/'
+    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   // convenience getter for easy access to form fields
@@ -55,22 +58,27 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
-    let userInput = this.loginForm.value.contact;
-    console.log(userInput);
-
-    var user = new User();
-    user.contact = userInput;
-    localStorage.setItem('contact', user.contact);
-    console.log(user);
-    this.userService.generateOTP(user).subscribe(
-      (data) => {
-        this.user = data;
-        console.log(this.user);
-        this.router.navigate(["/otp"], {
-          queryParams: { contact: userInput },
-        });
-      }
-    );
+   
+        this.submitted = true;        
+        this.authenticationService
+          .verifyLogin(this.loginForm.value)
+          .pipe(first())
+          .subscribe((data) => {
+            this.user = data;
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your are Redirected to otp page",
+              text: "Proceed for OTP!",
+              showConfirmButton: true,
+              timerProgressBar: true,
+              timer: 5000,
+              footer: `<strong style="color:purple;">Go for OTP!</strong>`,
+            });
+            console.log('is User Registered ? '+this.user.registered);
+            this.router.navigate(["/otp"], {
+              queryParams: { 'registered': this.user.registered },
+            });
+          }); 
   }
 }

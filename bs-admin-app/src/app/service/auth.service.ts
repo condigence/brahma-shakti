@@ -16,17 +16,16 @@ export class AuthenticationService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  private baseUrl = environment.apiUrl;
-  private users_api_Url = environment.USERS_API_URL;
+  private baseUrl = environment.BS_API_URL;
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
 
-  verifyOTP(user: User) {
+  validateOTP(user: User) {
 
-    return this.http.post<any>(this.baseUrl + `/v1/verify/otp`, user)
+    return this.http.post<any>(this.baseUrl+'validate-otp', user)
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
         // if (user && user.token) {
@@ -46,7 +45,7 @@ export class AuthenticationService {
 
 
   verifyLogin(user: User) {
-    return this.http.post<any>(this.baseUrl + `/v1/verify/login`, user)
+    return this.http.post<any>(this.baseUrl, user)
       .pipe(map(user => {
        // console.log(user);
         if (user) {
@@ -65,20 +64,20 @@ export class AuthenticationService {
 
   // Optional. we can call save directly
   verifyRegistration(user: User) {
-    // return this.http.post<any>(this.baseUrl + `/v1/verify/registration`, user)
-    //   .pipe(map(data => {
+    return this.http.post<any>(this.baseUrl + `/v1/verify/registration`, user)
+      .pipe(map(data => {
 
-    //     if (data) {
-    //       // store user details and jwt token in local storage to keep user logged in between page refreshes
-    //      // console.log("setting into localstorage "+JSON.stringify(data));
-    //       localStorage.setItem('userContact', data.contact);
-    //       localStorage.setItem('newUser', JSON.stringify(data));
-    //     }
-    //     return data;
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }));
+        if (data) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+         // console.log("setting into localstorage "+JSON.stringify(data));
+          localStorage.setItem('userContact', data.contact);
+          localStorage.setItem('newUser', JSON.stringify(data));
+        }
+        return data;
+      },
+      error => {
+        console.log(error);
+      }));
   }
 
   logout() {
@@ -91,7 +90,7 @@ export class AuthenticationService {
 
 
   register(user: User) {
-    return this.http.post(this.users_api_Url, user);
+   // return this.http.post(this.users_api_Url, user);
   }
 
 

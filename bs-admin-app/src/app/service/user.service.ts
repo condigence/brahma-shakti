@@ -15,18 +15,27 @@ export class UserService {
   
   private nodeBaseUrl = 'http://localhost:3000/neerseva/api/v1';
 
-  private usersAPI = environment.BS_API_URL;
+  private usersAPI = 'http://localhost:3000/neerseva/api/v1';
+
+    ///// Brahma Shakti APIS Starts here 
+
+  private baseUrl = environment.BS_API_URL;
+
 
   generateOTP(user: User): Observable<User> {
-    return this.http.post<any>(this.usersAPI, user);
+    return this.http.post<any>(this.baseUrl, user);
   }
 
   validateOTP(user: User): Observable<User> {
-    return this.http.post<any>(this.usersAPI+'validate-otp', user);
+    return this.http.post<any>(this.baseUrl+'validate-otp', user);
+  }
+
+  getUserByContact(contact: any): Observable<User> {
+    return this.http.get<User>(this.baseUrl + 'api/bs-user/one-by-contact/'+contact);
   }
 
 
-
+    ///// Brahma Shakti APIS ends here 
 
 
 

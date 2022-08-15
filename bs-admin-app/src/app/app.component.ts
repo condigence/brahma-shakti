@@ -20,27 +20,27 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private userService: UserService
   ) {
-    // this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
   }
 
   ngOnInit(): void {
 
-    // const currentUser = localStorage.getItem('currentUser');
+    const currentUser = localStorage.getItem('currentUser');
 
-    // this.userService.getUserById(JSON.parse(currentUser).id).subscribe(data => {
-    //   this.user = data;
-    //   if (this.user.active) {
-    //     this.isUserActive = true;
+    this.userService.getUserById(JSON.parse(currentUser).id).subscribe(data => {
+      this.user = data;
+      if (this.user.active) {
+        this.isUserActive = true;
 
-    //     console.log(this.user);
-    //    // console.log(this.isUserActive);
-    //   } else {
-    //     this.isUserActive = false;
-    //     //console.log(this.isUserActive);
-    //     console.log("Please complete Profile!");
-    //   }
-    // });
+        console.log(this.user);
+       // console.log(this.isUserActive);
+      } else {
+        this.isUserActive = false;
+        //console.log(this.isUserActive);
+        console.log("Please complete Profile!");
+      }
+    });
    // console.log(this.currentUser);
   }
 
