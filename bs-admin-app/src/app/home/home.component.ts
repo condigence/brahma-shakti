@@ -16,22 +16,22 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getAllUsersCount()
-    .subscribe(data => {
-      this.userscount = data;         
-    });
-    this.userService.getAllCustomerCount()
-    .subscribe(data => {
-      this.userAsCustomer = data;      
-    });
-    this.userService.getAllVendorCount()
-    .subscribe(data => {
-      this.userAsVendor = data;      
-    });
-    this.userService.getAllOrderCount()
-    .subscribe(data => {
-      this.totalOrders = data;      
-    });    
+    // this.userService.getAllUsersCount()
+    // .subscribe(data => {
+    //   this.userscount = data;         
+    // });
+    // this.userService.getAllCustomerCount()
+    // .subscribe(data => {
+    //   this.userAsCustomer = data;      
+    // });
+    // this.userService.getAllVendorCount()
+    // .subscribe(data => {
+    //   this.userAsVendor = data;      
+    // });
+    // this.userService.getAllOrderCount()
+    // .subscribe(data => {
+    //   this.totalOrders = data;      
+    // });    
   }
 
 

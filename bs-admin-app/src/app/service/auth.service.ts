@@ -65,20 +65,20 @@ export class AuthenticationService {
 
   // Optional. we can call save directly
   verifyRegistration(user: User) {
-    return this.http.post<any>(this.baseUrl + `/v1/verify/registration`, user)
-      .pipe(map(data => {
+    // return this.http.post<any>(this.baseUrl + `/v1/verify/registration`, user)
+    //   .pipe(map(data => {
 
-        if (data) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-         // console.log("setting into localstorage "+JSON.stringify(data));
-          localStorage.setItem('userContact', data.contact);
-          localStorage.setItem('newUser', JSON.stringify(data));
-        }
-        return data;
-      },
-      error => {
-        console.log(error);
-      }));
+    //     if (data) {
+    //       // store user details and jwt token in local storage to keep user logged in between page refreshes
+    //      // console.log("setting into localstorage "+JSON.stringify(data));
+    //       localStorage.setItem('userContact', data.contact);
+    //       localStorage.setItem('newUser', JSON.stringify(data));
+    //     }
+    //     return data;
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }));
   }
 
   logout() {

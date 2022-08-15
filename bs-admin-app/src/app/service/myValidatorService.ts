@@ -16,7 +16,7 @@ export class MyValidationService {
     console.log(user);
     return this.http.get<User[]>(URL).pipe(
       delay(1000),
-      map((data: User[]) => data.filter((d) => d.contact == +user)),
+      map((data: User[]) => data.filter((d) => d.contact == user)),
       map((data: User[]) => data.length > 0),
       catchError((err) => {
         console.log("error", err);

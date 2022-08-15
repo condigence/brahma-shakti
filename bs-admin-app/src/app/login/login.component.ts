@@ -6,6 +6,7 @@ import { AuthenticationService } from '../service/auth.service';
 import { AlertService } from '../service/alert.service';
 import Swal from 'sweetalert2';
 import { UserService } from '../service/user.service';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-login',
@@ -13,23 +14,22 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup; 
+  loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
   userExist: false;
   error: string;
-  users: any;
+  user: User;
 
   constructor(
-    private formBuilder: FormBuilder,    
+    private formBuilder: FormBuilder,
     private router: Router,
-    private authenticationService: AuthenticationService,    
     private userService: UserService
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
+    // if (this.authenticationService.currentUserValue) {
+    //   this.router.navigate(['/']);
+    // }
   }
 
   ngOnInit() {
@@ -37,18 +37,16 @@ export class LoginComponent implements OnInit {
       {
         contact: [
           '',
-           [
-             Validators.required,
+          [
+            Validators.required,
             Validators.minLength(10),
             Validators.maxLength(10),
-           ],
+          ],
         ],
       }
 
     );
-    this.userService.getAllUsers().subscribe((user) => (this.users = user));
-    // get return url from route parameters or default to '/'
-    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  
   }
 
   // convenience getter for easy access to form fields
@@ -57,55 +55,22 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-   
+
     let userInput = this.loginForm.value.contact;
     console.log(userInput);
-    let store = this.users.filter((value) => value.contact == userInput);    
-    if (store.length === 0) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        width: 600,
-        padding: "3em",
-        text: `Your are not Registered!`,
-        footer: `<strong style="color:red;">Please Try to Registered!</strong>`,
-      });
-    }
-    if (store.length > 0) {
-      if (store[0].type === "ADMIN") {
-        this.submitted = true;        
-        this.authenticationService
-          .verifyLogin(this.loginForm.value)
-          .pipe(first())
-          .subscribe((data) => {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Your are Redirected to otp page",
-              text: "Proceed for OTP!",
-              showConfirmButton: true,
-              timerProgressBar: true,
-              timer: 5000,
-              footer: `<strong style="color:purple;">Go for OTP!</strong>`,
-            });
-            this.router.navigate(["/otp"], {
-              queryParams: { registered: true },
-            });
-          });        
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          width: 600,
-          padding: "3em",
-          text: `Your are not Registered As a Admin!`,
-          footer: `<strong style="color:red;">Please Contact to Neerseva Service!</strong>`,
+
+    var user = new User();
+    user.contact = userInput;
+    localStorage.setItem('contact', user.contact);
+    console.log(user);
+    this.userService.generateOTP(user).subscribe(
+      (data) => {
+        this.user = data;
+        console.log(this.user);
+        this.router.navigate(["/otp"], {
+          queryParams: { contact: userInput },
         });
       }
-    }
+    );
   }
-
-
-
-
 }

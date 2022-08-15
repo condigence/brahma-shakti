@@ -56,15 +56,15 @@ export class EditUserComponent implements OnInit {
 
       console.log(data);
       //  set individual
-      this.editForm.setValue({
-        id: data.id,
-        name: data.name,
-        contact: data.contact,
-        email: data.email,
-        pic: data.pic,
-        type: data.type,
-        imageId: data.imageId,
-      });
+      // this.editForm.setValue({
+      //   id: data.id,
+      //   name: data.name,
+      //   contact: data.contact,
+      //   email: data.email,
+      //   pic: data.pic,
+      //   type: data.type,
+      //   imageId: data.imageId,
+      // });
       this.user = data;
     });
   }

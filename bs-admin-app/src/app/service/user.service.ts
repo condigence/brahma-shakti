@@ -15,7 +15,27 @@ export class UserService {
   
   private nodeBaseUrl = 'http://localhost:3000/neerseva/api/v1';
 
-  private usersAPI = environment.USERS_API_URL;
+  private usersAPI = environment.BS_API_URL;
+
+  generateOTP(user: User): Observable<User> {
+    return this.http.post<any>(this.usersAPI, user);
+  }
+
+  validateOTP(user: User): Observable<User> {
+    return this.http.post<any>(this.usersAPI+'validate-otp', user);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   getAllUsers(): Observable<User[]> {

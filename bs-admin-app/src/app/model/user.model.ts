@@ -1,11 +1,14 @@
 
 export class User {
-    id: string;
-    name: string;
-    contact: number;
-    email: string;
-    imageId: any;
-    pic: any;
-    type: string;
-}
 
+    address: string;
+    contact: string;
+    email: string;
+    firstName: string;
+    id: string;
+    lastName: string;
+    otp: string;
+    registered: boolean;
+    username: string;
+    
+}

@@ -100,11 +100,11 @@ const routes: Routes = [
 
   {
     path: '',
-    component: HomeComponent, canActivate: [AuthGuard]
+    component: HomeComponent
   },
   {
     path: 'home',
-    component: HomeComponent, canActivate: [AuthGuard]
+    component: HomeComponent
   },
   {
     path: 'login',

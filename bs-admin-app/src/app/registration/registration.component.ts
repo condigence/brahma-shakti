@@ -28,9 +28,9 @@ export class RegistrationComponent implements OnInit {
     private alertService: AlertService    
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
-      this.router.navigate(["/"]);
-    }
+    // if (this.authenticationService.currentUserValue) {
+    //   this.router.navigate(["/"]);
+    // }
   }
 
   ngOnInit() {
@@ -64,33 +64,33 @@ export class RegistrationComponent implements OnInit {
   };
 
   onSubmit() {
-    this.submitted = true;
-    if (this.registerForm.invalid) {
-      return;
-    }
+    // this.submitted = true;
+    // if (this.registerForm.invalid) {
+    //   return;
+    // }
 
-    this.loading = true;
-    this.authenticationService
-      .verifyRegistration(this.registerForm.value)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this.router.navigate(["/otp"], {
-            queryParams: { registered: false },
-          });
-        },
-        (error) => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "User alredy registered!",
-            footer: `<strong>Please try with different contact number</strong>`,
-          });
-          //  this.router.navigate(['/register'], { queryParams: { registered: false } });
-          this.alertService.error(error.errorMessage);
-          this.error = error;
-          this.loading = false;
-        }
-      );
+    // this.loading = true;
+    // this.authenticationService
+    //   .verifyRegistration(this.registerForm.value)
+    //   .pipe(first())
+    //   .subscribe(
+    //     (data) => {
+    //       this.router.navigate(["/otp"], {
+    //         queryParams: { registered: false },
+    //       });
+    //     },
+    //     (error) => {
+    //       Swal.fire({
+    //         icon: "error",
+    //         title: "Oops...",
+    //         text: "User alredy registered!",
+    //         footer: `<strong>Please try with different contact number</strong>`,
+    //       });
+    //       //  this.router.navigate(['/register'], { queryParams: { registered: false } });
+    //       this.alertService.error(error.errorMessage);
+    //       this.error = error;
+    //       this.loading = false;
+    //     }
+    //   );
   }
 }
