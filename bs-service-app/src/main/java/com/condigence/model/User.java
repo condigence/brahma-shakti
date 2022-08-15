@@ -29,5 +29,6 @@ public class User implements Serializable {
 	private String password;
 	@JsonIgnore
 	private String otp;
+	private String otpCreationTime;
 	
 }

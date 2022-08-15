@@ -65,9 +65,9 @@ public class JwtAuthenticationController {
         }
     }
 
-    @GetMapping( {"/", "/login", "get-otp"} )
-    public ResponseEntity<?> getOTP(@RequestBody UserDTO userDTO) throws Exception {
-        logger.info("Entering getOTP with user contact number >>>>>>>>  : {}", userDTO.getContact());
+    @PostMapping( {"/", "/login", "otp"} )
+    public ResponseEntity<?> generateOTP(@RequestBody UserDTO userDTO) throws Exception {
+        logger.info("Entering generateOTP with user contact number >>>>>>>>  : {}", userDTO.getContact());
 
         String contactNumber= userDTO.getContact();
         // Check If User exist already
