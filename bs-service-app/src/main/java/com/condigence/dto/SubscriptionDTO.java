@@ -1,4 +1,4 @@
-package com.condigence.model;
+package com.condigence.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,15 +12,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Subscription implements Serializable {
+public class SubscriptionDTO implements Serializable {
 
-	@Id
 	private String id;
 	private String fromDate;
 	private String toDate;
 	private Integer noOfDays;
 	private String frequency;
-	private String userid;
-	private String productId;
+	private UserDTO userDTO;
+	private ProductDTO productDTO;
 	private String quantity;
 }
