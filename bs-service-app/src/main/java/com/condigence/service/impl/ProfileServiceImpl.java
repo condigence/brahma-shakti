@@ -38,7 +38,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void updateProfile(ProfileDTO profileDTO) {
-        Profile profile = repository.findByByUserId(profileDTO.getUser().getId());
+        Profile profile = repository.findByUserId(profileDTO.getUser().getId());
         profile.setFullName(profile.getFullName());
         repository.save(profile);
     }
@@ -54,7 +54,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDTO getUserById(String userId) {
-        Profile profile = repository.findByByUserId(userId);
+        Profile profile = repository.findByUserId(userId);
         ProfileDTO profileDTO  =  new ProfileDTO();
         profileDTO.setId(profile.getId());
         profileDTO.setFullName(profile.getFullName());
@@ -81,7 +81,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void deleteByUserId(String userId) {
-        Profile profile = repository.findByByUserId(userId);
+        Profile profile = repository.findByUserId(userId);
         repository.deleteById(profile.getId());
     }
 }

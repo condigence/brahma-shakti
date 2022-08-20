@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ProfileRepository extends MongoRepository<Profile, String> {
 
-    Profile findByByUserId(String userId);
+    Profile findByUserId(String userId);
 
 }

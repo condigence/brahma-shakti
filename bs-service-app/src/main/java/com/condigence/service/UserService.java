@@ -1,5 +1,6 @@
 package com.condigence.service;
 
+
 import com.condigence.bean.UserBean;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.User;
@@ -11,19 +12,19 @@ public interface UserService {
 
     List<UserDTO> getAll();
 
-    List<com.condigence.model.User> getUserByFirstName(String firstName);
+    List<User> getUserByFirstName(String firstName);
 
-    com.condigence.model.User getSingleUserByFirstName(String firstName);
+    User getSingleUserByFirstName(String firstName);
 
-    List<com.condigence.model.User> getUserByFirstNameLike(String firstName);
+    List<User> getUserByFirstNameLike(String firstName);
 
-    com.condigence.model.User getSingleUserByLastName(String lastName);
+    User getSingleUserByLastName(String lastName);
 
-    List<com.condigence.model.User> getUserByEmail(String email);
+    List<User> getUserByEmail(String email);
 
     User getUserByContact(String contact);
 
-    List<com.condigence.model.User> getUserByAddress(String address);
+    List<User> getUserByAddress(String address);
 
     void save(UserBean userbean);
 

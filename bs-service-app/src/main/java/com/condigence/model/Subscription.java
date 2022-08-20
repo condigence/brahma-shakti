@@ -20,7 +20,7 @@ public class Subscription implements Serializable {
 	private String toDate;
 	private Integer noOfDays;
 	private String frequency;
-	private String userid;
+	private String userId;
 	private String productId;
 	private String quantity;
 }

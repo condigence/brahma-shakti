@@ -49,7 +49,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		subscription.setQuantity(subscriptionDTO.getQuantity());
 		subscription.setToDate(subscriptionDTO.getToDate());
 		subscription.setProductId(subscriptionDTO.getProductDTO().getId());
-		subscription.setUserid(subscriptionDTO.getUserDTO().getId());
+		subscription.setUserId(subscriptionDTO.getUserDTO().getId());
 		subscriptionRepository.save(subscription);
 	}
 
@@ -75,7 +75,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 			productDTO.setPrice(product.getPrice());
 			dto.setProductDTO(productDTO);
 
-			User user = userRepository.findByContact(subscription.getUserid());
+			User user = userRepository.findByContact(subscription.getUserId());
 
 			UserDTO userDTO = new UserDTO();
 			userDTO.setRegistered(userDTO.isRegistered());
