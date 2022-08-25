@@ -9,7 +9,6 @@ import com.condigence.service.JwtUserDetailsService;
 import com.condigence.utils.CustomErrorType;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -40,29 +37,17 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+        // Need to Pass contact as Username
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    @ApiOperation(value = "This method is used to register the users.")
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
-        logger.info("Entering Verify User registration  with user Details >>>>>>>>  : {}", user);
-        // Verify username
-        User userDetails = userDetailsService.findByUserContact(user.getContact());
-        if (userDetails != null) {
-            return new ResponseEntity(new CustomErrorType("User Already Registered!"), HttpStatus.CONFLICT);
-        } else {
-            return new ResponseEntity(userDetailsService.save(user), HttpStatus.CREATED);
-        }
     }
 
     @PostMapping( {"/", "/login", "otp"} )
@@ -83,7 +68,7 @@ public class JwtAuthenticationController {
             return new ResponseEntity(userDTO, HttpStatus.OK);
         } else {
             logger.info("User not Registered! OTP Generated!");
-            saveUser(userDTO);
+            userDetailsService.save(userDTO);
             userDTO.setRegistered(false);
             return new ResponseEntity(userDTO, HttpStatus.OK);
         }
@@ -105,11 +90,11 @@ public class JwtAuthenticationController {
                 System.out.println("OTP Match");
                 userDTO.setRegistered(true);
                 userDTO.setContact(userDetails.getContact());
-                userDTO.setAddress(userDetails.getAddress());
                 userDTO.setFirstName(userDetails.getFirstName());
                 userDTO.setEmail(userDetails.getEmail());
                 userDTO.setLastName(userDetails.getLastName());
-                userDTO.setId(userDetails.getContact());
+                userDTO.setId(userDetails.getId());
+                userDTO.setOtp("****");
                 return new ResponseEntity(userDTO, HttpStatus.OK);
             } else {
                 System.out.println("OTP did not Match");

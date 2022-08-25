@@ -1,7 +1,10 @@
 package com.condigence.service;
 
+import com.condigence.dto.ProfileDTO;
 import com.condigence.dto.UserDTO;
+import com.condigence.model.Profile;
 import com.condigence.model.User;
+import com.condigence.repository.ProfileRepository;
 import com.condigence.repository.UserRepository;
 
 import com.condigence.utils.OTPGenerator;
@@ -19,40 +22,30 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userDao;
 
+
+    @Autowired
+    private UserService userService;
+
+
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
+    public UserDetails loadUserByUsername(String contact) throws UsernameNotFoundException {
+        User user = userDao.findByContact(contact);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("User not found with contact: " + contact);
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
     }
 
 
-    public User findByUserName(String username) {
-        return userDao.findByUsername(username);
-    }
-
     public User findByUserContact(String contact) {
         return userDao.findByContact(contact);
     }
 
-    public User save(UserDTO userDTO) {
-        User user = new User();
-       // user.setUsername(userDTO.getUsername());
-        //user.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
-        user.setEmail(userDTO.getEmail());
-        user.setContact(userDTO.getContact());
-        //user.setLastName(userDTO.getLastName());
-        user.setFirstName(userDTO.getFirstName());
-        //user.setAddress(userDTO.getAddress());
-        user.setId(userDTO.getContact());
-        //user.setOtp(bcryptEncoder.encode(OTPGenerator.getRandomNumberString()));
-        user.setOtp("1234");
-        return userDao.save(user);
+    public UserDTO save(UserDTO userDTO) {
+        return userService.saveUser(userDTO);
     }
 }

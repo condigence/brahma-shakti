@@ -1,12 +1,13 @@
 package com.condigence.service.impl;
 
 
-import com.condigence.bean.UserBean;
+import com.condigence.bean.ProfileBean;
+import com.condigence.dto.AddressDTO;
+import com.condigence.dto.ImageDTO;
+import com.condigence.dto.ProfileDTO;
 import com.condigence.dto.UserDTO;
-import com.condigence.model.User;
-import com.condigence.model.Wallet;
-import com.condigence.repository.UserRepository;
-import com.condigence.repository.WalletRepository;
+import com.condigence.model.*;
+import com.condigence.repository.*;
 import com.condigence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,16 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Autowired
     private WalletRepository walletRepository;
@@ -29,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getAll() {
         List<UserDTO> userDTOS = new ArrayList<>();
-        List<User> users = repository.findAll();
+        List<User> users = userRepository.findAll();
         for (User user : users) {
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
@@ -37,83 +47,70 @@ public class UserServiceImpl implements UserService {
             userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
             userDTO.setContact(user.getContact());
-            userDTO.setAddress(user.getAddress());
             userDTO.setUsername(user.getUsername());
-            userDTO.setPassword(user.getPassword());
+            Optional<Profile> profile  = profileRepository.findById(user.getProfileId());
+            if(profile.isPresent()){
+                ProfileDTO profileDTO = new ProfileDTO();
+                profileDTO.setFullName(profile.get().getFullName());
+                Optional<Image> image = imageRepository.findById(profile.get().getImageId());
+                if(image.isPresent()){
+                    ImageDTO imageDTO = new ImageDTO();
+                    imageDTO.setPic(image.get().getPic());
+                    imageDTO.setId(image.get().getId());
+                    profileDTO.setImage(imageDTO);
+                }
+                userDTO.setProfile(profileDTO);
+            }
             userDTOS.add(userDTO);
         }
-
 
         return userDTOS;
     }
 
     @Override
-    public List<User> getUserByFirstName(String firstName) {
-        List<User> users = new ArrayList<>();
-        List<User> list = repository.findAll();
-        for (User usr : list) {
-            if (usr.getFirstName().equalsIgnoreCase(firstName))
-                users.add(usr);
+    public UserDTO getUserByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public UserDTO getUserByContact(String contact) {
+        User user = userRepository.findByContact(contact);
+        UserDTO userDTO = new UserDTO();
+        ProfileDTO profileDTO = new ProfileDTO();
+        Profile profile = null;
+        Image image = null;
+        if (user != null) {
+
+            userDTO.setId(user.getId());
+            userDTO.setFirstName(user.getFirstName());
+            userDTO.setLastName(user.getLastName());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setContact(user.getContact());
+            userDTO.setUsername(user.getUsername());
+            userDTO.setPassword(user.getPassword());
+
+            if(user.getProfileId() != null){
+                profile = profileRepository.findById(user.getProfileId()).get();
+                profileDTO.setFullName(profile.getFullName());
+                profileDTO.setId(profile.getId());
+                if(profile.getImageId() != null){
+                    image = imageRepository.findById(profile.getImageId()).get();
+                    ImageDTO imageDTO = new ImageDTO();
+                    imageDTO.setPic(image.getPic());
+                    imageDTO.setId(image.getId());
+                    profileDTO.setImage(imageDTO);
+                }
+                userDTO.setProfile(profileDTO);
+            }
         }
-        return users;
-    }
-
-    @Override
-    public User getSingleUserByFirstName(String firstName) {
-        return repository.findByFirstName(firstName);
-    }
-
-    @Override
-    public List<User> getUserByFirstNameLike(String firstName) {
-        return repository.findByFirstNameLike(firstName);
-    }
-
-    @Override
-    public User getSingleUserByLastName(String lastName) {
-        List<User> employees = repository.findAll();
-
-        for (User user : employees) {
-            if (user.getLastName().equalsIgnoreCase(lastName))
-                return user;
-        }
-        return User.builder().id(String.valueOf(0)).firstName("Not Found").lastName("Please enter valid id").build();
-    }
-
-    @Override
-    public List<User> getUserByEmail(String email) {
-        return repository.findByEmail(email);
-    }
-
-    @Override
-    public User getUserByContact(String contact) {
-        return repository.findByContact(contact);
-    }
-
-    @Override
-    public List<User> getUserByAddress(String address) {
-        return repository.findByAddress(address);
-    }
-
-    /**
-     */
-    @Override
-    public void save(UserBean userBean) {
-
-        User user = new User();
-        user.setId(userBean.getId());
-        user.setFirstName(userBean.getFirstName());
-        user.setLastName(userBean.getLastName());
-        user.setEmail(userBean.getEmail());
-        user.setContact(userBean.getContact());
-        user.setAddress(userBean.getAddress());
-        user.setPassword(userBean.getPassword());
-        repository.save(user);
+        return userDTO;
     }
 
     @Override
     public UserDTO getUserById(String userId) {
-        Optional<User> userData = repository.findById(userId);
+        Optional<User> userData = userRepository.findById(userId);
         UserDTO userDTO = new UserDTO();
+        Profile profile = null;
         if (userData.isPresent()) {
             User user = userData.get();
             userDTO.setId(user.getId());
@@ -121,9 +118,22 @@ public class UserServiceImpl implements UserService {
             userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
             userDTO.setContact(user.getContact());
-            userDTO.setAddress(user.getAddress());
             userDTO.setUsername(user.getUsername());
             userDTO.setPassword(user.getPassword());
+            if(userData.get().getProfileId() != null){
+                profile = profileRepository.findById(userData.get().getProfileId()).get();
+                ProfileDTO profileDTO = new ProfileDTO();
+                profileDTO.setFullName(profile.getFullName());
+                profileDTO.setId(profile.getId());
+                if(profile.getImageId() != null){
+                    Image image = imageRepository.findById(profile.getImageId()).get();
+                    ImageDTO imageDTO = new ImageDTO();
+                    imageDTO.setPic(image.getPic());
+                    imageDTO.setId(image.getId());
+                    profileDTO.setImage(imageDTO);
+                }
+                userDTO.setProfile(profileDTO);
+            }
             return userDTO;
         } else {
             return userDTO.builder().id("0").build();
@@ -132,17 +142,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(String id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
-    /**
-     * @param userName
-     * @return
-     */
-    @Override
-    public User getUserByUsername(String userName) {
-        return repository.findByUsername(userName);
-    }
 
     @Override
     public void addBalance(String userId, int amount) {
@@ -154,6 +156,148 @@ public class UserServiceImpl implements UserService {
     @Override
     public Wallet getBalance(String userId) {
         return walletRepository.getByUserId(userId);
+    }
+
+
+    @Override
+    public UserDTO updateUserProfile(ProfileBean profileBean) {
+
+        User user = userRepository.findById(profileBean.getId()).get();
+        if(profileBean.getEmail() != null || profileBean.getEmail() != ""){
+            user.setEmail(profileBean.getEmail());
+        }
+
+        if(profileBean.getContact() != null || profileBean.getContact() != ""){
+            user.setContact(profileBean.getContact());
+        }
+
+        if(profileBean.getName() != null || profileBean.getName() != ""){
+            user.setFirstName(profileBean.getName());
+        }
+
+
+        user = userRepository.save(user);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setContact(user.getContact());
+
+
+        Profile profile = profileRepository.findById(user.getProfileId()).get();
+
+        profile.setFullName(profileBean.getName());
+        if(profileBean.getImageId() != null || profileBean.getImageId() != ""){
+            profile.setImageId(profileBean.getImageId());
+        }
+
+        profile = profileRepository.save(profile);
+
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setId(profile.getId());
+        if(profile.getImageId() != null){
+            Image image = imageRepository.findById(profile.getImageId()).get();
+            ImageDTO imageDTO = new ImageDTO();
+            imageDTO.setId(image.getId());
+            imageDTO.setPic(image.getPic());
+            profileDTO.setImage(imageDTO);
+        }
+        profileDTO.setFullName(profile.getFullName());
+        userDTO.setProfile(profileDTO);
+
+        return userDTO;
+    }
+
+    @Override
+    public ProfileDTO saveProfile(ProfileBean bean) {
+        Profile profile = new Profile();
+        if(bean.getAddressId() != null){
+            profile.setAddressId(bean.getAddressId());
+        }
+        if(bean.getImageId() != null){
+            profile.setImageId(bean.getImageId());
+        }
+        Profile savedProfile = profileRepository.save(profile);
+
+        ProfileDTO profileDTO = new ProfileDTO();
+
+        profileDTO.setId(savedProfile.getId());
+        if(profile.getImageId() != null){
+            Image image = imageRepository.findById(savedProfile.getImageId()).get();
+            ImageDTO imageDTO = new ImageDTO();
+            imageDTO.setId(image.getId());
+            imageDTO.setPic(image.getPic());
+            profileDTO.setImage(imageDTO);
+        }
+        return profileDTO;
+    }
+
+    @Override
+    public ProfileDTO getProfileById(String id) {
+        Profile profile = profileRepository.findById(id).get();
+        if(profile == null){
+            return null;
+        }
+        ProfileDTO profileDTO  =  new ProfileDTO();
+        profileDTO.setFullName(profile.getFullName());
+        profileDTO.setNickName(profile.getNickName());
+        profileDTO.setSecondaryContact(profile.getSecondaryContact());
+        profileDTO.setSecondaryEmail(profile.getSecondaryEmail());
+
+        AddressDTO addressDTO = null;
+        if(profile.getAddressId() != null){
+            Address address = addressRepository.findById(profile.getAddressId()).get();
+            addressDTO = new AddressDTO();
+            profileDTO.setAddress(addressDTO);
+        }
+        if(profile.getImageId() != null){
+            ImageDTO imageDTO = new ImageDTO();
+            Image image = imageRepository.findById(profile.getImageId()).get();
+            imageDTO.setImageId(image.getId());
+            imageDTO.setId(image.getId());
+            imageDTO.setPic(image.getPic());
+            imageDTO.setName(image.getName());
+            profileDTO.setImage(imageDTO);
+        }
+        return profileDTO;
+    }
+
+    @Override
+    public void deleteProfileById(String id) {
+        Profile profile = profileRepository.findById(id).get();
+        profileRepository.deleteById(profile.getId());
+    }
+
+    public User findByUserContact(String contact) {
+        return userRepository.findByContact(contact);
+    }
+
+    public UserDTO saveUser(UserDTO userDTO) {
+        User user = new User();
+        // user.setUsername(userDTO.getUsername());
+        //user.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
+        user.setEmail(userDTO.getEmail());
+        user.setContact(userDTO.getContact());
+        //user.setLastName(userDTO.getLastName());
+        user.setFirstName(userDTO.getFirstName());
+        //user.setAddress(userDTO.getAddress());
+        //user.setOtp(bcryptEncoder.encode(OTPGenerator.getRandomNumberString()));
+
+        Profile profile = new Profile();
+        if(userDTO.getProfile() != null){
+            profile = profileRepository.findById(userDTO.getProfile().getId()).get();
+            user.setProfileId(profile.getId());
+        }else{
+            profile = profileRepository.save(profile);
+            user.setProfileId(profile.getId());
+        }
+
+        user.setOtp("1234");
+        User userObj = userRepository.save(user);
+        userDTO.setId(userObj.getId());
+        userDTO.setContact(userObj.getContact());
+
+        return userDTO;
+
     }
 
 }

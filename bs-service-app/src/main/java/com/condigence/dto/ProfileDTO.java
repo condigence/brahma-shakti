@@ -19,6 +19,7 @@ public class ProfileDTO implements Serializable {
 	private String secondaryEmail;
 	private String secondaryContact;
 	private AddressDTO address;
-	private UserDTO user;
+	private ImageDTO image;
+
 	
 }

@@ -5,6 +5,7 @@ package com.condigence.controller;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.User;
+import com.condigence.service.JwtUserDetailsService;
 import com.condigence.service.UserService;
 import com.condigence.utils.CustomErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtUserDetailsService userDetailsService;
+
     @GetMapping("/say")
     public String sayHello() {
         return "Hello Spring boot";
@@ -37,47 +41,21 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAll());
     }
 
-    @GetMapping("/firstName/{firstName}")
-    public List<User> getUserByName(@PathVariable String firstName ) {
-        return userService.getUserByFirstName(firstName);
-    }
-
-    @GetMapping("/one-by-firstName/{firstName}")
-    public User getOneUserByFirstName(@PathVariable String firstName) {
-        return userService.getSingleUserByFirstName(firstName);
-    }
-
-    @GetMapping("/firstName-like/{firstName}")
-    public List<User> getUserByFirstNameLike(@PathVariable String firstName) {
-        return userService.getUserByFirstNameLike(firstName);
-    }
-
-    @GetMapping("/one-by-lastName/{lastName}")
-    public User getUserBylastName(@PathVariable String lastName) {
-        return userService.getSingleUserByLastName(lastName);
-    }
-
     @GetMapping("/one-by-email/{email}")
-    public List<User> getUserByEmail(@PathVariable String email) {
+    public UserDTO getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
 
     @GetMapping("/one-by-contact/{contact}")
-    public User getUserByContact(@PathVariable String contact) {
+    public UserDTO getUserByContact(@PathVariable String contact) {
         return userService.getUserByContact(contact);
     }
 
-    @GetMapping("/one-by-address/{address}")
-    public List<User> getUserByAddress(@PathVariable String address) {
-        return userService.getUserByAddress(address);
-    }
-
     @PostMapping(value = "/")
-    public ResponseEntity<?> addUser(@RequestBody UserBean userBean) {
-
-        logger.info("Entering addProduct with Product Details >>>>>>>>  : {}", userBean);
+    public ResponseEntity<?> addUser(@RequestBody UserDTO userDTO) {
+        logger.info("Entering addProduct with Product Details >>>>>>>>  : {}", userDTO);
         HttpHeaders headers = new HttpHeaders();
-        userService.save(userBean);
+        userDetailsService.save(userDTO);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
