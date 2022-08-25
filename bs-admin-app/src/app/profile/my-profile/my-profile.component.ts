@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { first } from "rxjs/operators";
 import { UserService } from "src/app/service/user.service";
 import Swal from "sweetalert2";
+import { Profile } from "src/app/model/profile.model";
 
 @Component({
   selector: "app-my-profile",
@@ -15,8 +16,9 @@ export class MyProfileComponent implements OnInit {
   convertedImage: any;
   isUserActive: any;
   user: User;
+  profile: any;
   editForm: FormGroup;
-  imageId: number;
+  imageId: string;
   messageToSendP = "PROFILE";
 
   constructor(
@@ -28,7 +30,7 @@ export class MyProfileComponent implements OnInit {
   ngOnInit() {
     this.editForm = this.formBuilder.group({
       id: [],
-      firstName: ["", Validators.required],
+      name: ["", Validators.required],
       imageId: [""],
       email: ["", Validators.required],
       contact: ["", Validators.required],
@@ -38,12 +40,21 @@ export class MyProfileComponent implements OnInit {
   }
 
   getProfileView(): void {
+    var userId;
     const currentUser = localStorage.getItem("currentUser");
     console.log(currentUser);
     this.userService.getUserByContact(JSON.parse(currentUser).contact)
       .subscribe((data) => {
         this.user = data;
+        console.log(this.user);
+        userId = this.user.id;
+        console.log(userId);
       });
+
+     
+     
+      
+
   }
 
   receiveMessage($event) {
@@ -56,9 +67,11 @@ export class MyProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.editForm.value);
+    
     console.log(this.editForm.valid);
     this.editForm.controls.id.setValue(this.user.id);
+    this.editForm.controls.contact.setValue(this.user.contact);
+    console.log(this.editForm.value);
     this.userService
       .updateUser(this.editForm.value)
       .pipe(first())
@@ -72,6 +85,8 @@ export class MyProfileComponent implements OnInit {
             timer: 3000,
           });
           // this.router.navigate(['/profile/my-profile']);
+          //this.profile = data.
+          console.log(data);
           this.router.navigate(["/"]);
         },
         (error) => {

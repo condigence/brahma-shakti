@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user.model';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { Profile } from '../model/profile.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -38,6 +39,19 @@ export class UserService {
     return this.http.get<User[]>(this.baseUrl+'api/bs-user/users');
   }
 
+  updateUser(user: User) {    
+    return this.http.put(this.baseUrl+'api/bs-profile/update', user);
+  }
+
+
+  // updateProfile(user: any) {    
+  //   return this.http.put(this.baseUrl+'api/bs-profile/update', user);
+  // }
+
+  // getProfileByUserId(userId: any): Observable<Profile> {
+  //   return this.http.get<Profile>(this.baseUrl + 'api/bs-profile/my-profile/'+userId);
+  // }
+
     ///// Brahma Shakti APIS ends here 
 
 
@@ -64,9 +78,7 @@ export class UserService {
     return this.http.post(this.usersAPI, user);
   }
 
-  updateUser(user: User) {    
-    return this.http.put(this.usersAPI, user);
-  }
+
 
   register(user: User) {
     return this.http.post(this.usersAPI, user);

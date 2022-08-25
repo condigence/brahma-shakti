@@ -1,13 +1,10 @@
 export class Profile {
     id: string;
-    user_id: number;
-    full_name: string;
-    nick_name: string;
-    dob: string;
-    image_id: number;
+    name: string;
+    imageId: any;
+    contact: any;
+    email: any;
+    pic: any;
     type: string;
-    is_deleted: string;
-    shop_id: number;
-    address_id: number;
 }
 

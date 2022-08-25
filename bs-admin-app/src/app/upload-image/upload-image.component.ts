@@ -24,7 +24,7 @@ export class UploadImageComponent implements OnInit {
   imageModuleName: string;
   dispalyPreview: boolean;
 
-   imageURL = environment.IMAGES_API_URL+'upload';
+   imageURL = environment.BS_API_URL+'bs-image/'+'upload';
 
   @Input() receivedParentMessage: string;
   @Output() messageEvent = new EventEmitter<number>();
