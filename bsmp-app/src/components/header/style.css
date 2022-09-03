@@ -1,0 +1,50 @@
+.outLetLocator {
+  /* padding-top: 5px; */
+  border: 0;
+  outline: 0;
+  /* width: 40px; */
+  height: 40px;
+  line-height: 40px;
+}
+
+
+ .fi:before {
+  font-size: 27px;
+  color: #b83806;
+  
+}
+
+.fi.ti-close {
+  position: relative;
+  top: 5px;
+}
+
+.fadeOut{
+    opacity:0;
+    width:0;
+    height:0;
+    transition: width 0.5s , height 0.5s, ease-out 1.35s;
+    margin-left: 3%;
+
+}
+.fadeIn{
+    opacity:1;
+    width: 140px;
+    height:60px;
+    transition: width 0.5s , height 0.5s, ease-out 1.35s;
+    margin-left: -3%;
+
+}
+.areaNickName{
+    display: inline-block;
+    white-space: nowrap;
+    color: #000000;
+    padding-top: 0px;
+}
+
+.areaExpanded{
+    display: inline-block;
+    white-space: nowrap;
+    color: #5a5959;
+    padding-top: 0px;
+}

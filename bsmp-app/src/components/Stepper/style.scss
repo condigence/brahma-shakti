@@ -1,0 +1,28 @@
+.pageSlider-exit  {
+    z-index: 1;
+  }
+  
+  .pageSlider-enter{
+    z-index: 1;
+  }
+  
+  .pageSlider-enter.left  {
+    transform: translate3d(50%, 0, 0);
+  }
+  
+  .pageSlider-enter.right {
+    transform: translate3d(-50%, 0, 0);
+  }
+  
+  .pageSlider-exit.left {
+    transform: translate3d(-50%, 0, 0);
+  }
+  
+  .pageSlider-exit.right  {
+    transform: translate3d(50%, 0, 0);
+  }
+  
+  .pageSlider-enter.pageSlider-enter-active  {
+    transform: translate3d(0, 0, 0);
+    transition: all 400ms ease-in-out;
+  }

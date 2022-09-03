@@ -1,0 +1,73 @@
+// @import 'compass/css3';
+
+$n: 10;
+$r: 1.5em;
+$oa: -90deg;
+$ba: 360deg/$n;
+$hl: 2*$r;
+$rc: $hl/sin(.5*$ba);
+$ri: $hl/sin(.5*$ba);
+$dx: $ri - 2*$r;
+$sh: ();
+
+@for $i from 0 to $n {
+	$ca: $oa + $i*$ba;
+	$sh: $sh, 
+		$rc*cos($ca) $rc*sin($ca) currentcolor
+}
+
+body {
+	display: grid;
+	margin: 0;
+	height: 100vh;
+	filter: contrast(.65);
+	
+	&::before {
+		padding: $rc + 2*$r;
+		background: 
+			linear-gradient(45deg, 
+					#fafe92 9%, #ffb066, #ff9191, 
+					#e679c8, #974bb5 91%);
+		filter: contrast(1.5);
+		content: ''
+	}
+}
+
+div, ::before, ::after {
+	grid-column: 1;
+	grid-row: 1;
+	place-self: center;
+}
+
+.loader {
+	display: grid;
+	place-self: stretch;
+	background: #000;
+	filter: contrast(13);
+	mix-blend-mode: multiply;
+	
+	&::before, &::after {
+		padding: $r;
+		border-radius: 50%;
+		color: #fff;
+		filter: blur(13px);
+		content: ''
+	}
+	
+	&::before {
+		box-shadow: $sh
+	}
+	
+	&::after {
+		padding: 2*$r;
+		background: currentcolor;
+		animation: mov 3s ease-in-out infinite
+	}
+}
+
+@keyframes mov {
+	0%, 100% { transform: translatey(-$rc) }
+	25% { transform: translatey($rc) }
+	50% { transform: translate(-$dx) }
+	75% { transform: translate($dx) }
+}

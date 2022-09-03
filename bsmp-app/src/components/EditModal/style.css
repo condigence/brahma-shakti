@@ -1,0 +1,140 @@
+.modalEdit {
+    overflow: hidden;
+    padding: 10px;
+    position: fixed;
+    z-index: 999;
+    top: 32%;
+    margin-left: 20%;
+    border: solid 0.1px;
+    width: 50%;
+    min-width: 300px;
+    height: auto;
+    background: #fcf2ea;
+    border-radius: 4px;
+    box-shadow: -63px 3px 24px 800px rgb(0 0 0 / 20%), 3px -21px 26px 0px rgb(0 0 0 / 14%), 63px 3px 50px -33px rgb(0 0 0 / 12%);
+}
+@media (max-width: 450px) {
+    .modalEdit {
+        overflow: hidden;
+        padding: 8px;
+        position: fixed;
+        z-index: 999;
+        top: 32%;
+        margin-left: 10%;
+        border: solid 0.1px;
+        width: 50%;
+        min-width: 300px;
+        height: auto;
+        background: #fcf2ea;
+        border-radius: 4px;
+        box-shadow: -63px 3px 24px 800px rgb(0 0 0 / 20%), 3px -21px 26px 0px rgb(0 0 0 / 14%), 63px 3px 50px -33px rgb(0 0 0 / 12%);
+    }
+}
+.calDates{
+    max-width: 400px;
+    min-width: 80%;
+    padding-inline:30px;
+    margin-bottom: 10px;
+}
+.scheduleButtons{
+    display: flex;
+    justify-content: space-around;
+    padding: 3px;
+}
+.sbuttons{
+    border:solid;
+    padding: 4px;
+    border-radius: 14px;
+    background-color: #f6efef;
+    border-color: #b73807;
+    cursor: pointer;
+    box-shadow: 0px 7px 14px rgb(168 156 149);
+    border-width: 0px;
+}
+
+.sbuttons:hover{
+    background-color: #f7d6d6;
+}
+.sbuttons-a{
+    border:solid;
+    padding: 4px;
+    border-radius: 14px;
+    background-color: #f0b079;
+    border-color: #b73807;
+    cursor: pointer;
+    box-shadow: 0px 7px 14px rgb(168 156 149);
+    border-width: 0px;
+}
+
+.calenderEdit{
+    padding-inline: 4%;
+    display: flex;
+    flex-direction: row;
+}
+.editChanges{
+    padding-inline: 4%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.changesButtonDiscard {
+    border: solid;
+    padding: 4px;
+    border-radius: 14px;
+    background-color: #854545;
+    color: aliceblue;
+    cursor: pointer;
+    box-shadow: 0px 7px 14px rgb(168 156 149);
+    border-width: 0px;
+    margin-inline: 3%;
+}
+.changesButtonDiscard:hover{
+    background-color:#730606 ;
+}
+.changesButtonSave {
+    border: solid;
+    padding: 4px;
+    border-radius: 14px;
+    background-color: #6ea95c;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0px 7px 14px rgb(168 156 149);
+    border-width: 0px;
+}
+.changesButtonSave:hover{
+    background-color: #1e560e;
+}
+
+.react-calendar{
+    background-color: #eca660;
+    border-radius: 10px;
+    width: auto;
+    height: auto;
+    font-family: inherit;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+  }
+  
+  .react-calendar__month-view__days .react-calendar__month-view__days__day--neighboringMonth{
+    cursor:context-menu;
+  }
+
+  .react-calendar__tile:disabled {
+    background-color: #eca65f;
+  }
+  .react-calendar__tile--now {
+    background: #ec9742;
+  }.react-calendar__tile--active {
+    background-color: #eca65f;
+    color: white;
+  }
+
+  .highlight{
+    color: white;
+    border-radius: 22px;
+    background-color: rgb(77, 142, 54);
+  }
+
+  .highlightStartDate{
+    color: #fbf9f8;
+  }
