@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/brahmashakti")
+@RequestMapping("/api/brahmashakti")
 public class HomeController {
 
 

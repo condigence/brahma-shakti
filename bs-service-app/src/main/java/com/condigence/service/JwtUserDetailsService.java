@@ -1,13 +1,10 @@
 package com.condigence.service;
 
-import com.condigence.dto.ProfileDTO;
+import com.condigence.bean.ProfileBean;
+import com.condigence.bean.UserBean;
 import com.condigence.dto.UserDTO;
-import com.condigence.model.Profile;
 import com.condigence.model.User;
-import com.condigence.repository.ProfileRepository;
 import com.condigence.repository.UserRepository;
-
-import com.condigence.utils.OTPGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,6 +40,15 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public User findByUserContact(String contact) {
         return userDao.findByContact(contact);
+    }
+
+    public UserDTO save(UserBean userBean) {
+        ProfileBean profileBean = new ProfileBean();
+        profileBean.setImageId(userBean.getImageId());
+        profileBean.setContact(userBean.getContact());
+        profileBean.setEmail(userBean.getEmail());
+        profileBean.setName(userBean.getFirstName());
+        return userService.updateUserProfile(profileBean);
     }
 
     public UserDTO save(UserDTO userDTO) {

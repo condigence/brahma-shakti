@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/bs-wallet")
+@RequestMapping("/api/bs-wallet")
 public class WalletController {
 
 	public static final Logger logger = LoggerFactory.getLogger(WalletController.class);

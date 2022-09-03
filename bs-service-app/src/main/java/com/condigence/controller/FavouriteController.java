@@ -21,7 +21,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/bs-favourite")
+@RequestMapping("/api/bs-favourite")
 public class FavouriteController {
 
     public static final Logger logger = LoggerFactory.getLogger(FavouriteController.class);
@@ -40,7 +40,7 @@ public class FavouriteController {
         return favouriteService.getByUserId(userId);
     }
 
-    @GetMapping("/favourite")
+    @GetMapping("/")
     public ResponseEntity<List<FavouriteDTO>> getAll() {
         return ResponseEntity.ok().body(favouriteService.getAll());
     }

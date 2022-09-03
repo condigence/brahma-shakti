@@ -17,7 +17,6 @@ public class Address implements Serializable {
 
 	@Id
 	private String id;
-	private String userId;
 	private String type;
 	private String line1;
 	private String line2;
@@ -26,5 +25,7 @@ public class Address implements Serializable {
 	private String state;
 	private String country;
 	private String contact;
+	private String isDefault;
+	private String userId;
 	
 }

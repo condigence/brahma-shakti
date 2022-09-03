@@ -17,12 +17,14 @@ public class UserBean implements Serializable {
 
 	private String id;
 	private String firstName;
-	private String lastName;
 	private String email;
 	private String contact;
 	private String address;
-	private String username;
-	@JsonIgnore
-	private String password;
+	private String imageId;
+	private String profileId;
+	private String addressId;
+	private String type;
+
+
 	
 }

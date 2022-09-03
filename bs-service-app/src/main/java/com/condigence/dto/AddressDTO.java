@@ -24,5 +24,6 @@ public class AddressDTO implements Serializable {
     private String state;
     private String country;
     private String contact;
+    private String isDefault;
 
 }

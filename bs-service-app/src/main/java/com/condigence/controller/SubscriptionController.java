@@ -47,29 +47,6 @@ public class SubscriptionController {
 		}
 	}
 
-//	@PostMapping("/")
-//	public ResponseEntity<?> placeOrder(@RequestBody OrderBean orderBean) {
-//		logger.info("Entering placeOrder with Order Details >>>>>>>>  : {}", orderBean);
-//		HttpHeaders headers = new HttpHeaders();
-//		orderService.placeOrder(orderBean);
-//		return new ResponseEntity<>(headers, HttpStatus.CREATED);
-//	}
-//
-//	@SuppressWarnings({"unchecked", "rawtypes"})
-//	@DeleteMapping(value = "/{userId}")
-//	public ResponseEntity<?> cancelOrder(@PathVariable("userId") String userId) {
-//		logger.info("Fetching & Deleting Order with id {}", userId);
-//		OrderDTO item = orderService.getOrderByUserId(userId);
-//		if (item != null) {
-//			orderService.deleteOrderByUserId(userId);
-//		} else {
-//			logger.error("Unable to delete. Item with id {} not found.", userId);
-//			return new ResponseEntity(new CustomErrorType("Unable to delete. Order with userId " + userId + " not found."),
-//					HttpStatus.NOT_FOUND);
-//		}
-//		return new ResponseEntity<OrderDTO>(HttpStatus.OK);
-//	}
-
 }
 
 

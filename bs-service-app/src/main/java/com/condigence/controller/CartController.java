@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/bs-cart")
+@RequestMapping("/api/bs-cart")
 public class CartController {
 
 	public static final Logger logger = LoggerFactory.getLogger(CartController.class);

@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/bs-stock")
+@RequestMapping("/api/bs-stock")
 public class StockController {
 
 	public static final Logger logger = LoggerFactory.getLogger(StockController.class);
@@ -27,7 +27,7 @@ public class StockController {
 		return "Hello, I am doing fine!";
 	}
 
-	@GetMapping("/productId/{productId}")
+	@GetMapping("/{productId}")
 	public ResponseEntity<?> getStockByProductId(@PathVariable String productId) {
 		logger.info("Fetching Stock with userid {}", productId);
 		StockDTO stockDTO = stockService.findStockByProductId(productId);
@@ -39,7 +39,7 @@ public class StockController {
 		}
 	}
 
-	@PostMapping("/add/productId/{productId}")
+	@PostMapping("/{productId}")
 	public ResponseEntity<?> addStock(@RequestBody StockBean stockBean, @PathVariable String productId) {
 		logger.info("Entering addStock with Details >>>>>>>>  : {}", stockBean);
 		HttpHeaders headers = new HttpHeaders();
@@ -47,7 +47,7 @@ public class StockController {
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 
-	@PostMapping("/update/productId/{productId}")
+	@PutMapping("/{productId}")
 	public ResponseEntity<?> updateStockOnOrder(@RequestBody Integer orderedQuantity, @PathVariable String productId) {
 		logger.info("Entering updateStockOnOrder with Brand Details >>>>>>>>  : {}", orderedQuantity);
 		HttpHeaders headers = new HttpHeaders();

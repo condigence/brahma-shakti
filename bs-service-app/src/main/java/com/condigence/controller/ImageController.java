@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
-@RequestMapping("/bs-image")
+@RequestMapping("/api/bs-image")
 @CrossOrigin(origins = "*")
 public class ImageController {
 	

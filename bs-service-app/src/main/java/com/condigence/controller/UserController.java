@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/bs-user")
 public class UserController {
@@ -51,23 +51,27 @@ public class UserController {
         return userService.getUserByContact(contact);
     }
 
+    @GetMapping("/{id}")
+    public UserDTO getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
+    }
+
     @PostMapping(value = "/")
-    public ResponseEntity<?> addUser(@RequestBody UserDTO userDTO) {
-        logger.info("Entering addProduct with Product Details >>>>>>>>  : {}", userDTO);
+    public ResponseEntity<?> addUser(@RequestBody UserBean userBean) {
+        logger.info("Entering addUser with User Details >>>>>>>>  : {}", userBean);
         HttpHeaders headers = new HttpHeaders();
-        userDetailsService.save(userDTO);
+        userDetailsService.save(userBean);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
         logger.info("Fetching & Deleting Item with id {}", id);
-        UserDTO user = userService.getUserById(id);
-        if (user != null && !user.getId().equalsIgnoreCase("0")) {
+        if (id != null && !id.equalsIgnoreCase("0")) {
             userService.deleteById(id);
         } else {
-            logger.error("Unable to delete. Product with id {} not found.", id);
-            return new ResponseEntity(new CustomErrorType("Unable to delete. Product with id " + id + " not found."),
+            logger.error("Unable to delete. with id {} not found.", id);
+            return new ResponseEntity(new CustomErrorType("Unable to delete. with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<UserDTO>(HttpStatus.OK);
