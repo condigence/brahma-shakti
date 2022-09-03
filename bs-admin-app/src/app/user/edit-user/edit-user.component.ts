@@ -48,7 +48,7 @@ export class EditUserComponent implements OnInit {
       imageId: [''],
       pic: [''],
     });
-    this.userService.getUserById(+id).subscribe((data) => {
+    this.userService.getUserById(id).subscribe((data) => {
       // Set for all
       //  this.editForm.setValue(data[0]);
 

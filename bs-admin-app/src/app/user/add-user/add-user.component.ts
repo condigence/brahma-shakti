@@ -22,11 +22,6 @@ export class AddUserComponent implements OnInit {
   messageToSendP = 'PROFILE';
   mandatoryFields = '* Mandatory fields';
 
-  userType = [
-    { id: 2, name: 'CUSTOMER' },
-    { id: 3, name: 'VENDOR' },
-  ];
-
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -36,7 +31,7 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit() {
     this.addForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      //name: ['', Validators.required],
       contact: [
         '',
          [
@@ -48,7 +43,7 @@ export class AddUserComponent implements OnInit {
       ],
      // email: ['', [Validators.required, Validators.email]],
       email: [''],
-      type: [''],
+      firstName: [''],
       imageId: [''],
     });
 

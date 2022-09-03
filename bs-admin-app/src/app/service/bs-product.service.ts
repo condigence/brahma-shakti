@@ -17,18 +17,15 @@ export class BSProductService {
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl = 'http://localhost:9091/neerseva/api/v1/brands/';
+  private baseUrl = environment.BS_API_URL;
 
 
   private itemUrl = environment.PRODUCT_API_URL;
 
   getAllProdcts() {
-    return this.http.get<BSProduct[]>(this.itemUrl);
+    return this.http.get<BSProduct[]>(this.baseUrl+'api/bs-products');
   }
 
-
-
-  
 
   getProductById(id: number) {
     return this.http.get<Product>(this.baseUrl + '/' + id);

@@ -26,7 +26,6 @@
                     <th>Name</th>
                     <th>Contact</th>
                     <th>Email</th>
-                    <th>User Type</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -44,7 +43,6 @@
                     <td>{{ user.firstName || "N/A" }}</td>
                     <td>{{ user.contact || "N/A" }}</td>
                     <td>{{ user.email || "N/A" }}</td>
-                    <td>{{ user.type || "N/A" }}</td>
                     <td>
                       <a (click)="updateUser(user)" class="btn btn-sm btn-primary" style="margin: 5px;"><i
                           class="zmdi zmdi-edit" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>

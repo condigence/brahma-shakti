@@ -43,14 +43,17 @@ export class UserService {
     return this.http.put(this.baseUrl+'api/bs-profile/update', user);
   }
 
+  deleteUser(id: string) {
+    return this.http.delete(this.baseUrl+'api/bs-user/' + id);
+  }
 
-  // updateProfile(user: any) {    
-  //   return this.http.put(this.baseUrl+'api/bs-profile/update', user);
-  // }
+  addUser(user: User) {
+    return this.http.post(this.baseUrl+'api/bs-user/', user);
+  }
 
-  // getProfileByUserId(userId: any): Observable<Profile> {
-  //   return this.http.get<Profile>(this.baseUrl + 'api/bs-profile/my-profile/'+userId);
-  // }
+  getUserById(id: any): Observable<User> {
+    return this.http.get<User>(this.baseUrl +'api/bs-user/'+ id);
+  }
 
     ///// Brahma Shakti APIS ends here 
 
@@ -66,17 +69,11 @@ export class UserService {
 
 
 
-  getUserById(id: any): Observable<User> {
-    return this.http.get<User>(this.usersAPI + id);
-  }
 
-  deleteUser(id: string) {
-    return this.http.delete(this.usersAPI + id);
-  }
 
-  addUser(user: User) {
-    return this.http.post(this.usersAPI, user);
-  }
+
+
+
 
 
 

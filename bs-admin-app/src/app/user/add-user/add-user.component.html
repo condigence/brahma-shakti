@@ -14,17 +14,17 @@
                 <ng-container class="invalid-feedback"><strong>{{ error.error.errorMessage }}</strong></ng-container>
               </div>
               <div class="form-group row">
-                <label for="name" class="col-sm-2 col-form-label">Name
+                <label for="name" class="col-sm-2 col-form-label">First Name
                   <span style="color: red;">*</span>
                 </label>
                 <div class="col-sm-10">
-                  <input formControlName="name" type="text" placeholder="Enter your Name" class="form-control" id="name"
-                    name="name" [ngClass]="{
-                      'is-invalid': submitted && f.name.errors
+                  <input formControlName="firstName" type="text" placeholder="Enter your firstName" class="form-control" id="firstName"
+                    name="firstName" [ngClass]="{
+                      'is-invalid': submitted && f.firstName.errors
                     }" />
-                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                    <ng-container *ngIf="f.name.errors.required">
-                      <strong> Name is required</strong>
+                  <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                    <ng-container *ngIf="f.firstName.errors.required">
+                      <strong> firstName is required</strong>
                     </ng-container>
                   </div>
                 </div>
@@ -35,7 +35,7 @@
                 </label>
                 <div class="col-sm-10">
                   <input placeholder="Enter  your Contact" formControlName="contact" type="text" class="form-control"
-                    id="contact" name="contact" numbersOnly [ngClass]="{
+                    id="contact" name="contact" maxlength="10" numbersOnly [ngClass]="{
                       'is-invalid': submitted && f.contact.errors
                     }" />
                   <!-- <div *ngIf="f.contact.pending" style="color: red;">
@@ -84,26 +84,7 @@
                 </div>
               </div>
 
-              <div class="form-group row">
-                <label for="type" class="col-sm-2 col-form-label">User Type
-                  <!-- <span>(Optional)</span> -->
-                </label>
-                <div class="col-sm-10">
-                  <select (change)="changeUserType($event)" class="form-control" formControlName="type" id="type"
-                    [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
-                    <option value="">Select Role</option>
-                    <option *ngFor="let type of userType" [value]="type.name">{{
-                      type.name
-                    }}</option>
-                  </select>
-                  <div class="invalid-feedback" *ngIf="submitted && handleError('type', 'required')">
-                    <strong>
-                      You must select a user type!
-                    </strong>
-                  </div>
-                </div>
-              </div>
-
+              
               <div class="form-group row">
                 <label class="col-lg-2 col-form-label form-control-label">Image
                   <!-- <span>(Optional)</span> -->
