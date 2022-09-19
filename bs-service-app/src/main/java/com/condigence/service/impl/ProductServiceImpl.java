@@ -158,6 +158,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void saveAllProducts(List<Product> products) {
+        repository.saveAll(products);
+    }
+
+    @Override
     public List<Product> getProductByName(String name) {
         List<Product> products = new ArrayList<>();
         List<Product> list = repository.findAll();

@@ -28,6 +28,8 @@ public interface ProductService {
 
 	void saveAll(List<ProductBean> products);
 
+	void saveAllProducts(List<Product> products);
+
 //	List<Product> getProductByCondition(Product product);
 
 	 Page<Product> findAllProductsPageable(Pageable pageable);
