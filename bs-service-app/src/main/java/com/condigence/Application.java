@@ -1,9 +1,14 @@
 package com.condigence;
 
+
+import com.condigence.bean.ProductBean;
+import com.condigence.dto.ProductDTO;
 import com.condigence.model.*;
 import com.condigence.repository.*;
-//import com.condigence.utils.HelperUtil;
-import com.condigence.utils.HelperUtil;
+import com.condigence.service.ProductService;
+import com.condigence.utils.ProductData;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +19,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,11 +28,75 @@ import java.util.List;
 @EnableMongoRepositories
 public class Application extends SpringBootServletInitializer {
 
+    public static final Logger logger = LoggerFactory.getLogger(Application.class);
 
+    private final String PRODUCTS_JSON = "/data/products.json";
+
+//    @Autowired
+//    ProductRepository productRepository;
+
+    @Autowired
+    ProductService productService;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+
+    @Bean
+    CommandLineRunner runner() {
+        return args -> {
+
+            try {
+                List<ProductDTO> products = productService.getAll();
+                if (products.size() == 0) {
+                    logger.info("******* Inserting Products to DB *******");
+
+                    TypeReference<List<ProductData>> typeReference = new TypeReference<List<ProductData>>() {
+                    };
+                    InputStream inputStream = TypeReference.class.getResourceAsStream(PRODUCTS_JSON);
+                    List<ProductData> productsData = new ObjectMapper().readValue(inputStream, typeReference);
+
+                    if (productsData != null && !productsData.isEmpty()) {
+                        List<Product> list = new ArrayList<>();
+                        for(ProductData pd : productsData){
+                            Product product = new Product();
+                            product.setImageLink(pd.getImage());
+                            product.setDiscount(pd.getDiscount());
+                            product.setName(pd.getTitle());
+                            product.setDisplayPrice(pd.getPrice());
+                            product.setUnit(pd.getUnit());
+                            product.setDescription(pd.getDescription());
+                            product.setQuantityInStock(pd.getStockLeft());
+                            product.setCategory(pd.getCategory());
+                            product.setType(pd.getType());
+                            product.setRating(pd.getRating());
+                            product.setPrice(pd.getPrice());
+                            product.setSubscribable(pd.isSubscribable());
+                            if (pd.getPromoCodes() != null) {
+                                product.setOffers(pd.getPromoCodes());
+                            }
+                            list.add(product);
+                        }
+                        productService.saveAllProducts(list);
+                    }
+
+                } else {
+                    logger.info("******* Products stored in DB Size :: {}", products.size());
+                    logger.info("******* Products stored in DB :: {}", products);
+                }
+
+
+            } catch (Exception e) {
+                logger.info("******* Error while Saving *******");
+            }
+
+
+        };
+
+
+    }
+
 
 //    @Bean
 //    CommandLineRunner runner() {

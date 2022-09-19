@@ -31,6 +31,4 @@ public class Product implements Serializable {
 	private double rating;
 	private boolean isSubscribable;
 	private int quantity;
-
-	
 }
