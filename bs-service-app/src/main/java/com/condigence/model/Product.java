@@ -21,10 +21,11 @@ public class Product implements Serializable {
 	private int quantityInStock;
 	private String imageLink;
 	private String description;
-	private BigDecimal displayPrice;
-	private BigDecimal price;
+	private int displayPrice;
+	private int price;
 	private String unit;
 	private String category;
+	private String type;
 	private String offers;
 	private int discount;
 	private double rating;

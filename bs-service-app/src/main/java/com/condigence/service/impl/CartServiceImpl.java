@@ -14,7 +14,6 @@ import com.condigence.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -167,10 +166,17 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public BigDecimal getTotal() {
-		return products.entrySet().stream()
-				.map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
-				.reduce(BigDecimal::add)
-				.orElse(BigDecimal.ZERO);
+	public Integer getTotal() {
+		Integer sum = 0;
+//		return products.entrySet().stream()
+//				.map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
+//				.reduce(BigDecimal::add)
+//				.orElse(BigDecimal.ZERO);
+		for (Product p:products.keySet()) {
+			sum = p.getPrice() * p.getQuantity();
+		}
+
+		return sum;
+
 	}
 }

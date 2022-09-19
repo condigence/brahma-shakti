@@ -44,6 +44,15 @@ public class ProductController {
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 
+	@PostMapping(value = "/addAll")
+	public ResponseEntity<?> addProducts(@RequestBody List<ProductBean> products) {
+
+		logger.info("Entering addAllProduct with Products Details >>>>>>>>  : {}", products);
+		HttpHeaders headers = new HttpHeaders();
+		productService.saveAll(products);
+		return new ResponseEntity<>(headers, HttpStatus.CREATED);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProductById(@PathVariable String id ) {
 		ProductDTO product = productService.getProductById(id);

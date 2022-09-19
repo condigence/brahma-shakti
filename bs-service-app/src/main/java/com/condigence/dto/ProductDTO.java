@@ -1,9 +1,6 @@
 package com.condigence.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
@@ -13,6 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class ProductDTO implements Serializable {
 
 	private String id;
@@ -21,10 +19,12 @@ public class ProductDTO implements Serializable {
 	private String image;
 	private String unit;
 	private String description;
-	private BigDecimal price;
+	private int price;
 	private int discount;
-	private String[] promoCodes;
+	private String promoCodes;
 	private String category;
+	private String type;
 	private double rating;
 	private boolean isSubscribable;
+
 }

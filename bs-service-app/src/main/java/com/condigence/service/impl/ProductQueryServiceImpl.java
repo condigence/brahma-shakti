@@ -32,16 +32,16 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 			productDTO.setCategory(product.getCategory());
 			productDTO.setDescription(product.getDescription());
 			productDTO.setDiscount(product.getDiscount());
-			if(product.getOffers() != null ){
-				if(product.getOffers().contains(",")){
-					productDTO.setPromoCodes(product.getOffers().split(","));
-				}else if(!product.getOffers().equalsIgnoreCase("")){
-					productDTO.setPromoCodes(new String[] {product.getOffers()});
-				}else{
-					productDTO.setPromoCodes(new String[] {"NA"});
-				}
-
-			}
+//			if(product.getOffers() != null ){
+//				if(product.getOffers().contains(",")){
+//					productDTO.setPromoCodes(product.getOffers().split(","));
+//				}else if(!product.getOffers().equalsIgnoreCase("")){
+//					productDTO.setPromoCodes(new String[] {product.getOffers()});
+//				}else{
+//					productDTO.setPromoCodes(new String[] {"NA"});
+//				}
+//
+//			}
 			productDTO.setStockLeft(product.getQuantityInStock());
 			productDTO.setRating(product.getRating());
 

@@ -20,7 +20,7 @@ public class CategoryController {
         return "Hello Spring boot";
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Category> getAll() {
         return categoryService.getAll();
     }

@@ -21,7 +21,7 @@ public class CartDetailDTO implements Serializable {
 	private int itemQuantity;
 	private int itemCount;
 	private String unit;
-	private BigDecimal price;
+	private int price;
 	private int totalAmount;
 	private int discount;
 	

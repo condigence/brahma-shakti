@@ -20,10 +20,11 @@ public class ProductBean implements Serializable {
 	private String image;
 	private String unit;
 	private String description;
-	private BigDecimal price;
+	private int price;
 	private int discount;
-	private String[] promoCodes;
+	private String promoCodes;
 	private String category;
+	private String type;
 	private double rating;
 	private boolean isSubscribable;
 }
