@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUserProfile(ProfileBean profileBean) {
 
-        User user = new User();
+        User user = userRepository.findById(profileBean.getId()).get();
         Profile profile = new Profile();
         Image image = new Image();
 

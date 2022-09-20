@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @SpringBootApplication
 @EnableMongoRepositories
 public class Application extends SpringBootServletInitializer {
@@ -31,9 +30,6 @@ public class Application extends SpringBootServletInitializer {
     public static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     private final String PRODUCTS_JSON = "/data/products.json";
-
-//    @Autowired
-//    ProductRepository productRepository;
 
     @Autowired
     ProductService productService;
@@ -85,16 +81,10 @@ public class Application extends SpringBootServletInitializer {
                     logger.info("******* Products stored in DB Size :: {}", products.size());
                     logger.info("******* Products stored in DB :: {}", products);
                 }
-
-
             } catch (Exception e) {
                 logger.info("******* Error while Saving *******");
             }
-
-
         };
-
-
     }
 
 

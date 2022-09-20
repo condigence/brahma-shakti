@@ -15,7 +15,9 @@
     <name>bs-service-app</name>
     <description>Condigence project for BrahmaShakti</description>
 
-    <packaging>war</packaging>
+    <!-- Need to comment this on Local setup-->
+<!--    <packaging>war</packaging>-->
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -125,18 +127,26 @@
             <artifactId>razorpay-java</artifactId>
             <version>1.3.9</version>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <!-- Need to comment this on local setup -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
     </dependencies>
 
     <build>
-        <finalName>brahmashakti</finalName>
+        <!-- Need to comment this on local setup -->
+<!--        <finalName>brahmashakti</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
