@@ -62,8 +62,14 @@ public class UserController {
     public ResponseEntity<?> addUser(@RequestBody UserBean userBean) {
         logger.info("Entering addUser with User Details >>>>>>>>  : {}", userBean);
         HttpHeaders headers = new HttpHeaders();
-        userDetailsService.save(userBean);
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        if(userService.isUserExists(userBean.getContact())){
+            return new ResponseEntity(new CustomErrorType("Sorry User already. Exists with the contact : "+userBean.getContact()),
+                    HttpStatus.CONFLICT);
+        }else{
+            userDetailsService.save(userBean);
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        }
+
     }
 
     @DeleteMapping(value = "/{id}")

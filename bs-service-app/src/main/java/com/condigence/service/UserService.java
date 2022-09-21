@@ -27,7 +27,9 @@ public interface UserService {
 
     void deleteById(String id);
 
-    UserDTO saveUser(UserDTO userDTO);
+    UserDTO saveUser(UserBean user);
+
+    boolean isUserExists(String contact);
 
     // Wallet
 

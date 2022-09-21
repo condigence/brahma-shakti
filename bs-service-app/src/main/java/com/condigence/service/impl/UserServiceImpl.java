@@ -283,33 +283,47 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByContact(contact);
     }
 
-    public UserDTO saveUser(UserDTO userDTO) {
+    public UserDTO saveUser(UserBean userBean) {
+
         User user = new User();
-        // user.setUsername(userDTO.getUsername());
-        //user.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
-        user.setEmail(userDTO.getEmail());
-        user.setContact(userDTO.getContact());
-        //user.setLastName(userDTO.getLastName());
-        user.setFirstName(userDTO.getFirstName());
-        //user.setAddress(userDTO.getAddress());
-        //user.setOtp(bcryptEncoder.encode(OTPGenerator.getRandomNumberString()));
+        user.setEmail(userBean.getEmail());
+        user.setContact(userBean.getContact());
+        user.setFirstName(userBean.getFirstName());
 
         Profile profile = new Profile();
-        if (userDTO.getProfile() != null) {
-            profile = profileRepository.findById(userDTO.getProfile().getId()).get();
+        profile.setImageId(userBean.getImageId());
+        if (userBean.getProfileId() != null) {
+            profile = profileRepository.findById(userBean.getProfileId()).get();
             user.setProfileId(profile.getId());
         } else {
             profile = profileRepository.save(profile);
             user.setProfileId(profile.getId());
         }
-
         user.setOtp("1234");
         User userObj = userRepository.save(user);
+
+        UserDTO userDTO = new UserDTO();
         userDTO.setId(userObj.getId());
         userDTO.setContact(userObj.getContact());
+        userDTO.setEmail(userObj.getEmail());
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setId(userObj.getProfileId());
+        profileDTO.setFullName(userObj.getFirstName());
+        Image image = imageRepository.findById(profile.getImageId()).get();
+        ImageDTO imageDTO = new ImageDTO();
+        imageDTO.setId(image.getId());
+        imageDTO.setPic(image.getPic());
+        imageDTO.setName(image.getName());
+        profileDTO.setImage(imageDTO);
+        userDTO.setProfile(profileDTO);
 
         return userDTO;
 
+    }
+
+    @Override
+    public boolean isUserExists(String contact) {
+        return userRepository.findByContact(contact) != null? true : false;
     }
 
     /////////////////////////////

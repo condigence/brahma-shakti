@@ -1,5 +1,6 @@
 package com.condigence.controller;
 
+import com.condigence.bean.UserBean;
 import com.condigence.config.JwtRequest;
 import com.condigence.config.JwtResponse;
 import com.condigence.config.JwtTokenUtil;
@@ -55,11 +56,12 @@ public class JwtAuthenticationController {
         logger.info("Entering generateOTP with user contact number >>>>>>>>  : {}", userDTO.getContact());
 
         String contactNumber= userDTO.getContact();
-        // Check If User exist already
+
         if (contactNumber == null || contactNumber == "") {
             logger.info("Please provide contact!");
             return new ResponseEntity(new CustomErrorType("Please provide contact!"), HttpStatus.NOT_FOUND);
         }
+        // Check If User exist already
         // Verify Contact
         User userDetails = userDetailsService.findByUserContact(contactNumber);
         if (userDetails != null) {
@@ -68,7 +70,6 @@ public class JwtAuthenticationController {
             return new ResponseEntity(userDTO, HttpStatus.OK);
         } else {
             logger.info("User not Registered! OTP Generated!");
-            userDetailsService.save(userDTO);
             userDTO.setRegistered(false);
             return new ResponseEntity(userDTO, HttpStatus.OK);
         }
@@ -82,12 +83,12 @@ public class JwtAuthenticationController {
         // HttpHeaders headers = new HttpHeaders();
         System.out.println("Inside verifyOTP with contact " + userDTO.getContact());
 
-        User userDetails = userDetailsService.findByUserContact(userDTO.getContact());
-
-        if (userDetails != null) {
-            System.out.println("User present");
-            if (userDetails.getOtp() != null && userDetails.getOtp().equalsIgnoreCase(userDTO.getOtp())) {
+            if (userDTO.getOtp() != null && userDTO.getOtp().equalsIgnoreCase(getGOTP())) {
                 System.out.println("OTP Match");
+                User userDetails = userDetailsService.findByUserContact(userDTO.getContact());
+                if(!userDTO.isRegistered() && userDetails == null){
+                    userDetails = userDetailsService.saveNewUser(userDTO);
+                }
                 userDTO.setRegistered(true);
                 userDTO.setContact(userDetails.getContact());
                 userDTO.setFirstName(userDetails.getFirstName());
@@ -95,21 +96,21 @@ public class JwtAuthenticationController {
                 userDTO.setLastName(userDetails.getLastName());
                 userDTO.setId(userDetails.getId());
                 userDTO.setOtp("****");
-                return new ResponseEntity(userDTO, HttpStatus.OK);
+                //202 Accepted => OTP validation Successful
+                return new ResponseEntity(userDTO, HttpStatus.ACCEPTED);
             } else {
                 System.out.println("OTP did not Match");
                 //count
                 //
-                return new ResponseEntity(new CustomErrorType("Sorry, Invalid OTP. Try again!"), HttpStatus.NOT_FOUND);
+
+               // 401 => OTP is not valid ( Unauthorized ).
+                return new ResponseEntity(new CustomErrorType("Sorry, OTP is not valid. Try again!"), HttpStatus.UNAUTHORIZED);
             }
-
-        } else {
-            userDTO.setRegistered(false);
-            return new ResponseEntity(userDTO, HttpStatus.OK);
-        }
-
     }
 
+    private String getGOTP() {
+        return "1234";
+    }
 
 
     private void authenticate(String username, String password) throws Exception {

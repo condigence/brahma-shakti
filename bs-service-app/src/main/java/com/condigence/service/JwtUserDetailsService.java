@@ -3,7 +3,9 @@ package com.condigence.service;
 import com.condigence.bean.ProfileBean;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.UserDTO;
+import com.condigence.model.Profile;
 import com.condigence.model.User;
+import com.condigence.repository.ProfileRepository;
 import com.condigence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,9 @@ import java.util.ArrayList;
 public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userDao;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
 
     @Autowired
@@ -43,15 +48,15 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public UserDTO save(UserBean userBean) {
-        ProfileBean profileBean = new ProfileBean();
-        profileBean.setImageId(userBean.getImageId());
-        profileBean.setContact(userBean.getContact());
-        profileBean.setEmail(userBean.getEmail());
-        profileBean.setName(userBean.getFirstName());
-        return userService.updateUserProfile(profileBean);
+        return userService.saveUser(userBean);
     }
 
-    public UserDTO save(UserDTO userDTO) {
-        return userService.saveUser(userDTO);
+    public User saveNewUser(UserDTO userDTO) {
+        User user = new User();
+        user.setContact(userDTO.getContact());
+        user.setOtp("1234");
+        Profile profile = new Profile();
+        user.setProfileId(profileRepository.save(profile).getId());
+        return userDao.save(user);
     }
 }
