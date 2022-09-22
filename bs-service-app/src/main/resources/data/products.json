@@ -2,7 +2,7 @@
   {
     "category": "Dairy Products",
     "description": "Regular Dairy Product BUFFALO MILK",
-    "discount": 0,
+    "discount": 5,
     "image": "https://fakeimg.pl/300/",
     "price": 70,
     "promoCodes": "NONE",
@@ -10,13 +10,13 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "BUFFALO MILK",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
     "description": "Regular Dairy Product COW MILK",
-    "discount": 0,
+    "discount": 10,
     "image": "https://fakeimg.pl/300/",
     "price": 55,
     "promoCodes": "NONE",
@@ -24,13 +24,13 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "COW MILK",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
     "description": "Regular Dairy Product BUFFALO GHEE",
-    "discount": 0,
+    "discount": 14,
     "image": "https://fakeimg.pl/300/",
     "price": 650,
     "promoCodes": "NONE",
@@ -38,13 +38,13 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "BUFFALO GHEE",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
     "description": "Regular Dairy Product COW GHEE",
-    "discount": 0,
+    "discount": 5,
     "image": "https://fakeimg.pl/300/",
     "price": 750,
     "promoCodes": "NONE",
@@ -52,13 +52,13 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "COW GHEE",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
     "description": "Regular Dairy Product PANEER",
-    "discount": 0,
+    "discount": 10,
     "image": "https://fakeimg.pl/300/",
     "price": 320,
     "promoCodes": "NONE",
@@ -66,8 +66,8 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "PANEER",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "Home",
+    "unit": "KG"
   },
   {
     "category": "Dairy Products",
@@ -80,8 +80,8 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "DAHI",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
@@ -94,8 +94,8 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "CREAM",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
@@ -108,8 +108,8 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "LASSI",
-    "type": "Regular Product",
-    "unit": "in Liter"
+    "productType": null,
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
@@ -122,13 +122,13 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "MAKKHAN",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": null,
+    "unit": "L"
   },
   {
     "category": "Dairy Products",
     "description": "Regular Dairy Product KHOYA",
-    "discount": 0,
+    "discount": 20,
     "image": "https://fakeimg.pl/300/",
     "price": 320,
     "promoCodes": "NONE",
@@ -136,8 +136,8 @@
     "stockLeft": 500,
     "subscribable": true,
     "title": "KHOYA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": null,
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -148,10 +148,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "MALAI CHAP",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "Home",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -162,24 +162,24 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "BADAM PAKIJA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Sweets",
     "description": "This Product made from pure Ghee",
-    "discount": 0,
+    "discount": 28,
     "image": "https://fakeimg.pl/300/",
     "price": 400,
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "CHENA CUTLET",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "Home",
+    "unit": "L"
   },
   {
     "category": "Sweets",
@@ -190,10 +190,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "PAKIJA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -204,10 +204,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "ANARKALI",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -218,24 +218,24 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "KAMALKALI",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
     "description": "This Product made from pure Ghee",
-    "discount": 0,
+    "discount": 30,
     "image": "https://fakeimg.pl/300/",
     "price": 400,
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "KAMALBHOG",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -246,10 +246,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "CHENA TOAST",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -260,10 +260,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "CHOCLET MADHURI",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -274,10 +274,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "AGARA PETHA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -288,10 +288,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "ANGURI PETHA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -302,10 +302,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "KESAR PETHA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -316,10 +316,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "KANCHA PETHA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -330,24 +330,24 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "MOTICHUR LADDOO",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
     "description": "This Product made from pure Ghee",
-    "discount": 0,
+    "discount": 56,
     "image": "https://fakeimg.pl/300/",
     "price": 300,
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "BESAN LADDOO",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -358,10 +358,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "DRY FRUIT LADDOO",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -372,10 +372,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "JODHPURI LADDOO",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -386,10 +386,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "HARYANA LADDOO",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -400,10 +400,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "BROWN BARFI",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -414,10 +414,10 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "BROWN PEDA",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
@@ -428,23 +428,23 @@
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "MAWA KATALI",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   },
   {
     "category": "Sweets",
     "description": "This Product made from pure Ghee",
-    "discount": 0,
+    "discount": 30,
     "image": "https://fakeimg.pl/300/",
     "price": 800,
     "promoCodes": "NONE",
     "rating": 5,
     "stockLeft": 500,
-    "subscribable": true,
+    "subscribable": false,
     "title": "KAJU BARFI",
-    "type": "Regular Product",
-    "unit": "in KG"
+    "productType": "",
+    "unit": "KG"
   }
 ]

@@ -24,7 +24,7 @@ public class ProductBean implements Serializable {
 	private int discount;
 	private String promoCodes;
 	private String category;
-	private String type;
+	private String productType;
 	private double rating;
 	private boolean isSubscribable;
 }

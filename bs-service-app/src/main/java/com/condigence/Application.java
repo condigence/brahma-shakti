@@ -1,10 +1,8 @@
 package com.condigence;
 
 
-import com.condigence.bean.ProductBean;
 import com.condigence.dto.ProductDTO;
 import com.condigence.model.*;
-import com.condigence.repository.*;
 import com.condigence.service.ProductService;
 import com.condigence.utils.ProductData;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -57,21 +55,21 @@ public class Application extends SpringBootServletInitializer {
                         List<Product> list = new ArrayList<>();
                         for(ProductData pd : productsData){
                             Product product = new Product();
-                            product.setImageLink(pd.getImage());
-                            product.setDiscount(pd.getDiscount());
-                            product.setName(pd.getTitle());
-                            product.setDisplayPrice(pd.getPrice());
-                            product.setUnit(pd.getUnit());
-                            product.setDescription(pd.getDescription());
-                            product.setQuantityInStock(pd.getStockLeft());
                             product.setCategory(pd.getCategory());
-                            product.setType(pd.getType());
-                            product.setRating(pd.getRating());
+                            product.setDescription(pd.getDescription());
+                            product.setDiscount(pd.getDiscount());
+                            product.setImageLink(pd.getImage());
                             product.setPrice(pd.getPrice());
-                            product.setSubscribable(pd.isSubscribable());
-                            if (pd.getPromoCodes() != null) {
+                            if (pd.getPromoCodes() != null && !pd.getPromoCodes().equalsIgnoreCase("")) {
                                 product.setOffers(pd.getPromoCodes());
                             }
+                            product.setRating(pd.getRating());
+                            product.setQuantityInStock(pd.getStockLeft());
+                            product.setSubscribable(pd.isSubscribable());
+                            product.setName(pd.getTitle());
+                            product.setProductType(pd.getProductType());
+                            product.setUnit(pd.getUnit());
+                            product.setDisplayPrice(pd.getPrice());
                             list.add(product);
                         }
                         productService.saveAllProducts(list);

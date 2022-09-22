@@ -17,6 +17,9 @@ public class Product implements Serializable {
 
 	@Id
 	private String id;
+
+
+
 	private String name;
 	private int quantityInStock;
 	private String imageLink;
@@ -25,10 +28,16 @@ public class Product implements Serializable {
 	private int price;
 	private String unit;
 	private String category;
-	private String type;
+	private String productType;
 	private String offers;
 	private int discount;
 	private double rating;
 	private boolean isSubscribable;
 	private int quantity;
+
+
+
+
+
+
 }

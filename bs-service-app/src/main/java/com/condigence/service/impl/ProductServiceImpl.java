@@ -42,21 +42,21 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = repository.findAll();
         for (Product product : products) {
             ProductDTO productDTO = new ProductDTO();
-            productDTO.setId(product.getId());
-            productDTO.setImage(product.getImageLink());
-            productDTO.setDiscount(product.getDiscount());
-            productDTO.setTitle(product.getName());
-            productDTO.setPrice(product.getPrice());
-            productDTO.setUnit(product.getUnit());
-            productDTO.setDescription(product.getDescription());
-            productDTO.setStockLeft(product.getQuantityInStock());
             productDTO.setCategory(product.getCategory());
-            productDTO.setRating(product.getRating());
-            productDTO.setSubscribable(product.isSubscribable());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setDiscount(product.getDiscount());
+            productDTO.setImage(product.getImageLink());
+            productDTO.setPrice(product.getPrice());
             populateOffers(productDTO, product);
+            productDTO.setRating(product.getRating());
+            productDTO.setStockLeft(product.getQuantityInStock());
+            productDTO.setSubscribable(product.isSubscribable());
+            productDTO.setTitle(product.getName());
+            productDTO.setProductType(product.getProductType());
+            productDTO.setUnit(product.getUnit());
+            productDTO.setId(product.getId());
             productDTOS.add(productDTO);
         }
-
         return productDTOS;
     }
 
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productBean.getDescription());
         product.setQuantityInStock(productBean.getStockLeft());
         product.setCategory(productBean.getCategory());
-        product.setType(productBean.getType());
+        product.setProductType(productBean.getProductType());
         product.setRating(productBean.getRating());
         product.setPrice(productBean.getPrice());
         product.setSubscribable(productBean.isSubscribable());
@@ -137,21 +137,21 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = new ArrayList<>();
         for(ProductBean productBean : products){
             Product product = new Product();
-            product.setImageLink(productBean.getImage());
-            product.setDiscount(productBean.getDiscount());
-            product.setName(productBean.getTitle());
-            product.setDisplayPrice(productBean.getPrice());
-            product.setUnit(productBean.getUnit());
-            product.setDescription(productBean.getDescription());
-            product.setQuantityInStock(productBean.getStockLeft());
             product.setCategory(productBean.getCategory());
-            product.setType(productBean.getType());
-            product.setRating(productBean.getRating());
+            product.setDescription(productBean.getDescription());
+            product.setDiscount(productBean.getDiscount());
+            product.setImageLink(productBean.getImage());
             product.setPrice(productBean.getPrice());
-            product.setSubscribable(productBean.isSubscribable());
-            if (productBean.getPromoCodes() != null && !productBean.getPromoCodes().isEmpty()) {
+            if (productBean.getPromoCodes() != null && !productBean.getPromoCodes().equalsIgnoreCase("")) {
                 product.setOffers(productBean.getPromoCodes());
             }
+            product.setRating(productBean.getRating());
+            product.setQuantityInStock(productBean.getStockLeft());
+            product.setSubscribable(productBean.isSubscribable());
+            product.setName(productBean.getTitle());
+            product.setProductType(productBean.getProductType());
+            product.setUnit(productBean.getUnit());
+            product.setDisplayPrice(productBean.getPrice()+productBean.getDiscount());
             productList.add(product);
         }
         repository.saveAll(productList);
