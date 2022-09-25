@@ -62,7 +62,7 @@ export class OTPComponent implements OnInit {
     const contact = localStorage.getItem('userContact');
     this.otpForm.controls.contact.setValue(contact);
     console.log("inside validate otp");
-    if (this.route.snapshot.queryParamMap.get('registered') == 'true') {
+   // if (this.route.snapshot.queryParamMap.get('registered') == 'true') {
       
       this.authenticationService.validateOTP(this.otpForm.value)
         .pipe(first())
@@ -98,24 +98,37 @@ export class OTPComponent implements OnInit {
             this.error = error;
           });
 
-    } else {
+  //  } else {
 
-      Swal.fire({
-        icon: 'success',
-        width: 600,
-        padding: '3em',
-        title: 'Your are Logged in!',
-        text: 'Welcome to BrahmaShakti!',
-        timer: 5000,
-        timerProgressBar: true,
-        footer: `<strong style="color:purple;">Please Login again and complete your Profile!</strong>`,
-        backdrop: `
-          rgba(0,0,123,0.4)
-          left top
-          no-repeat
-        `
-      });
-      this.router.navigate(['profile/my-profile']);
-    }
+      // Swal.fire({
+      //   icon: 'success',
+      //   width: 600,
+      //   padding: '3em',
+      //   title: 'Your are Logged in!',
+      //   text: 'Welcome to BrahmaShakti!',
+      //   timer: 5000,
+      //   timerProgressBar: true,
+      //   footer: `<strong style="color:purple;">Please Login again and complete your Profile!</strong>`,
+      //   backdrop: `
+      //     rgba(0,0,123,0.4)
+      //     left top
+      //     no-repeat
+      //   `
+      // });
+      // this.router.navigate(['profile/my-profile']);
+
+     
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          width: 500,
+          padding: '1em',
+          text: `You entered a wrong OTP!`,
+          footer: `<strong style="color:red;">Please try with a Valid OTP!</strong>`
+        });
+       
+  
+
+   // }
   }
 }

@@ -40,7 +40,7 @@ export class UserService {
   }
 
   updateUser(user: User) {    
-    return this.http.put(this.baseUrl+'api/bs-profile/update', user);
+    return this.http.put(this.baseUrl+'api/bs-user/update', user);
   }
 
   deleteUser(id: string) {

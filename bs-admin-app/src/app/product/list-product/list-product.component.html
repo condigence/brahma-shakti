@@ -20,10 +20,9 @@
             <div class="col-md-12">
               <figure class="card card-product">
                 <div class="img-wrap">
-                  <!-- <img [src]="'data:image/jpeg;base64,' + item.pic" style="margin: auto; display: block; width:80%;height:80%" 
+                  <img [src]="product.image" style="margin: auto; display: block; width:80%;height:80%; padding-top: 20px;" 
                     class="brandImg" />
-                    -->
-                    <h6 class="title text-center">{{ product.description || "N/A" }}</h6>
+                    <h6 class="title text-center">{{ product.title || "N/A" }}</h6>
                 </div>
                 <figcaption class="info-wrap text-center">
                   

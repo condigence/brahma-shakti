@@ -36,8 +36,8 @@
                       let i = index;
                     ">
                     <td>{{ i + 1 }}</td>
-                    <td>
-                      <img [src]="'data:image/jpeg;base64,' + user.profile.image.pic" class="rounded-circle customer-img"
+                    <td >
+                      <img *ngIf="user.profile.image" [src]="'data:image/jpeg;base64,' + user.profile.image.pic" class="rounded-circle customer-img"
                       onerror="this.onerror=null; this.src='assets/images/df_user.png'" alt=""/>
                     </td>
                     <td>{{ user.firstName || "N/A" }}</td>
