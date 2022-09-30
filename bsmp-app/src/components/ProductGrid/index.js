@@ -33,7 +33,7 @@ const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
             >
               <div className="product-item">
                 <div className="product-img">
-                  <img src={product.proImg} alt="" />
+                  <img src={product.image} alt="" />
                   <ul>
                     <li>
                       <button
@@ -67,7 +67,7 @@ const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
                     </li>
                   </ul>
                   <div className="offer-thumb">
-                    <span>{product.offer}</span>
+                    <span>{`${product.discount} %`}</span>
                   </div>
                 </div>
                 <div className="product-content">
@@ -76,12 +76,15 @@ const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
                       {product.title}
                     </Link>
                   </h3>
+                  <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",}}>
+                  <Button className="cBtnTheme" onClick={()=>handleClickOpen(product)} style={{border: 'none',alignSelf:"flex-end" }}>View</Button>
                   <Button className="cBtnTheme" onClick={()=>addToCartProduct(product)} style={{border: 'none',alignSelf:"flex-end" }}>Add to Cart</Button>
+                  </div>
                   <div className="product-btm">
                     <div className="product-price">
                       <ul>
-                        <li>${product.price}</li>
-                        <li>${product.delPrice}</li>
+                        <li>₹{product.price} <span style={{fontSize:"75%"}}>/</span> {product.unit}</li>
+                        <li>₹{parseFloat((product.discount/100+1)*product.price).toFixed(2) }</li>
                       </ul>
                     </div>
                     <div className="product-ratting">

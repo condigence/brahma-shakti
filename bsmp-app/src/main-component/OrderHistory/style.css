@@ -1,79 +1,52 @@
-.detailBox{
-    background-color: #bbcc9b80;
-    /* min-width: 300px;
-    max-width: 80%; */
-    /* height: 200px; */
+.heading-type{
+    /* background: aliceblue; */
+    width: max-content;
+    margin-bottom: 3%;
+    /* @media(max-width:767px){
+        width: auto;
+      } */
 }
-.leftDetails{
-    display: flex;
-    flex-direction: row;
-}
-.pImages{
-
-}
-.pImages img{
-    height: 150px;
-}
-
-.middleDetails{
-    width: 100%;
-}
-
-.firstLine{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: -6px;
-    margin-bottom: -9px;
-}
-.secLine{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;    
-}
-
-.thirdLine{
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between;     */
-}
-.divider{
-    height: 1.5px;
-    background: #8f260d4f;
-    margin-top: -2%;
-    margin-bottom: 0%;
-}
-@media (max-width: 400px){
-    .rightDetails{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        width: 100%;
+@media (max-width:767px) {
+    .heading-type{
+        width: -webkit-fill-available;
+        margin-bottom: 6%;
     }
 }
 
-.rightDetails{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    height: 100%;
-}
-.reOrder{
-    border-style: solid;
-    border-width: 1px;
-    border-color: #8f260d4f;
-    text-align: center;
-    border-radius: 3px;
-    background:#c6df95;
+.heading-type .headings  {
+    padding: 20px;
+    margin: 2px;
+    background: rgba(218, 165, 32, 0.341);
+    font-size: 20px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 600;
     cursor: pointer;
+}
+@media (max-width:767px) {
+    .heading-type .headings{
+        font-size: 17px;
+    }
+}
+.heading-type .headings:active{
+    background:  rgb(104, 89, 5);
+   
 }
 
-.addToBag{
-    border-style: solid;
-    border-width: 1px;
-    border-color: #c6df95;
-    text-align: center;
-    border-radius: 3px;
+.activeheading{
+    padding: 20px;
+    margin: 2px;
+    /* background: lightseagreen; */
+    font-size: 20px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 600;
     cursor: pointer;
-    background-color: #669d6b87;
+    background-color: goldenrod;
+}
+@media (max-width:767px) {
+    .heading-type .activeheading{
+        font-size: 17px;
+    }
+}
+.activeheading:active{
+    background: rgb(104, 89, 5);
 }

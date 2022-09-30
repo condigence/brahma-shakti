@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Logo from "../../images/logo.png";
+// import Logo from "../../images/final.jpg";
+import Logo2 from "../../images/bs-app-icon2.png";
+
 import { Link } from "react-router-dom";
 import MobileMenu from "../../components/MobileMenu";
 import min3 from "../../images/shop/mini-cart/bee2.png";
 import { totalPrice } from "../../utils";
 import { removeFromCart, removeFromWishList } from "../../store/actions/action";
 import "./style.css";
+
 
 console.log(window.location.pathname);
 const outLetArr = [
@@ -104,7 +107,7 @@ class Header extends Component {
                     className="navbar-brand"
                     to="/home"
                   >
-                    <img src={Logo} alt="icon" />
+                    <img style={{height: "5rem", width: "5rem" }} src={Logo2} alt="icon" />
                     <span className={!anim ? "fadeIn" : "fadeOut"}>BSMP</span>
                   </Link>
                   <div className={anim ? "fadeIn" : "fadeOut"}>
@@ -267,7 +270,7 @@ class Header extends Component {
                         </li>
                         <li>
                           <Link onClick={ClickHandler}
-                          //  to="/blog-left-sidebar"
+                           to="/my-subscription"
                            >
                             My Subscriptions
                           </Link>

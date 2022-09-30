@@ -1,0 +1,12 @@
+  .animate1 {
+    opacity: 1;
+    transition: opacity 0.65s linear ;
+    /* transition-delay: 0.5s;
+    z-index: 1; */ 
+  }
+  .out{
+    opacity: 0;
+    transition: opacity 0.35s;
+    /* transition-delay: 0.5s; */
+    z-index: -10;
+  }

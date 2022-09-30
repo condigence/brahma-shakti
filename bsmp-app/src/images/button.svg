@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="529" height="207" viewBox="0 0 529 207">
+  <defs>
+    <filter id="dark" x="0" y="0" width="529" height="207" filterUnits="userSpaceOnUse">
+      <feOffset dx="15" dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="17.5" result="blur"/>
+      <feFlood flood-color="#565656" flood-opacity="0.278"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="light" x="0" y="0" width="469" height="147" filterUnits="userSpaceOnUse">
+      <feOffset dx="-15" dy="-15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="7.5" result="blur-2"/>
+      <feFlood flood-color="#fff"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="button" transform="translate(-208.5 -594.954)">
+    <g transform="matrix(1, 0, 0, 1, 208.5, 594.95)" filter="url(#dark)">
+      <rect id="dark-2" data-name="dark" width="424" height="102" rx="51" transform="translate(37.5 37.5)" fill="#f6f7ff"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 208.5, 594.95)" filter="url(#light)">
+      <rect id="light-2" data-name="light" width="424" height="102" rx="51" transform="translate(37.5 37.5)" fill="#fff"/>
+    </g>
+    <rect id="main" width="424" height="102" rx="51" transform="translate(246 632.454)" fill="#f5f6ff"/>
+    <text id="Place_your_Order" data-name="Place your Order" transform="translate(458 699.454)" fill="rgba(14,0,0,0.67)" font-size="40" font-family="Sitka Small" font-weight="600"><tspan x="-175" y="0">Place your Order</tspan></text>
+  </g>
+</svg>

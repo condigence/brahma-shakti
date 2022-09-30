@@ -1,6 +1,9 @@
 import React from 'react'
 import {Link}  from 'react-router-dom'
-import Logo from '../../images/logo.png'
+import Logo3 from "../../images/logo3.png";
+import Logo2 from "../../images/bs-app-icon2.png";
+
+
 
 
 const Footer = (props) =>{
@@ -17,11 +20,11 @@ const Footer = (props) =>{
                     <div className="col col-lg-3 col-md-6 col-sm-12 col-12">
                         <div className="widget about-widget">
                             <div className="logo widget-title">
-                                <Link onClick={ClickHandler} to="/"><img src={Logo} alt="ft-logo"/> Brahmshakti</Link>
+                                <Link><img style={{height: "5rem", width: "5rem", background: "#FFFFFF", borderRadius: "50%" }} src={Logo2} alt="ft-logo"/> Brahmshakti</Link>
                             </div>
-                            <p>Management consulting includes a broad range of activities, and the many firms and
-                                their members often define these practices.</p>
+                            <p>We Offer The Freshes Farm-To-Table Products Delivered Straight To Your Door.</p>
                             <ul>
+                                <p>Connect with Us Online!</p>
                                 <li>
                                     <Link onClick={ClickHandler} to="/">
                                         <i className="ti-facebook"></i>
@@ -52,9 +55,9 @@ const Footer = (props) =>{
                             </div>
                             <div className="contact-ft">
                                 <ul>
-                                    <li><i className="fi flaticon-pin"></i>7 Green Lake Street Crawfordsville, IN 47933
+                                    <li><i className="fi flaticon-pin"></i>Brahamshakti milk products, Gokul colony, Near Sunarian chowk, Rohtak, 124001
                                     </li>
-                                    <li><i className="fi flaticon-call"></i>+1 800 123 456 789</li>
+                                    <li><i className="fi flaticon-call"></i>+91 800 123 456 7</li>
                                     <li><i className="fi flaticon-envelope"></i>Brahamshakti@gmail.com</li>
                                 </ul>
                             </div>

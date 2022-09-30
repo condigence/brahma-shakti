@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 // import logo from "../../images/Logo_bsmp.jpeg";
 import logo from "../../images/tree8.png";
+import logo1 from "../../images/fulltree_black_background.png";
 //import logo2 from "../../images/tree4.jpeg";
 import axios from "axios";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -96,10 +97,11 @@ const LoginPage = (props) => {
       .then((response) => {
         setIsLoading(true);
         // console.log("response confirm otp", isRegistered, response.status);
-        if (response.status == "200" && isRegistered) {
+        if ((response.status == "200" || response.status=="202" )&& isRegistered) {
           // props.history.push("/home");
+          console.log(response,"resdata");
           navigateTo("home");
-        } else if (response.status == "200" && !isRegistered) {
+        } else if ((response.status == "200" || response.status=="202" ) && !isRegistered) {
           navigateTo("register");
           // props.history.push("/register");
         }
@@ -149,7 +151,7 @@ const LoginPage = (props) => {
     <Grid className="loginWrapper">
       <Grid className="loginForm">
         <div className="mb-0">
-          <h2 style={{ fontSize: "24px" }}>
+          <h2 style={{ fontSize: "24px", marginLeft: "60px" }}>
             <span>Welcome to </span> Brahmshakti
           </h2>
         </div>

@@ -18,12 +18,10 @@ const OfferSection = (props) => {
                     <div className="col-lg-5">
                         <div className="offer-wrap">
                             <div className="offer-title">
-                                <small>Limited Offer For Customer</small>
-                                <h2>Fresh Sunflower <span>Orginal Honey Up</span> <br/> To 58% Off.</h2>
+                                <small>Product of the Month</small>
+                                <h2>Fresh <span>Paneer</span> <br/> To 58% Off.</h2>
                             </div>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo, eos fugit officiis
-                                error ipsum, dolor ducimus nam ratione nulla deleniti inventore blanditiis lorem inorci
-                                sed vestibulum tempus.</p>
+                            <p>Try Our Fresh Paneer Today ! Our Rich Milk Produces Superior Silky Smooth Paneer To Elevate Your Favourite Dishes.</p>
                             <Link onClick={ClickHandler} to="/shop" className="btn theme-btn">Shop Now <i className="fa fa-angle-double-right"></i></Link>
                         </div>
                     </div>

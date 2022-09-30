@@ -29,7 +29,7 @@ const ProductList = ({ products, addToCartProduct, addToWishListProduct }) => {
               <div className="col-xl-12 col-12" key={pitem}>
                 <div className="product-item">
                   <div className="product-img">
-                    <img src={product.proImg} alt="" />
+                    <img src={product.image} alt="" />
                     <ul>
                       <li>
                         <button

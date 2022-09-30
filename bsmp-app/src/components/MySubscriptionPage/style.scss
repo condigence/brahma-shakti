@@ -1,0 +1,93 @@
+.cart-recived-section{
+    transition: ease-in-out;
+    .order-top{
+       padding: 20px;
+       display: flex;
+       margin:8px;
+       justify-content: space-between;
+    //    height:fit-content;
+       max-height: 190px;
+       align-items: center;
+       box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
+       flex-wrap: wrap;
+       transition: max-height 0.5s linear;
+       transition-delay: 0ms;
+       @media(max-width:767px){
+         padding: 20px;
+       }
+
+       h2{
+           span{
+               display: block;
+               font-size: 18px;
+               color: #888;
+            //    margin-top: 10px;
+               font-weight: 500;
+            //    margin-bottom: 10px;
+           }
+       }
+
+    }
+    .expanded{
+        // transition: all 3s;
+        transition: max-height 0.35s linear;
+        transition-delay: 0ms;
+        max-height: 600px;
+    }
+    .cartStatus{
+         padding: 40px;
+         box-shadow: 0px 5px 15px 0px rgba(62, 65, 159, 0.1);
+         margin-top: 40px;
+
+         @media(max-width:767px){
+         padding: 20px;
+         }
+
+         .cartTotals{
+             img{
+                 width: 80px;
+                 height: 80px;
+                 object-fit: cover;
+                 margin-right: 10px;
+             }
+             tr{
+                 &:last-child{
+                     td{
+                         border-bottom: 0;
+       
+                     }
+                 }
+             }
+         }
+
+         .MuiTableCell-body{
+          padding-left: 0;
+
+         }
+    }
+}
+.container{
+    transition: ease-in-out;
+}
+.pageHeading{
+    margin-left: 6%;
+    margin-bottom: 9px;
+    width: max-content;
+    background: rgb(199, 164, 23);
+    padding: 8px;
+    box-shadow: 0px 5px 15px 0px rgb(95 151 158);
+}
+
+.editButton{
+    padding: 8px;
+    margin-inline: 3px;
+    cursor: pointer;
+}
+.edit{
+    background:olive;
+    box-shadow: 0px 3px 3px 0px rgb(139, 158, 95);
+}
+.delete {
+    background: indianred;
+    box-shadow: 0px 3px 3px 0px rgb(158 113 95);
+}

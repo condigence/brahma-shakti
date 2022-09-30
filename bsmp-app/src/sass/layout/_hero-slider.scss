@@ -177,9 +177,10 @@
 	z-index: 1;
 
 	.slide-caption{
-		padding-top: 80px;
+		padding-top: 228px;
 		z-index: 9;
 		position: relative;
+		margin-left: 112px;
 
 		@media(max-width:991px){
 			padding-top: 0;
@@ -316,7 +317,8 @@
 			z-index: -1;
 
 			@media(max-width:991px){
-				display: none;
+				// display: none;
+				height: initial;
 			}
 		}
 	}

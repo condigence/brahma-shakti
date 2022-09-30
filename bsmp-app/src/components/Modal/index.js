@@ -66,7 +66,7 @@ const DefaultModal = ({
                 <div className="product-single-img">
                   <div className="modal-product">
                     <div className="item">
-                      <img src={product && product.proImg} alt="proImg" />
+                      <img src={product && product.image} alt="proImg" />
                     </div>
                   </div>
                 </div>
@@ -74,7 +74,7 @@ const DefaultModal = ({
               <div className="col-lg-7">
                 <div className="product-single-content">
                   <h5>{product && product.title}</h5>
-                  <h6>{product && product.price} USD</h6>
+                  <h6>{product && product.price} RUPEES</h6>
                   <ul className="rating">
                     <li>
                       <i className="fa fa-star" aria-hidden="true"></i>
@@ -100,7 +100,7 @@ const DefaultModal = ({
                     dolor sit amet, consectetur adipiscing elit. Aliquam
                     hendrerit.
                   </p>
-                  <div className="product-filter-item color">
+                  {/* <div className="product-filter-item color">
                     <div className="color-name">
                       <span>Color :</span>
                       <ul>
@@ -118,9 +118,9 @@ const DefaultModal = ({
                         </li>
                       </ul>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="product-filter-item color filter-size">
-                    <div className="color-name">
+                    {/* <div className="color-name">
                       <span>Weight :</span>
                       <ul>
                         <li className="color">
@@ -140,7 +140,7 @@ const DefaultModal = ({
                           <label htmlFor="w4">200ML</label>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="pro-single-btn">
                     <Grid className="quantity cart-plus-minus">
@@ -163,6 +163,7 @@ const DefaultModal = ({
                       </Button>
                     </Grid>
                     <Button
+                    style={{color:"black"}}
                       onClick={() => addToCartProduct(product, qty)}
                       className="theme-btn"
                     >

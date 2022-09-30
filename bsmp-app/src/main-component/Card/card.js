@@ -48,7 +48,7 @@ const Card = (props) => {
             >
               <div className="product-item">
                 <div className="product-img">
-                  <img src={product.proImg} alt="" />
+                  <img src={product.image} alt="" />
                   <ul>
                     <li>
                       <button
@@ -82,20 +82,20 @@ const Card = (props) => {
                     </li>
                   </ul>
                   <div className="offer-thumb">
-                    <span>{product.offer}</span>
+                    <span>{`${product.discount} %`}</span>
                   </div>
                 </div>
                 <div className="product-content">
                   <h3>
-                    <Link onClick={ClickHandler} to={`/product-single/${product.id}`}>
+                    {/* <Link onClick={ClickHandler} to={`/product-single/${product.id}`}> */}
                       {product.title}
-                    </Link>
+                    {/* </Link> */}
                   </h3>
                   <div className="product-btm">
                     <div className="product-price">
                       <ul>
-                        <li>${product.price}</li>
-                        <li>${product.delPrice}</li>
+                        <li>₹{product.price}</li>
+                        <li>₹{parseFloat(parseInt(product.price) * (parseInt(product.discount)/100 +1)).toFixed(2)}</li>
                       </ul>
                     </div>
                     <div className="product-ratting">

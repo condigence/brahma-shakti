@@ -74,7 +74,7 @@ const CartPage = (props) => {
                           carts.map((catItem, crt) => (
                             <tr key={crt} className="normalCart">
                               <td className="images">
-                                <img src={catItem.proImg} alt="" />
+                                <img src={catItem.image} alt="" />
                               </td>
                               <td className="product">
                                 <ul>
@@ -137,7 +137,7 @@ const CartPage = (props) => {
                           subCarts.map((catItem, crt) => (
                             <tr key={crt} className="subCart">
                               <td className="images">
-                                <img src={catItem.proImg} alt="" />
+                                <img src={catItem.image} alt="" />
                               </td>
                               <td className="product">
                                 <ul>

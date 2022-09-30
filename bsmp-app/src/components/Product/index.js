@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { Button } from 'react-bootstrap-v5';
 import DefaultModal from "../Modal";
 
 const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
@@ -15,11 +15,11 @@ const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
   }
 
   const [state, setState] = useState({});
-
   const handleClickOpen = (item) => {
     setOpen(true);
     setState(item);
   };
+  console.log(products)
   return (
     <section className="product-area section-padding">
       <div className="container">
@@ -27,12 +27,10 @@ const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
           <div className="col-lg-6 offset-lg-3">
             <div className="section-title">
               <h2>
-                100% Fresh <span>Honey</span>
+                Our Top <span>Picks</span>
               </h2>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry has been the industry's standard consectetur
-                adipisicing elit.
+                Our Top Choices From Our Farms to Your Table.
               </p>
             </div>
           </div>
@@ -40,11 +38,11 @@ const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
         <div className="product-wrap">
           <div className="row align-items-center">
             {products.length > 0 &&
-              products.slice(0, 8).map((product, pitem) => (
-                <div className="col-lg-3 col-md-6 col-sm-12 col-12" key={pitem}>
+              products.slice(0, 3).map((product, pitem) => (
+                <div className="col-lg-4 col-md-6 col-sm-12 col-12" key={pitem}>
                   <div className="product-item">
                     <div className="product-img">
-                      <img src={product.proImg} alt="" />
+                      <img src={product.image} alt="" />
                       <ul>
                         <li>
                           <button
@@ -78,7 +76,7 @@ const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
                         </li>
                       </ul>
                       <div className="offer-thumb">
-                        <span>{product.offer}</span>
+                        <span>{product.discount===0?"-15 %":`-${product.discount} %`}</span>
                       </div>
                     </div>
                     <div className="product-content">
@@ -93,12 +91,12 @@ const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
                       <div className="product-btm">
                         <div className="product-price">
                           <ul>
-                            <li>${product.price}</li>
-                            <li>${product.delPrice}</li>
+                            <li>₹{product.price}</li>
+                            <li>₹{parseInt(product.price*1.15)}</li>
                           </ul>
                         </div>
                         <div className="product-ratting">
-                          <ul>
+                          {/* <ul>
                             <li>
                               <i className="fa fa-star" aria-hidden="true"></i>
                             </li>
@@ -114,8 +112,10 @@ const Product = ({ products, addToCartProduct, addToWishListProduct }) => {
                             <li>
                               <i className="fa fa-star" aria-hidden="true"></i>
                             </li>
-                          </ul>
+                          </ul> */}
+                                                  <Button className="cBtnTheme" onClick={()=>addToCartProduct(product)} style={{border: 'none'}}>Add to Cart</Button>
                         </div>
+                        {/* <Button className="cBtnTheme" onClick={()=>addToCartProduct(product)} style={{border: 'none'}}>Add to Cart</Button> */}
                       </div>
                     </div>
                   </div>

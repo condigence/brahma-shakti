@@ -14,7 +14,7 @@ const ProjectPage =(props) => {
     return(
         <Fragment>
             <Navbar hClass={"header-style-2"} />
-            <PageTitle pageTitle={'Project'} pagesub={'Project'}/> 
+            <PageTitle pageTitle={'Subscribe'} pagesub={'Subscribe'}/> 
             <Stepper cartEditItem={cartEditItem} />
             {/* <Project/> */}
             <Footer/>

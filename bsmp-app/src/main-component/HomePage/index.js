@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment ,useState,useEffect} from "react";
 import { connect } from "react-redux";
 import Navbar from "../../components/Navbar";
 import Hero from "../../components/hero";
@@ -14,10 +14,11 @@ import BlogSection from "../../components/BlogSection";
 import Footer from "../../components/footer";
 import Scrollbar from "../../components/scrollbar";
 import { addToCart, addToWishList } from "../../store/actions/action";
+import axios from "axios";
 import api from "../../api";
 
 const HomePage = ({ addToCart, addToWishList }) => {
-  const productsArray = api();
+  const [pData,setPData]=useState([]);
 
   const addToCartProduct = (product, qty = 1) => {
     addToCart(product, qty);
@@ -25,9 +26,16 @@ const HomePage = ({ addToCart, addToWishList }) => {
   const addToWishListProduct = (product, qty = 1) => {
     addToWishList(product, qty);
   };
-
-  const products = productsArray;
-
+  useEffect(()=>{
+    const fetchProducts = async ()=>{
+      const  productsArray = await api();
+      const products = productsArray;
+      setPData(products);
+      console.log(productsArray)
+    }
+   fetchProducts();
+  },[]);
+  console.log( pData)
   return (
     <Fragment>
       <Navbar hClass={"header-style-1"} />
@@ -36,19 +44,19 @@ const HomePage = ({ addToCart, addToWishList }) => {
       <Product
         addToCartProduct={addToCartProduct}
         addToWishListProduct={addToWishListProduct}
-        products={products}
+        products={pData}
       />
       <OfferSection />
       <FlashSale
         addToCartProduct={addToCartProduct}
         addToWishListProduct={addToWishListProduct}
-        products={products}
+        products={pData}
       />
-      <Project />
+      {/* <Project /> */}
       <Service />
-      <Testimonial />
-      <Client />
-      <BlogSection />
+      {/* <Testimonial /> */}
+      {/* <Client /> */}
+      {/* <BlogSection /> */}
       <Footer />
       <Scrollbar />
     </Fragment>

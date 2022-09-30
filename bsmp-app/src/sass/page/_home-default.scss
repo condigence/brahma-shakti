@@ -224,10 +224,10 @@
                 height: 100%;
                 content: "";
                 transform: translateY(-110%);
-                background: linear-gradient( 0deg, rgb(161,54,2) 0%, rgb(254,185,52) 100%);
-                background: -moz-linear-gradient( 0deg, rgb(161,54,2) 0%, rgb(254,185,52) 100%);
-                background: -webkit-linear-gradient( 0deg, rgb(161,54,2) 0%, rgb(254,185,52) 100%);
-                background: -ms-linear-gradient( 0deg, rgb(161,54,2) 0%, rgb(254,185,52) 100%);
+                background: linear-gradient( 0deg, rgb(0, 102, 255) 0%, rgb(77, 184, 255) 100%);
+                background: -moz-linear-gradient( 0deg, rgb(0, 102, 255) 0%, rgb(77, 184, 255) 100%);
+                background: -webkit-linear-gradient( 0deg, rgb(0, 102, 255) 0%, rgb(77, 184, 255) 100%);
+                background: -ms-linear-gradient( 0deg, rgb(0, 102, 255) 0%, rgb(77, 184, 255) 100%);
                 transition: all .5s;
                 opacity: .92;
             }

@@ -44,6 +44,7 @@ const steps = ["Step 1", "Step 2"];
 
 export function HorizontalNonLinearStepper(props) {
   const [activeStep, setActiveStep] = React.useState(0);
+  const[productsArray,setProductsArray]=React.useState([]);
   const [completed, setCompleted] = React.useState({});
   const [subProduct, setSubProduct] = React.useState();
   const [skipped, setSkipped] = React.useState(new Set());
@@ -55,7 +56,8 @@ export function HorizontalNonLinearStepper(props) {
     if(props.cartEditItem){
       setSubProduct(props.cartEditItem.catItem);
       handleNext();
-    }
+    };
+    fetchData();
   },[])
 
   const isStepOptional = (step) => {
@@ -82,8 +84,12 @@ export function HorizontalNonLinearStepper(props) {
   const handleScroll=(y)=>{
     window.scrollTo(0,y);
   }
+  const fetchData=async()=>{
+    const productsArray =await api();
+    const pSubArr=productsArray.filter((item)=>{if(item.subscribable)return item});
+    setProductsArray(pSubArr)
+  }
 
-  const productsArray = api();
 
   const addSubProduct = (product) => {
     setSubProduct(product);
@@ -93,6 +99,7 @@ export function HorizontalNonLinearStepper(props) {
   };
 
   const products = productsArray;
+  console.log(products,"productss")
 
   const totalSteps = () => {
     return steps.length;

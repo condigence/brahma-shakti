@@ -11,11 +11,15 @@ import { addToCart, addToWishList } from "../../store/actions/action";
 import axios from "axios";
 
 const ShopPage = ({ addToCart, addToWishList }) => {
-  const productsArray = api();
-  // axios.get("http://ec2-3-108-59-192.ap-south-1.compute.amazonaws.com:8080/brahmashakti/bs-products").then(res=>{
-  //   console.log(res.data);
-  //   productsArray=res.data;
-  // })
+  const [productsArray,setProductsArray]=useState([])
+  useEffect(()=>{
+    const getProducts = async ()=>{
+      const pArray = await api();
+      const productsArray=pArray
+      setProductsArray(productsArray);
+    }
+    getProducts();
+  },[])
   console.log("productsArray",productsArray)
 
   const [filter, setFilter] = useState({

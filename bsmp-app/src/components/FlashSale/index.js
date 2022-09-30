@@ -27,8 +27,8 @@ const FlashSale = ({ products, addToCartProduct,addToWishListProduct }) => {
                 <div className="row">
                     <div className="col-lg-6 offset-lg-3">
                         <div className="section-title">
-                            <h2>Flash <span>Sale</span> Items</h2>
-                             <Offer/>
+                            <h2>Our <span>Seasonal</span> Items</h2>
+                             {/* <Offer/> */}
                         </div>
                     </div>
                 </div>
@@ -42,10 +42,11 @@ const FlashSale = ({ products, addToCartProduct,addToWishListProduct }) => {
                             >
                             <div className="product-item">
                                 <div className="product-img">
-                                <img src={product.proImg} alt="" />
+                                <img src={product.image} alt="" />
                                 <ul>
                                     <li>
                                     <button
+                                   
                                         data-bs-toggle="tooltip"
                                         data-bs-html="true"
                                         title="Add to Cart"

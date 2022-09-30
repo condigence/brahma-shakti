@@ -25,6 +25,7 @@ import LoginPage from '../LoginPage'
 import SignUpPage from '../SignUpPage' 
 import ForgotPassword from '../ForgotPassword' 
 import VacationSetupPage from '../VacationSetupPage';
+import MySubscription from '../MySubscription';
       
 
 const AllRoute = () => { 
@@ -46,6 +47,7 @@ const AllRoute = () => {
             <Route path='/order-history' component={OrderHistory}/>
             <Route path='/project-single' component={ProjectSinglePage}/>
             <Route path='/subscription' component={ProjectPage}/> 
+            <Route path='/my-subscription' component={MySubscription}/> 
             <Route path='/404' component={ErrorPage}/>
             <Route path='/contact' component={ContactPage}/> 
             <Route path='/blog' component={BlogPage}/> 

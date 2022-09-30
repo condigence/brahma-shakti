@@ -48,7 +48,7 @@ const FilterAllProduct = ({ products, addToCartProduct,addToWishListProduct }) =
           </Nav>
         </div>
         <div className="shoping-product">
-          <span>Showing Products 1 - 9 Of 9 Result</span>
+          <span>Showing Products 1 - {products.length} Of {products.length} Result</span>
         </div>
       </div>
       <TabContent activeTab={activeTab}>
