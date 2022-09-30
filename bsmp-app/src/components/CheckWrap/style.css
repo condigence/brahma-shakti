@@ -1,6 +1,6 @@
 .loginWrapper {
   display: flex;
-  min-height: 100vh;
+  
   padding: 80px 0;
   background: #f9f9f9;
 }
