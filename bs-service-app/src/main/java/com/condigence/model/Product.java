@@ -18,8 +18,6 @@ public class Product implements Serializable {
 	@Id
 	private String id;
 
-
-
 	private String name;
 	private int quantityInStock;
 	private String imageLink;

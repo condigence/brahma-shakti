@@ -39,8 +39,8 @@ public class ImageUtil {
 			
 			Files.copy(file.getInputStream(), location.resolve(file.getOriginalFilename()),
 					StandardCopyOption.REPLACE_EXISTING);
-			Thread.sleep(20000L);
-		} catch (IOException | InterruptedException e) {
+			//Thread.sleep(20000L);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

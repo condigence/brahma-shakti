@@ -155,12 +155,13 @@ public class CartServiceImpl implements CartService {
 			// Refresh quantity for every product before checking
 			//product = productRepository.findOne(entry.getKey().getId());
 			product = productRepository.findOneById(entry.getKey().getId());
-			if (product.getQuantity() < entry.getValue())
+			if (product.getQuantityInStock() < entry.getValue())
 				throw new NotEnoughProductsInStockException(product);
-			entry.getKey().setQuantity(product.getQuantity() - entry.getValue());
+			entry.getKey().setQuantityInStock(product.getQuantityInStock() - entry.getValue());
 		}
 		//productRepository.save(products.keySet());
 		productRepository.saveAll(products.keySet());
+		//update order & orderDetails as well
 		//productRepository.flush();
 		products.clear();
 	}

@@ -34,42 +34,43 @@ public class CartController {
 		return "Hello, I am doing fine!";
 	}
 
-	@GetMapping("/{userId}")
-	public ResponseEntity<?> getCartByUserId(@PathVariable String userId) {
-		logger.info("Fetching Cart with userid {}", userId);
-		CartDTO cartDTO = cartService.getCartByUserId(userId);
-		if (cartDTO !=null && !cartDTO.getId().equalsIgnoreCase("0")) {
-			return ResponseEntity.status(HttpStatus.OK).body(cartDTO);
-		}
-		 else {
-			return new ResponseEntity(new CustomErrorType("Cart not found for User Id : "+userId), HttpStatus.NOT_FOUND);
-		}
-	}
+//	@GetMapping("/{userId}")
+//	public ResponseEntity<?> getCartByUserId(@PathVariable String userId) {
+//		logger.info("Fetching Cart with userid {}", userId);
+//		CartDTO cartDTO = cartService.getCartByUserId(userId);
+//		if (cartDTO !=null && !cartDTO.getId().equalsIgnoreCase("0")) {
+//			return ResponseEntity.status(HttpStatus.OK).body(cartDTO);
+//		}
+//		 else {
+//			return new ResponseEntity(new CustomErrorType("Cart not found for User Id : "+userId), HttpStatus.NOT_FOUND);
+//		}
+//	}
 
-	@PostMapping("/")
-	public ResponseEntity<?> addToCart(@RequestBody CartBean cartBean) {
-		logger.info("Entering addBrands with Brand Details >>>>>>>>  : {}", cartBean);
-		HttpHeaders headers = new HttpHeaders();
-		cartService.addToCart(cartBean);
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
-	}
+//	@PostMapping("/")
+//	public ResponseEntity<?> addToCart(@RequestBody CartBean cartBean) {
+//		logger.info("Entering addBrands with Brand Details >>>>>>>>  : {}", cartBean);
+//		HttpHeaders headers = new HttpHeaders();
+//		cartService.addToCart(cartBean);
+//		return new ResponseEntity<>(headers, HttpStatus.CREATED);
+//	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	@DeleteMapping(value = "/{userId}")
-	public ResponseEntity<?> clearCart(@PathVariable("userId") String userId) {
-		logger.info("Fetching & Deleting Cart with id {}", userId);
-		CartDTO item = cartService.getCartByUserId(userId);
-		if (item != null) {
-			cartService.deleteCartByUserId(userId);
-		} else {
-			logger.error("Unable to delete. Item with id {} not found.", userId);
-			return new ResponseEntity(new CustomErrorType("Unable to delete. Cart with userId " + userId + " not found."),
-					HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<CartDTO>(HttpStatus.OK);
-	}
+//	@DeleteMapping(value = "/{userId}")
+//	public ResponseEntity<?> clearCart(@PathVariable("userId") String userId) {
+//		logger.info("Fetching & Deleting Cart with id {}", userId);
+//		CartDTO item = cartService.getCartByUserId(userId);
+//		if (item != null) {
+//			cartService.deleteCartByUserId(userId);
+//		} else {
+//			logger.error("Unable to delete. Item with id {} not found.", userId);
+//			return new ResponseEntity(new CustomErrorType("Unable to delete. Cart with userId " + userId + " not found."),
+//					HttpStatus.NOT_FOUND);
+//		}
+//		return new ResponseEntity<CartDTO>(HttpStatus.OK);
+//	}
+	////////////////////////////////////////////////////////////////////////////////////////////
 
-	@GetMapping("/shoppingCart")
+	@GetMapping("/")
 	public ResponseEntity<?> shoppingCart() {
 		ShopingDTO dto = new ShopingDTO();
 		dto.setProductsInCart(cartService.getProductsInCart());
@@ -77,19 +78,19 @@ public class CartController {
 		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
-	@GetMapping("/shoppingCart/addProduct/{productId}")
+	@GetMapping("/add/{productId}")
 	public ResponseEntity<?> addProductToCart(@PathVariable("productId") String productId) {
 		productService.findById(productId).ifPresent(cartService::addProduct);
 		return shoppingCart();
 	}
 
-	@GetMapping("/shoppingCart/removeProduct/{productId}")
+	@GetMapping("/remove/{productId}")
 	public ResponseEntity<?> removeProductFromCart(@PathVariable("productId") String productId) {
 		productService.findById(productId).ifPresent(cartService::removeProduct);
 		return shoppingCart();
 	}
 
-	@GetMapping("/shoppingCart/checkout")
+	@GetMapping("/checkout")
 	public ResponseEntity<?> checkout() {
 		try {
 			cartService.checkout();
