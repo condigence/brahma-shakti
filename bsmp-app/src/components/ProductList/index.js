@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap-v5';
 import DefaultModal from "../Modal";
+import addToCartService from "../../apiService/addToCart";
 
 const ProductList = ({ products, addToCartProduct, addToWishListProduct }) => {
   const ClickHandler = () => {
@@ -19,6 +20,29 @@ const ProductList = ({ products, addToCartProduct, addToWishListProduct }) => {
     setOpen(true);
     setState(item);
   };
+  const handleAddToCart =async(data)=>{
+    let {discount,id,price,}=data;
+    let dData=
+    {
+      discountAmount: discount,
+      grandTotal: price,
+      items: [
+        {
+          itemCount: 1,
+          productId: id,
+          totalAmount: price,
+        }
+      ],
+      lastUpdated: new Date().toDateString(),
+      subtotalAmount: price,
+      taxAmount: 0,
+      totalItemCount: 1,
+      totalItems: 1,
+      userId: "user1"
+    }
+    addToCartProduct(data);
+   await addToCartService(dData);
+  }
 
   return (
     <div className="product-list">
@@ -36,7 +60,7 @@ const ProductList = ({ products, addToCartProduct, addToWishListProduct }) => {
                           data-bs-toggle="tooltip"
                           data-bs-html="true"
                           title="Add to Cart"
-                          onClick={() => addToCartProduct(product)}
+                          onClick={() => handleAddToCart(product)}
                         >
                           <i className="fi flaticon-shopping-cart"></i>
                         </button>

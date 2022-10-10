@@ -1,15 +1,14 @@
 .loginWrapper {
   display: flex;
-  
+  min-height: 100vh;
   padding: 80px 0;
   background: #f9f9f9;
 }
 .loginWrapper .loginForm {
   width: 500px;
   max-width: 90%;
-  margin-left: 43%;
   margin: auto;
-  background: #fff;
+  /* background: #fff; */
   padding: 70px 50px;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);

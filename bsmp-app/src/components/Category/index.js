@@ -4,8 +4,10 @@ import catimg from '../../images/category/icon-1.png'
 import catimg2 from '../../images/category/icon-2.png'
 import catimg3 from '../../images/category/icon-3.png'
 import catimg4 from '../../images/category/icon-4.png'
-import catimg5 from '../../images/category/category.jpg'
-import cimg from '../../images/category/cimg.jpg'
+import veggies from '../../images/vegges.png'
+import dairyImage from '../../images/milk.png'
+import sweets from '../../images/sweets.png'
+import Mask from '../../images/Mask.jpg'
 
 const Category = (props) => {
 
@@ -27,7 +29,7 @@ const Category = (props) => {
                             </div>
                             <div className="category-item">
                                 <div className="category-icon">
-                                    <img src={catimg} alt="" />
+                                    <img src={dairyImage} alt="" />
                                 </div>
                                 <div className="category-content">
                                     <h2><Link onClick={ClickHandler} to="/shop">Dairy Products</Link></h2>
@@ -37,7 +39,7 @@ const Category = (props) => {
                             </div>
                             <div className="category-item">
                                 <div className="category-icon">
-                                    <img src={catimg2} alt="" />
+                                    <img src={sweets} alt="" />
                                 </div>
                                 <div className="category-content">
                                     <h2><Link onClick={ClickHandler} to="/shop">Sweets</Link></h2>
@@ -48,7 +50,7 @@ const Category = (props) => {
                             </div>
                             <div className="category-item">
                                 <div className="category-icon">
-                                    <img src={catimg3} alt="" />
+                                    <img src={veggies} alt="" />
                                 </div>
                                 <div className="category-content">
                                     <h2><Link onClick={ClickHandler} to="/shop">Vegetables</Link></h2>
@@ -61,8 +63,8 @@ const Category = (props) => {
                     </div>
                     <div className="col-lg-6">
                         <div className="category-img">
-                            <img src={cimg} alt="" />
-                            <div className="ct-img"><img src={catimg4} alt="" /></div>
+                            <img src={Mask} alt="" />
+                            {/* <div className="ct-img"><img src={catimg4} alt="" /></div> */}
                         </div>
                     </div>
                 </div>

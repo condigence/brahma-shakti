@@ -81,8 +81,8 @@ const CartPage = (props) => {
                                   <li className="first-cart">
                                     {catItem.title}
                                   </li>
-                                  <li>Brand : {catItem.brand}</li>
-                                  <li>Size : {catItem.size}</li>
+                                  {/* <li>Brand : {catItem.brand}</li>
+                                  <li>Size : {catItem.size}</li> */}
                                 </ul>
                               </td>
                               <td className="stock">
@@ -113,7 +113,7 @@ const CartPage = (props) => {
                                 </div>
                               </td>
                               <td className="ptice">
-                                ${catItem.qty * catItem.price}
+                                ${catItem.price}
                               </td>
                               <td className="stock">
                                 ${catItem.qty * catItem.price}

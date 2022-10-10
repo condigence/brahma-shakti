@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from 'react-bootstrap-v5';
 import DefaultModal from "../Modal";
+import addToCartService from "../../apiService/addToCart";
 
 const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
   const ClickHandler = () => {
@@ -20,6 +21,30 @@ const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
     setOpen(true);
     setState(item);
   };
+
+  const handleAddToCart =async(data)=>{
+    let {discount,id,price,}=data;
+    let dData=
+    {
+      discountAmount: discount,
+      grandTotal: price,
+      items: [
+        {
+          itemCount: 1,
+          productId: id,
+          totalAmount: price,
+        }
+      ],
+      lastUpdated: new Date().toDateString(),
+      subtotalAmount: price,
+      taxAmount: 0,
+      totalItemCount: 1,
+      totalItems: 1,
+      userId: "user1"
+    }
+    addToCartProduct(data);
+   await addToCartService(dData);
+  }
 
   return (
 
@@ -40,7 +65,7 @@ const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
                         data-bs-toggle="tooltip"
                         data-bs-html="true"
                         title="Add to Cart"
-                        onClick={() => addToCartProduct(product)}
+                        onClick={() => handleAddToCart(product)}
                       >
                         <i className="fi flaticon-shopping-cart"></i>
                       </button>
@@ -78,7 +103,7 @@ const ProductGrid = ({ products, addToCartProduct,addToWishListProduct }) => {
                   </h3>
                   <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between",}}>
                   <Button className="cBtnTheme" onClick={()=>handleClickOpen(product)} style={{border: 'none',alignSelf:"flex-end" }}>View</Button>
-                  <Button className="cBtnTheme" onClick={()=>addToCartProduct(product)} style={{border: 'none',alignSelf:"flex-end" }}>Add to Cart</Button>
+                  <Button className="cBtnTheme" onClick={() => handleAddToCart(product)} style={{border: 'none',alignSelf:"flex-end" }}>Add to Cart</Button>
                   </div>
                   <div className="product-btm">
                     <div className="product-price">

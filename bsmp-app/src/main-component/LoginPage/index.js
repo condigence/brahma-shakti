@@ -8,9 +8,8 @@ import SimpleReactValidator from "simple-react-validator";
 import { toast } from "react-toastify";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-// import logo from "../../images/Logo_bsmp.jpeg";
-import logo from "../../images/login_page1.png";
-import logo1 from "../../images/fulltree_black_background.png";
+import backgroundLogin from "../../images/login_page1.png";
+import logo from "../../images/tree8.png";
 //import logo2 from "../../images/tree4.jpeg";
 import axios from "axios";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -20,14 +19,7 @@ import { Link, withRouter } from "react-router-dom";
 // import { makeStyles } from "@material-ui/styles";
 import OtpInput from "react-otp-input";
 import Loader from "../../components/loader";
-// import "./style1.scss";
-
-
-
-
-
-
-
+import "./style1.scss";
 
 const LoginPage = (props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,12 +29,6 @@ const LoginPage = (props) => {
     email: "",
     full_name: "",
   });
-
-  let imgScale = {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  }
 
   // const handleClose = () => {
   //   setOpen(false);
@@ -114,6 +100,7 @@ const LoginPage = (props) => {
           // props.history.push("/home");
           console.log(response,"resdata");
           navigateTo("home");
+          localStorage.setItem("isLogged",true);
         } else if ((response.status == "200" || response.status=="202" ) && !isRegistered) {
           navigateTo("register");
           // props.history.push("/register");
@@ -161,17 +148,18 @@ const LoginPage = (props) => {
   };
 
   return (
-    <Grid className="loginWrapper" style={{      
-      backgroundImage: `url(${logo})`,
-      objectFit:'cover'
-    }} >
-      <Grid className="loginForm" style={{marginRight: "17rem", opacity: "0.80", height: "850px", marginTop: "50px", width: "830px"}}>
-       <div className="mb-0" style={{marginTop: "25%"}}>
-          <h2 style={{ fontSize: "56px" }}>
-            Welcome to <span style={{color: "red"}}> Brahmshakti </span> 
+    <>
+    <div className="body">
+      <img src={backgroundLogin} className="bodyImage" />
+    </div>
+    <Grid className="loginWrapper1" >
+      <Grid className="loginForm">
+        <div className="mb-0" style={{textAlign:"center"}}>
+          <h2 style={{ fontSize: "24px" }}>
+            <span>Welcome to </span> Brahmshakti
           </h2>
         </div>
-        <h2 style={{ fontSize: "56px" }}>Sign In</h2>
+        <h2>Sign In</h2>
 
         {/* <p>Sign in to your account</p> */}
         <form onSubmit={submitForm}>
@@ -179,7 +167,6 @@ const LoginPage = (props) => {
             {contactRendering ? (
               <Grid item xs={12}>
                 <Input
-                
                   className="inputOutline"
                   fullWidth
                   placeholder="Contact"
@@ -203,8 +190,7 @@ const LoginPage = (props) => {
                     }`}
                     type="submit"
                   >
-                    {/* Get OTP */}
-                    <span style={{ fontSize: "36px", color: "#FFFFFF", }}>Get OTP</span>
+                    Get OTP
                   </Button>
                 </Grid>
               </Grid>
@@ -279,15 +265,16 @@ const LoginPage = (props) => {
           </Grid>
         </form>
         {/* BackGround(water mark) logo */}
-        <div className="shape-img">
-          {/* <img src={logo} style={imgScale} alt="No Image" /> */}
-          {/* <i className="fi flaticon-honeycomb"></i> */}
-        </div>
+        {/* <div className="shape-img">
+          <img src={logo} alt="No Image" />
+          <i className="fi flaticon-honeycomb"></i>
+        </div> */}
         {/* <div className="shape-img">
           <img src={logo2} alt="No Image" />          
         </div> */}
       </Grid>
     </Grid>
+    </>
   );
 };
 

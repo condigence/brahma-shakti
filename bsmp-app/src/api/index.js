@@ -8,5 +8,8 @@ export default async () => {
     console.log("API CALLED",res)
     return res.data;
   })
+  .catch(e=>{
+    console.log(e,"errror")
+  })
   return data;
 }

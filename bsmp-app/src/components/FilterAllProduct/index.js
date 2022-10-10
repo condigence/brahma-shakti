@@ -4,6 +4,7 @@ import classnames from "classnames";
 import ProductGrid from "../ProductGrid";
 import ProductList from "../ProductList";
 
+
 const FilterAllProduct = ({ products, addToCartProduct,addToWishListProduct }) => {
   const [activeTab, setActiveTab] = useState("1");
 
@@ -48,7 +49,7 @@ const FilterAllProduct = ({ products, addToCartProduct,addToWishListProduct }) =
           </Nav>
         </div>
         <div className="shoping-product">
-          <span>Showing Products 1 - {products.length} Of {products.length} Result</span>
+          <span>Showing Products 1 - 9 Of 9 Result</span>
         </div>
       </div>
       <TabContent activeTab={activeTab}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import DefaultModal from "../../components/Modal";
-import Offer from '../../components/countdown'
+import DefaultModal from "../Modal";
+import Offer from '../countdown'
 
 const FlashSale = ({ products, addToCartProduct,addToWishListProduct }) => {
     const ClickHandler = () => {

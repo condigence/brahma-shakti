@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 // import Logo from "../../images/final.jpg";
 import Logo2 from "../../images/bs-app-icon2.png";
-
 import { Link } from "react-router-dom";
 import MobileMenu from "../../components/MobileMenu";
 import min3 from "../../images/shop/mini-cart/bee2.png";
@@ -25,7 +24,15 @@ class Header extends Component {
     outLet: outLetArr[0],
     isOutLetShow: false,
     anim: false,
+    isLoggedIn:false,
   };
+  componentDidMount(){
+localStorage.getItem("isLogged").then(res=>{
+  this.setState({isLoggedIn:res},()=>{
+    console.log("came here")
+  })
+})
+  }
 
   url = window.location.href;
 
@@ -34,6 +41,10 @@ class Header extends Component {
       isCartShow: !this.state.isCartShow,
     });
   };
+
+  handleLogout =()=>{
+    localStorage.removeItem("isLogged")
+  }
 
   wishlistHandler = () => {
     this.setState({
@@ -85,7 +96,7 @@ class Header extends Component {
       });
     };
 
-    const { carts } = this.props;
+    const { carts,subCarts } = this.props;
     const { wishs } = this.props;
 
     let totalwishlistprice = 0;
@@ -94,7 +105,6 @@ class Header extends Component {
         totalwishlistprice += Number(wishs[i - 1].price);
       }
     }
-
     return (
       <header id="header" className={`site-header ${this.props.hClass}`}>
         <nav className="navigation navbar navbar-expand-lg">
@@ -175,7 +185,7 @@ class Header extends Component {
                       </Link>
                     </li> */}
                     <li className="menu-item-has-children">
-                      <Link onClick={ClickHandler} to="/shop">
+                      <Link onClick={ClickHandler} >
                         Category
                       </Link>
                       <ul
@@ -338,11 +348,14 @@ class Header extends Component {
                         </li>
                       </ul>
                     </li>
+                    {this.state.isLoggedIn!==true?
                     <li>
                       <Link onClick={ClickHandler} to="/login">
                         Login
                       </Link>
-                    </li>
+                    </li>:<li><Link onClick={this.handleLogout()} to="/login">
+                        Logout
+                      </Link></li>}
                   </ul>
                 </div>
               </div>
@@ -400,7 +413,7 @@ class Header extends Component {
                     >
                       {" "}
                       <i className="fi flaticon-bag"></i>{" "}
-                      <span className="cart-count">{carts.length}</span>
+                      <span className="cart-count">{carts.length+subCarts.length}</span>
                     </button>
                     <div
                       className={`mini-cart-content ${
@@ -556,6 +569,7 @@ class Header extends Component {
 const mapStateToProps = (state) => {
   return {
     carts: state.cartList.cart,
+    subCarts: state.subCartList.subCart,
     wishs: state.wishList.w_list,
   };
 };

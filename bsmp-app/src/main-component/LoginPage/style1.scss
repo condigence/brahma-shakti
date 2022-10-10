@@ -1,32 +1,30 @@
-
-
-.loginWrapper {
+.loginWrapper1 {
   display: flex;
-  // padding: 0px 0;
+  min-height: 100vh;
+  padding: 80px 0;
   background: #f9f9f9;
+  opacity: 1;
 
   .loginForm {
-    // width: 50%;
-    margin-left: 45%;
+    width: 500px;
+    border: 1.5px solid;
+    border-color: #0aa10a;
     max-width: 90%;
-    // max-width: 90%;
-    // margin: auto;
-    background: #fff;
-    // padding: 124px 50px !important;
+    margin: auto;
+    background: radial-gradient(rgb(255 255 255 / 47%), rgb(5 90 87 / 12%));
+    backdrop-filter: blur(10px);
+    padding: 124px 50px !important;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     position: relative;
     z-index: 1;
-    
-   
 
     .shape-img {
       position: absolute;
       left: 31%;
       top: 33%;
       width: 80%;
-      // height: 70%;
-      height: 48%;
+      height: 70%;
       z-index: -1;
       opacity: 0.75;
 
@@ -47,6 +45,9 @@
     @media (max-width: 445px) {
       padding: 70px 15px !important;
       position: relative;
+    }
+    @media (min-width: 700px) {
+      margin-right: 20%;
     }
 
     > h2 {
@@ -214,4 +215,14 @@
 
 .Toastify__toast-body {
   font-size: 16px;
+}
+.body{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.bodyImage{
+  width: 100%;
+  max-height: 700px;
+  height: auto;
 }
