@@ -70,11 +70,20 @@ public class CartController {
 //	}
 	////////////////////////////////////////////////////////////////////////////////////////////
 
+//	@GetMapping("/")
+//	public ResponseEntity<?> shoppingCart() {
+//		ShopingDTO dto = new ShopingDTO();
+//		dto.setProductsInCart(cartService.getProductsInCart());
+//		dto.setTotal(cartService.getTotal().toString());
+//		return ResponseEntity.status(HttpStatus.OK).body(dto);
+//	}
+
 	@GetMapping("/")
 	public ResponseEntity<?> shoppingCart() {
-		ShopingDTO dto = new ShopingDTO();
-		dto.setProductsInCart(cartService.getProductsInCart());
-		dto.setTotal(cartService.getTotal().toString());
+		CartDTO dto = cartService.getProductsInCart();
+		if(dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0){
+			return ResponseEntity.status(HttpStatus.OK).body("Cart is Empty!");
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 
@@ -90,6 +99,18 @@ public class CartController {
 		return shoppingCart();
 	}
 
+	@GetMapping("/subscribe/{productId}")
+	public ResponseEntity<?> subscribeProductToCart(@PathVariable("productId") String productId) {
+		productService.findById(productId).ifPresent(cartService::subscribeProduct);
+		return shoppingCart();
+	}
+
+	@GetMapping("/unSubscribe/{productId}")
+	public ResponseEntity<?> unSubscribeProductFromCart(@PathVariable("productId") String productId) {
+		productService.findById(productId).ifPresent(cartService::unSubscribeProduct);
+		return shoppingCart();
+	}
+
 	@GetMapping("/checkout")
 	public ResponseEntity<?> checkout() {
 		try {
@@ -97,7 +118,7 @@ public class CartController {
 		} catch (NotEnoughProductsInStockException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
-		return shoppingCart();
+		return ResponseEntity.status(HttpStatus.OK).body("SUCCESS");
 	}
 }
 

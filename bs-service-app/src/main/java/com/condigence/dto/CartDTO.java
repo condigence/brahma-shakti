@@ -15,14 +15,23 @@ import java.util.List;
 public class CartDTO implements Serializable {
 
 	private String id;
-	private String userId;
-	private int totalItemCount;
-	private int totalItems;
-	private float discountAmount;
-	private float taxAmount;
+
 	private float subtotalAmount;
 	private float grandTotal;
+
+	private int totalItemCount;
+	private float discountAmount;
+	private float taxAmount;
+
 	private String lastUpdated;
+
 	private List<CartDetailDTO> itemDetails;
+
+	private List<SubscriptionDetailDTO> subscriptionDetails;
+
+	private String userId;
+	private UserDTO userDTO;
+
+	String outOfStockMessage;
 	
 }

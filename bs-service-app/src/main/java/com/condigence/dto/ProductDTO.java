@@ -15,7 +15,6 @@ public class ProductDTO implements Serializable {
 
 	private String id;
 	private String title;
-	private int stockLeft;
 	private String image;
 	private String unit;
 	private String description;
@@ -26,5 +25,8 @@ public class ProductDTO implements Serializable {
 	private String productType;
 	private double rating;
 	private boolean isSubscribable;
+
+	private int quantity;
+	private int stockLeft;
 
 }

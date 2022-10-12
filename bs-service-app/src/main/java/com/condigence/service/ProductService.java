@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-	
+
+	Optional<Product> findSubscribleProductById(String productId);
+
 	List<ProductDTO> getAll();
 
 	List<Product> getProductByName(String name);

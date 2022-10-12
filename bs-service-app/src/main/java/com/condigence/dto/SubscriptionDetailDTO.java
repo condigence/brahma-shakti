@@ -12,14 +12,17 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SubscriptionDTO implements Serializable {
+public class SubscriptionDetailDTO implements Serializable {
 
+	@Id
 	private String id;
+	private int itemQuantity;
+	private int totalAmount;
+	private ProductDTO productDTO;
+
 	private String fromDate;
 	private String toDate;
 	private Integer noOfDays;
 	private String frequency;
-	private UserDTO userDTO;
-	private ProductDTO productDTO;
-	private String quantity;
+
 }

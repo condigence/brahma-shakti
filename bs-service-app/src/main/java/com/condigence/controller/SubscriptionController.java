@@ -1,6 +1,6 @@
 package com.condigence.controller;
 
-import com.condigence.dto.SubscriptionDTO;
+import com.condigence.dto.SubscriptionDetailDTO;
 import com.condigence.service.SubscriptionService;
 import com.condigence.utils.CustomErrorType;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class SubscriptionController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getAllByUserId(@PathVariable String userId) {
 		logger.info("Fetching Subscription with userid {}", userId);
-		List<SubscriptionDTO> subscriptions = subscriptionService.getMySubscriptionsByUserId(userId);
+		List<SubscriptionDetailDTO> subscriptions = subscriptionService.getMySubscriptionsByUserId(userId);
 		if (subscriptions.size() > 0) {
 			return ResponseEntity.status(HttpStatus.OK).body(subscriptions);
 		}

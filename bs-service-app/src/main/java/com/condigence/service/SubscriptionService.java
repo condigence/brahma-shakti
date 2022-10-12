@@ -1,18 +1,17 @@
 package com.condigence.service;
 
 
-import com.condigence.bean.OrderBean;
-import com.condigence.dto.SubscriptionDTO;
+import com.condigence.dto.SubscriptionDetailDTO;
 
 import java.util.List;
 
 public interface SubscriptionService {
 
-	void subscribe(SubscriptionDTO subscriptionDTO);
+	void subscribe(SubscriptionDetailDTO subscriptionDTO);
 
-	void unSubscribe(SubscriptionDTO subscriptionDTO);
+	void unSubscribe(SubscriptionDetailDTO subscriptionDTO);
 
-	List<SubscriptionDTO> getMySubscriptionsByUserId(String userId);
+	List<SubscriptionDetailDTO> getMySubscriptionsByUserId(String userId);
 
 
 }

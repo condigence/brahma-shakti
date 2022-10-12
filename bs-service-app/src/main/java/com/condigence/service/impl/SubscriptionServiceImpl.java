@@ -1,8 +1,7 @@
 package com.condigence.service.impl;
 
-import com.condigence.bean.OrderBean;
 import com.condigence.dto.ProductDTO;
-import com.condigence.dto.SubscriptionDTO;
+import com.condigence.dto.SubscriptionDetailDTO;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.Product;
 import com.condigence.model.Subscription;
@@ -40,31 +39,29 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
 	@Override
-	public void subscribe(SubscriptionDTO subscriptionDTO) {
+	public void subscribe(SubscriptionDetailDTO subscriptionDTO) {
 		Subscription subscription = new Subscription();
 		subscription.setFrequency(subscriptionDTO.getFrequency());
 		subscription.setFromDate(subscriptionDTO.getFromDate());
 		subscription.setId(subscriptionDTO.getId());
 		subscription.setNoOfDays(subscriptionDTO.getNoOfDays());
-		subscription.setQuantity(subscriptionDTO.getQuantity());
 		subscription.setToDate(subscriptionDTO.getToDate());
 		subscription.setProductId(subscriptionDTO.getProductDTO().getId());
-		subscription.setUserId(subscriptionDTO.getUserDTO().getId());
 		subscriptionRepository.save(subscription);
 	}
 
 	@Override
-	public void unSubscribe(SubscriptionDTO subscriptionDTO) {
+	public void unSubscribe(SubscriptionDetailDTO subscriptionDTO) {
 		Subscription subscription = subscriptionRepository.findById(subscriptionDTO.getId()).get();
 		subscriptionRepository.delete(subscription);
 	}
 
 	@Override
-	public List<SubscriptionDTO> getMySubscriptionsByUserId(String userId) {
-		List<SubscriptionDTO> subscriptionsList = new ArrayList<>();
+	public List<SubscriptionDetailDTO> getMySubscriptionsByUserId(String userId) {
+		List<SubscriptionDetailDTO> subscriptionsList = new ArrayList<>();
 		List<Subscription> subscriptions = repository.findByUserId(userId);
 		for(Subscription subscription : subscriptions){
-			SubscriptionDTO dto = new SubscriptionDTO();
+			SubscriptionDetailDTO dto = new SubscriptionDetailDTO();
 
 			Product product = productRepository.findOneById(subscription.getProductId());
 
@@ -80,11 +77,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 			UserDTO userDTO = new UserDTO();
 			userDTO.setRegistered(userDTO.isRegistered());
 			userDTO.setContact(userDTO.getContact());
-			dto.setUserDTO(userDTO);
 
 			dto.setFrequency(subscription.getFrequency());
 			dto.setId(subscription.getId());
-			dto.setQuantity(subscription.getQuantity());
 			dto.setFromDate(subscription.getFromDate());
 			dto.setNoOfDays(subscription.getNoOfDays());
 			dto.setToDate(subscription.getToDate());

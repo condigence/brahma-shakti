@@ -1,6 +1,8 @@
 package com.condigence.utils;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
@@ -51,6 +53,13 @@ public class HelperUtil {
             );
 
     private HelperUtil() {
+    }
+
+    public static String getCurrentDateTIme(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));        //  2021/03/22 16:37:15
+        return dtf.format(now);
     }
 
 

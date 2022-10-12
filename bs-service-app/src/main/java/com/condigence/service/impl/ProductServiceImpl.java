@@ -35,6 +35,17 @@ public class ProductServiceImpl implements ProductService {
         return repository.findById(productId);
     }
 
+    @Override
+    public Optional<Product> findSubscribleProductById(String productId) {
+        Optional<Product> p = repository.findById(productId);
+        if(p.isPresent() && p.get().isSubscribable()){
+            return repository.findById(productId);
+        }else{
+            return Optional.empty();
+        }
+
+    }
+
 
     @Override
     public List<ProductDTO> getAll() {
