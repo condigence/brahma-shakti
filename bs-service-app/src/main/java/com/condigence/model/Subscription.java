@@ -22,5 +22,5 @@ public class Subscription implements Serializable {
 	private String frequency;
 	private String userId;
 	private String productId;
-	private String quantity;
+	private int quantity;
 }

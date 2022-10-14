@@ -38,7 +38,7 @@ public class RequestServiceImpl implements RequestService {
             }
         }
 
-        if(!StringUtils.isEmpty(ipAddress)
+        if(!StringUtils.hasText(ipAddress)
                 && ipAddress.length() > 15
                 && ipAddress.indexOf(",") > 0) {
             ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));

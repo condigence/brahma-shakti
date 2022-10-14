@@ -1,7 +1,5 @@
 package com.condigence.config;
 
-//import com.techgeeknext.service.JwtUserDetailsService;
-//import io.jsonwebtoken.ExpiredJwtException;
 import com.condigence.service.JwtUserDetailsService;
 import com.condigence.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;

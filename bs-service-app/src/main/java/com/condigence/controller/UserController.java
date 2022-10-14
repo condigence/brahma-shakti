@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @CrossOrigin
@@ -87,7 +86,7 @@ public class UserController {
 
         @SuppressWarnings({"rawtypes", "unchecked"})
     @PutMapping(value = "/update")
-    public ResponseEntity<?> updateUserProfile(@RequestBody @NotNull ProfileBean profileBean) {
+    public ResponseEntity<?> updateUserProfile(@RequestBody ProfileBean profileBean) {
         logger.info("Updating UserProfile  with id {}", profileBean.getId());
         return new ResponseEntity<UserDTO>(userService.updateUserProfile(profileBean), HttpStatus.OK);
     }

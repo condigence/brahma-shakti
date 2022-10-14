@@ -1,6 +1,7 @@
 package com.condigence.repository.impl;
 
 import com.condigence.model.Cart;
+import com.condigence.model.Subscription;
 import com.condigence.repository.CartQueryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,5 +23,6 @@ class CartQueryDaoImpl implements CartQueryDao {
         Cart cart = mongoTemplate.findOne(query, Cart.class);
         return cart;
     }
+
 
 }

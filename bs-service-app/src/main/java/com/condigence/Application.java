@@ -12,10 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,6 +27,10 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableMongoRepositories
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+@EnableSwagger2
 public class Application extends SpringBootServletInitializer {
 
     public static final Logger logger = LoggerFactory.getLogger(Application.class);

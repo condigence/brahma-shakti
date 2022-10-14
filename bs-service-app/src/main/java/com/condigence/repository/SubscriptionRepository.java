@@ -10,4 +10,6 @@ public interface SubscriptionRepository extends MongoRepository<Subscription, St
     Subscription save(Subscription subscription);
 
     List<Subscription> findByUserId(String userId);
+
+    Subscription findOneByProductId(String productId);
 }

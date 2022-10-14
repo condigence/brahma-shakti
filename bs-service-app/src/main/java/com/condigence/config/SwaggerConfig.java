@@ -26,6 +26,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
+               // .apis().
                 .apis(RequestHandlerSelectors.basePackage("com.condigence.controller"))
                // .paths(PathSelectors.ant("/bs/*"))
                 .paths(PathSelectors.any())
