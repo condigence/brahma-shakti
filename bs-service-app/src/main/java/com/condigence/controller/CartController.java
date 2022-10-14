@@ -123,7 +123,7 @@ public class CartController {
         return shoppingCart();
     }
 
-    @GetMapping("/unSubscribe")
+    @PostMapping("/unsubscribe")
     public ResponseEntity<?> unSubscribeProductFromCart(@RequestBody Subscription subscription) {
         cartService.unsubscribeProduct(subscription);
         return shoppingCart();

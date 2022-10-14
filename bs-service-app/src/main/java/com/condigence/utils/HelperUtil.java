@@ -58,7 +58,7 @@ public class HelperUtil {
     public static String getCurrentDateTIme(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));        //  2021/03/22 16:37:15
+        //System.out.println(dtf.format(now));        //  2021/03/22 16:37:15
         return dtf.format(now);
     }
 

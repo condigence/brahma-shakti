@@ -85,7 +85,7 @@ public class Application extends SpringBootServletInitializer {
 
                 } else {
                     logger.info("******* Products stored in DB Size :: {}", products.size());
-                    logger.info("******* Products stored in DB :: {}", products);
+                   // logger.info("******* Products stored in DB :: {}", products);
                 }
             } catch (Exception e) {
                 logger.info("******* Error while Saving *******");
