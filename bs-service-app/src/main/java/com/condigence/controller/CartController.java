@@ -84,6 +84,7 @@ public class CartController {
 
     @GetMapping("/")
     public ResponseEntity<?> shoppingCart() {
+        logger.info("Entering shoppingCart");
         CartDTO dto = cartService.getProductsInCart();
         if (dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0) {
             return ResponseEntity.status(HttpStatus.OK).body("Cart is Empty!");
@@ -102,7 +103,7 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<?> addProductWithQuantityToCart(@RequestBody Product product) {
         logger.info("Inside addProductWithQuantityToCart() with Product Id : "+product.getId() + " and Quantity : " + product.getQuantity());
-        if(productService.findById(product.getId()).isPresent() && product.getQuantity() != 0){
+        if(productService.findById(product.getId()).isPresent()){
             cartService.addProduct(product);
         }else{
             logger.warn("Either Product is not available or product quantity is not provided.");
@@ -114,6 +115,12 @@ public class CartController {
     @GetMapping("/remove/{productId}")
     public ResponseEntity<?> removeProductFromCart(@PathVariable("productId") String productId) {
         productService.findById(productId).ifPresent(cartService::removeProduct);
+        return shoppingCart();
+    }
+
+    @GetMapping("/remove/all/{productId}")
+    public ResponseEntity<?> removeAllProductFromCart(@PathVariable("productId") String productId) {
+        productService.findById(productId).ifPresent(cartService::removeAllProduct);
         return shoppingCart();
     }
 

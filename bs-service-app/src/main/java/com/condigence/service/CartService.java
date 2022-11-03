@@ -12,6 +12,8 @@ public interface CartService {
 
 	void removeProduct(Product product);
 
+	void removeAllProduct(Product product);
+
 	CartDTO getProductsInCart();
 
 	CartDTO getProductsInCart(String userId);

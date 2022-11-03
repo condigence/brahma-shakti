@@ -33,14 +33,16 @@ public class CartServiceImpl implements CartService {
 
     private Map<String, Integer> products = new HashMap<>();
 
-    private Map<Subscription, Integer> subscribedProducts = new HashMap<>();
+    private Map<String, Integer> subscribedProducts = new HashMap<>();
+
+    private Map<String, Subscription> subscriptionDetails = new HashMap<>();
 
 
     /**
      * if quantity is less than 2 i.e 1,0, Not Present
      * If product is in the map just increment quantity by 1.
      * If product is not in the map with, add it with quantity 1
-     *
+     * <p>
      * if quantity is greater than 1
      * If product is in the map just increment quantity by provided quantity.
      * If product is not in the map with, add it with provided quantity
@@ -49,15 +51,17 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public void addProduct(Product product) {
-        if(product.getQuantity() <= 1){
+//        Product p= productRepository.findById(product.getId()).get();
+//        p.setQuantity(product.getQuantity());
+        if (product.getQuantity() <= 1) {
             if (products.containsKey(product.getId())) {
                 products.replace(product.getId(), products.get(product.getId()) + 1);
             } else {
                 products.put(product.getId(), 1);
             }
-        }else{
-            if (products.containsKey(product)) {
-                int newQuantity = product.getQuantity() + products.get(product);
+        } else {
+            if (products.containsKey(product.getId())) {
+                int newQuantity = product.getQuantity() + products.get(product.getId());
                 products.replace(product.getId(), newQuantity);
             } else {
                 products.put(product.getId(), product.getQuantity());
@@ -80,6 +84,13 @@ public class CartServiceImpl implements CartService {
             else if (products.get(product.getId()) == 1) {
                 products.remove(product.getId());
             }
+        }
+    }
+
+    @Override
+    public void removeAllProduct(Product product) {
+        if (products.containsKey(product.getId())) {
+            products.remove(product.getId());
         }
     }
 
@@ -145,8 +156,8 @@ public class CartServiceImpl implements CartService {
             count += cartDetailDTO.getItemQuantity();
         }
 
-        for (Map.Entry<Subscription, Integer> entry : subscribedProducts.entrySet()) {
-            Product p = productRepository.findOneById(entry.getKey().getProductId());
+        for (Map.Entry<String, Integer> entry : subscribedProducts.entrySet()) {
+            Product p = productRepository.findOneById(entry.getKey());
             ProductDTO productDTO = new ProductDTO();
             productDTO.setId(p.getId());
             productDTO.setTitle(p.getName());
@@ -159,10 +170,16 @@ public class CartServiceImpl implements CartService {
             subscriptionDetailDTO.setProductDTO(productDTO);
             subscriptionDetailDTO.setItemQuantity(entry.getValue());
             subscriptionDetailDTO.setTotalAmount(p.getPrice() * entry.getValue());
-            subscriptionDetailDTO.setFromDate(entry.getKey().getFromDate());
-            subscriptionDetailDTO.setToDate(entry.getKey().getToDate());
-            subscriptionDetailDTO.setFrequency(entry.getKey().getFrequency());
-            subscriptionDetailDTO.setNoOfDays(entry.getKey().getNoOfDays());
+
+            for (Map.Entry<String, Subscription> items : subscriptionDetails.entrySet()) {
+                if (items.getKey().equalsIgnoreCase(entry.getKey())) {
+                    Subscription item = items.getValue();
+                    subscriptionDetailDTO.setFromDate(item.getFromDate());
+                    subscriptionDetailDTO.setToDate(item.getToDate());
+                    subscriptionDetailDTO.setFrequency(item.getFrequency());
+                    subscriptionDetailDTO.setNoOfDays(item.getNoOfDays());
+                }
+            }
             subscriptionDetailDTOS.add(subscriptionDetailDTO);
             sum += subscriptionDetailDTO.getTotalAmount();
             cartItems.setGrandTotal(sum);
@@ -197,28 +214,28 @@ public class CartServiceImpl implements CartService {
             productList.add(product);
         }
         productRepository.saveAll(productList);
-        products.clear();
-        // save all subscription
+        //// save all details to DB
 
+        products.clear();
         subscribedProducts.clear();
     }
 
 
     @Override
     public void unsubscribeProduct(Subscription subscription) {
-        if (subscribedProducts.containsKey(subscription)) {
-            if (subscribedProducts.get(subscription) > 1)
-                subscribedProducts.replace(subscription, subscribedProducts.get(subscription) - 1);
-            else if (subscribedProducts.get(subscription) == 1) {
-                subscribedProducts.remove(subscription);
+        if (subscribedProducts.containsKey(subscription.getProductId())) {
+            if (subscribedProducts.get(subscription.getProductId()) > 1)
+                subscribedProducts.replace(subscription.getProductId(), subscribedProducts.get(subscription.getProductId()) - 1);
+            else if (subscribedProducts.get(subscription.getProductId()) == 1) {
+                subscribedProducts.remove(subscription.getProductId());
             }
         }
     }
 
     @Override
     public void unsubscribeAllProduct(Subscription subscription) {
-        if (subscribedProducts.containsKey(subscription)) {
-                subscribedProducts.remove(subscription);
+        if (subscribedProducts.containsKey(subscription.getProductId())) {
+            subscribedProducts.remove(subscription.getProductId());
         }
     }
 
@@ -227,16 +244,29 @@ public class CartServiceImpl implements CartService {
         return null;
     }
 
+//    @Override
+//    public void subscribeProduct(Subscription subscription) {
+//        if (subscribedProducts.containsKey(subscription)) {
+//            int newQuantity = subscription.getQuantity() + subscribedProducts.get(subscription);
+//            subscribedProducts.replace(subscription, newQuantity);
+//        } else {
+//            subscribedProducts.put(subscription, subscription.getQuantity());
+//        }
+//    }
+
     @Override
     public void subscribeProduct(Subscription subscription) {
+        // update subscriptionDetails Map as well
 
-        if (subscribedProducts.containsKey(subscription)) {
-            int newQuantity = subscription.getQuantity() + subscribedProducts.get(subscription);
-            subscribedProducts.replace(subscription, newQuantity);
+        if (subscribedProducts.containsKey(subscription.getProductId())) {
+            int newQuantity = subscription.getQuantity() + subscribedProducts.get(subscription.getProductId());
+            subscribedProducts.replace(subscription.getProductId(), newQuantity);
         } else {
-            subscribedProducts.put(subscription, subscription.getQuantity());
+            subscribedProducts.put(subscription.getProductId(), subscription.getQuantity());
         }
 
+        // Updating the subscription Details in new map
+        subscriptionDetails.put(subscription.getProductId(), subscription);
     }
 
     @Override

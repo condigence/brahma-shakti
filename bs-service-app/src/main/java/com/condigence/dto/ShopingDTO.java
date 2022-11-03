@@ -15,8 +15,13 @@ import java.util.Map;
 @Builder
 public class ShopingDTO implements Serializable {
 
-	Map<Product, Integer> productsInCart;
-	String total;
+	Map<String, Integer> items;
+	int quantity;
+
+	private String fromDate;
+	private String toDate;
+	private Integer noOfDays;
+	private String frequency;
 	String outOfStockMessage;
 	
 }

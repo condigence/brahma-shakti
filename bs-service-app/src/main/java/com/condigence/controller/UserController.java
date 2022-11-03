@@ -43,6 +43,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAll() {
+        logger.info("Entering getAll Users");
         return ResponseEntity.ok().body(userService.getAll());
     }
 

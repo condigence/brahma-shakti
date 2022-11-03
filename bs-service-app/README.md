@@ -1,10 +1,8 @@
-# spring-boot-mongodb-crud
+# Brahma Shakti Project developed by Condigence
 
-This project explains CRUD (**C**reate, **R**ead, **U**pdate, **D**elete) operations using MongoTemplate and MongoRepository using spring boot and mongo DB.
-In this app we are using Spring Data JPA for built-in methods to do CRUD operations and Mongo queries using MongoTemplate.     
+This project manages all operations including  CRUD (**C**reate, **R**ead, **U**pdate, **D**elete) operations by using MongoTemplate and MongoRepository using spring boot and mongo DB.
+In this app we are also using Spring Data JPA for built-in methods to do CRUD operations and Mongo queries using MongoTemplate.     
 `@EnableMongoRepositories` annotation is used on main class to Enable Mongo related configuration, which will read properties from `application.properties` file.
-
-
 
 ## Prerequisites 
 - Java
@@ -24,7 +22,7 @@ In this app we are using Spring Data JPA for built-in methods to do CRUD operati
 
 
 ###  Build and Run application
-_GOTO >_ **~/absolute-path-to-directory/spring-boot-mongodb**  
+_GOTO >_ **~/absolute-path-to-directory/bs-service-app**  
 and try below command in terminal
 > **```mvn spring-boot:run```** it will run application as spring boot application
 
@@ -32,15 +30,15 @@ or
 > **```mvn clean install```** it will build application and create **jar** file under target directory 
 
 Run jar file from below path with given command
-> **```java -jar ~/path-to-spring-boot-mongodb/target/spring-boot-mongodb-0.0.1-SNAPSHOT.jar```**
+> **```java -jar ~/path-to-bs-service-app/target/brahmashakti.jar```**
 
 Or
-> run main method from `SpringBootMongoDBApplication.java` as spring boot application.  
+> run main method from `Application.java` as spring boot application.  
 
 
 ||
 |  ---------    |
-| **_Note_** : In `SpringBootMongoDBApplication.java` class we have autowired both SuperHero and Employee repositories. <br/>If there is no record present in DB for any one of that module class (Employee or SuperHero), static data is getting inserted in DB from `HelperUtil.java` class when we are starting the app for the first time.| 
+| **_Note_** : In `Application.java` class we have autowired both SuperHero and Employee repositories. <br/>If there is no record present in DB for any one of that module class (Employee or SuperHero), static data is getting inserted in DB from `HelperUtil.java` class when we are starting the app for the first time.| 
 
 
 
