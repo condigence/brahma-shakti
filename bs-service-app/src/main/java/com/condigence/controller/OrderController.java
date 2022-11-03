@@ -32,6 +32,7 @@ import java.math.RoundingMode;
  * @author Vish
  */
 @Slf4j
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/bs-order")
 public class OrderController {

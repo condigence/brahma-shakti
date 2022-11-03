@@ -37,18 +37,33 @@ public class CartServiceImpl implements CartService {
 
 
     /**
+     * if quantity is less than 2 i.e 1,0, Not Present
      * If product is in the map just increment quantity by 1.
      * If product is not in the map with, add it with quantity 1
+     *
+     * if quantity is greater than 1
+     * If product is in the map just increment quantity by provided quantity.
+     * If product is not in the map with, add it with provided quantity
      *
      * @param product
      */
     @Override
     public void addProduct(Product product) {
-        if (products.containsKey(product.getId())) {
-            products.replace(product.getId(), products.get(product.getId()) + 1);
-        } else {
-            products.put(product.getId(), 1);
+        if(product.getQuantity() <= 1){
+            if (products.containsKey(product.getId())) {
+                products.replace(product.getId(), products.get(product.getId()) + 1);
+            } else {
+                products.put(product.getId(), 1);
+            }
+        }else{
+            if (products.containsKey(product)) {
+                int newQuantity = product.getQuantity() + products.get(product);
+                products.replace(product.getId(), newQuantity);
+            } else {
+                products.put(product.getId(), product.getQuantity());
+            }
         }
+
     }
 
     /**
@@ -183,6 +198,9 @@ public class CartServiceImpl implements CartService {
         }
         productRepository.saveAll(productList);
         products.clear();
+        // save all subscription
+
+        subscribedProducts.clear();
     }
 
 
@@ -198,6 +216,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public void unsubscribeAllProduct(Subscription subscription) {
+        if (subscribedProducts.containsKey(subscription)) {
+                subscribedProducts.remove(subscription);
+        }
+    }
+
+    @Override
     public CartDTO getProductsInCartByUserId(String userId) {
         return null;
     }
@@ -206,10 +231,17 @@ public class CartServiceImpl implements CartService {
     public void subscribeProduct(Subscription subscription) {
 
         if (subscribedProducts.containsKey(subscription)) {
-            subscribedProducts.replace(subscription, subscribedProducts.get(subscription) + 1);
+            int newQuantity = subscription.getQuantity() + subscribedProducts.get(subscription);
+            subscribedProducts.replace(subscription, newQuantity);
         } else {
-            subscribedProducts.put(subscription, 1);
+            subscribedProducts.put(subscription, subscription.getQuantity());
         }
 
     }
+
+    @Override
+    public void updateSubscription(Subscription subscription) {
+
+    }
 }
+

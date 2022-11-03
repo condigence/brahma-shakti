@@ -9,6 +9,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin()
 @RequestMapping("/api/bs-category")
 public class CategoryController {
 

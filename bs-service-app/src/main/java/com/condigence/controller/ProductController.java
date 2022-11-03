@@ -32,6 +32,8 @@ public class ProductController {
 	
 	@GetMapping
 	public List<ProductDTO> getAll() {
+
+		logger.info("Entering getAll Products");
 		return productService.getAll();
 	}
 

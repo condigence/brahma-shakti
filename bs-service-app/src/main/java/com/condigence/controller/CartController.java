@@ -1,6 +1,7 @@
 package com.condigence.controller;
 
 import com.condigence.dto.CartDTO;
+import com.condigence.dto.ProductDTO;
 import com.condigence.dto.SubscriptionDetailDTO;
 import com.condigence.exception.NotEnoughProductsInStockException;
 import com.condigence.model.Product;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 
 @RestController
+@CrossOrigin()
 @RequestMapping("/api/bs-cart")
 public class CartController {
 
@@ -91,7 +93,21 @@ public class CartController {
 
     @GetMapping("/add/{productId}")
     public ResponseEntity<?> addProductToCart(@PathVariable("productId") String productId) {
+        logger.info("Inside addProductToCart() with Product Id : "+productId);
         productService.findById(productId).ifPresent(cartService::addProduct);
+        logger.info("Existing addProductToCart()");
+        return shoppingCart();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addProductWithQuantityToCart(@RequestBody Product product) {
+        logger.info("Inside addProductWithQuantityToCart() with Product Id : "+product.getId() + " and Quantity : " + product.getQuantity());
+        if(productService.findById(product.getId()).isPresent() && product.getQuantity() != 0){
+            cartService.addProduct(product);
+        }else{
+            logger.warn("Either Product is not available or product quantity is not provided.");
+        }
+        logger.info("Existing addProductWithQuantityToCart()");
         return shoppingCart();
     }
 
@@ -101,31 +117,38 @@ public class CartController {
         return shoppingCart();
     }
 
-//    @GetMapping("/subscribe/{productId}")
-//    public ResponseEntity<?> subscribeProductToCart(@PathVariable("productId") String productId) {
-//        productService.findById(productId).ifPresent(cartService::subscribeProduct);
-//        return shoppingCart();
-//    }
-
-//    @GetMapping("/subscribe/{productId}")
-//    public ResponseEntity<?> subscribeProductItemsToCart(@PathVariable("productId") String productId, @RequestBody SubscriptionDetailDTO dto) {
-//      //  productService.findById(productId).ifPresent(cartService::subscribeProduct);
-//        Optional<Product> product = productService.findById(productId);
-//        if(product.isPresent()){
-//            cartService.subscribeProduct(product.get(),dto);
-//        }
-//        return shoppingCart();
-//    }
 
     @PostMapping("/subscribe")
     public ResponseEntity<?> subscribeProductItemsToCart(@RequestBody Subscription subscription ) {
-        cartService.subscribeProduct(subscription);
-        return shoppingCart();
+        // check if product is available
+        if(productService.findById(subscription.getProductId()).isPresent()){
+            cartService.subscribeProduct(subscription);
+            return shoppingCart();
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body("Product That your are trying to add does not exist! Please contact admin!");
+        }
+    }
+
+    @PutMapping("/update/subscription")
+    public ResponseEntity<?> updateSubscriptions(@RequestBody Subscription subscription ) {
+        // check if product is available
+        if(productService.findById(subscription.getProductId()).isPresent()){
+            cartService.subscribeProduct(subscription);
+            return shoppingCart();
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body("Product That your are trying to update does not exist! Please contact admin!");
+        }
     }
 
     @PostMapping("/unsubscribe")
     public ResponseEntity<?> unSubscribeProductFromCart(@RequestBody Subscription subscription) {
         cartService.unsubscribeProduct(subscription);
+        return shoppingCart();
+    }
+
+    @PostMapping("/unsubscribe/all")
+    public ResponseEntity<?> unsubscribeAll(@RequestBody Subscription subscription) {
+        cartService.unsubscribeAllProduct(subscription);
         return shoppingCart();
     }
 

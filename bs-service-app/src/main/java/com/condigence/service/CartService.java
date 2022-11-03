@@ -20,8 +20,12 @@ public interface CartService {
 
 	void unsubscribeProduct(Subscription subscription);
 
+	void unsubscribeAllProduct(Subscription subscription);
+
 	CartDTO getProductsInCartByUserId(String userId);
 
 	void subscribeProduct(Subscription subscription);
+
+	void updateSubscription(Subscription subscription);
 
 }
