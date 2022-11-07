@@ -87,7 +87,7 @@ public class CartController {
         logger.info("Entering shoppingCart");
         CartDTO dto = cartService.getProductsInCart();
         if (dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0) {
-            return ResponseEntity.status(HttpStatus.OK).body("Cart is Empty!");
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
         }
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
