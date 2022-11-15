@@ -3,11 +3,13 @@ package com.condigence.controller;
 import com.condigence.dto.CartDTO;
 import com.condigence.dto.ProductDTO;
 import com.condigence.dto.SubscriptionDetailDTO;
+import com.condigence.dto.UserDTO;
 import com.condigence.exception.NotEnoughProductsInStockException;
 import com.condigence.model.Product;
 import com.condigence.model.Subscription;
 import com.condigence.service.CartService;
 import com.condigence.service.ProductService;
+import com.condigence.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,16 @@ public class CartController {
 
     public static final Logger logger = LoggerFactory.getLogger(CartController.class);
     private final ProductService productService;
+
+    private final UserService userService;
+
     private final CartService cartService;
 
     @Autowired
-    public CartController(CartService cartService, ProductService productService) {
+    public CartController(CartService cartService, ProductService productService, UserService userService) {
         this.cartService = cartService;
         this.productService = productService;
+        this.userService = userService;
     }
 
     @GetMapping("/healthCheck")
@@ -159,10 +165,16 @@ public class CartController {
         return shoppingCart();
     }
 
+    //loggedUserId
+
     @GetMapping("/checkout")
-    public ResponseEntity<?> checkout() {
+    public ResponseEntity<?> checkout(@RequestParam(required = false) String userId) {
+
+        CartDTO dto = cartService.getProductsInCart();
+        UserDTO userDTO = userService.getUserById(userId);
+        dto.setUserDTO(userDTO);
         try {
-            cartService.checkout();
+            cartService.checkout(dto);
         } catch (NotEnoughProductsInStockException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

@@ -178,6 +178,7 @@ public class CartServiceImpl implements CartService {
                     subscriptionDetailDTO.setToDate(item.getToDate());
                     subscriptionDetailDTO.setFrequency(item.getFrequency());
                     subscriptionDetailDTO.setNoOfDays(item.getNoOfDays());
+                    subscriptionDetailDTO.setStatus("PENDING");
                 }
             }
             subscriptionDetailDTOS.add(subscriptionDetailDTO);
@@ -201,7 +202,8 @@ public class CartServiceImpl implements CartService {
      */
 
     @Override
-    public void checkout() throws NotEnoughProductsInStockException {
+    public void checkout(CartDTO cartDTO) throws NotEnoughProductsInStockException {
+        //TODO : Need to work on
         List<Product> productList = new ArrayList<>();
         Product product;
         for (Map.Entry<String, Integer> entry : products.entrySet()) {

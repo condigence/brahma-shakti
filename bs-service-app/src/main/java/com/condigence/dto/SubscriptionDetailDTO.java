@@ -24,5 +24,6 @@ public class SubscriptionDetailDTO implements Serializable {
 	private String toDate;
 	private Integer noOfDays;
 	private String frequency;
+	private String status; // PENDING or CONFIRMED or CANCELLED
 
 }

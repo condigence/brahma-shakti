@@ -23,4 +23,5 @@ public class Subscription implements Serializable {
 	private String userId;
 	private String productId;
 	private int quantity;
+	private String status; // PENDING or CONFIRMED or CANCELLED
 }

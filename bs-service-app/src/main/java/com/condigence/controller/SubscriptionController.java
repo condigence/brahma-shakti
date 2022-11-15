@@ -1,5 +1,6 @@
 package com.condigence.controller;
 
+import com.condigence.dto.CartDTO;
 import com.condigence.dto.SubscriptionDetailDTO;
 import com.condigence.service.SubscriptionService;
 import com.condigence.utils.CustomErrorType;
@@ -36,9 +37,13 @@ public class SubscriptionController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getAllByUserId(@PathVariable String userId) {
 		logger.info("Fetching Subscription with userid {}", userId);
-		List<SubscriptionDetailDTO> subscriptions = subscriptionService.getMySubscriptionsByUserId(userId);
-		if (subscriptions.size() > 0) {
-			return ResponseEntity.status(HttpStatus.OK).body(subscriptions);
+		CartDTO mySubscriptions = subscriptionService.getMySubscriptionsByUserId(userId);
+		if (mySubscriptions != null && mySubscriptions.getSubscriptionDetails().size() > 0) {
+			if(mySubscriptions.getSubscriptionDetails().get(0).getStatus().equalsIgnoreCase("CONFIRMED")){
+				return ResponseEntity.status(HttpStatus.OK).body(mySubscriptions.getSubscriptionDetails());
+			}else{
+				return new ResponseEntity(new CustomErrorType("No subscriptions has confirmed yet. Please contact admin!"), HttpStatus.NOT_FOUND);
+			}
 		}
 		 else {
 			return new ResponseEntity(new CustomErrorType("subscriptions not found for User Id : "+userId), HttpStatus.NOT_FOUND);

@@ -1,5 +1,6 @@
 package com.condigence.service.impl;
 
+import com.condigence.dto.CartDTO;
 import com.condigence.dto.ProductDTO;
 import com.condigence.dto.SubscriptionDetailDTO;
 import com.condigence.dto.UserDTO;
@@ -57,7 +58,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public List<SubscriptionDetailDTO> getMySubscriptionsByUserId(String userId) {
+	public CartDTO getMySubscriptionsByUserId(String userId) {
+
+		CartDTO cartDTO = new CartDTO();
 		List<SubscriptionDetailDTO> subscriptionsList = new ArrayList<>();
 		List<Subscription> subscriptions = repository.findByUserId(userId);
 		for(Subscription subscription : subscriptions){
@@ -86,7 +89,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 			subscriptionsList.add(dto);
 		}
 
-
-		return subscriptionsList;
+		cartDTO.setSubscriptionDetails(subscriptionsList);
+		return cartDTO;
 	}
 }

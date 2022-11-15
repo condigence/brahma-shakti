@@ -28,6 +28,7 @@ public class OrderDTO implements Serializable {
 	private float subtotalAmount;
 	private float grandTotal;
 	private String lastUpdated;
-	private List<OrderDetailDTO> orderItems;
+	//private List<OrderDetailDTO> orderItems;
+	private CartDTO cartDTO;
 	
 }

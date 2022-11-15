@@ -155,10 +155,9 @@ public class UserController {
         return new ResponseEntity<Address>(HttpStatus.OK);
     }
 
-    @GetMapping("/getDefault/addresses/by/user/{id}")
+    @GetMapping("/getDefault/address/by/user/{id}")
     public ResponseEntity<?> getDefaultAddressesById(@PathVariable("id") String id) {
         AddressDTO dto = new AddressDTO();
-
         List<Address> addresses = userService.getAllAddressesByUserId(id);
         for (Address address : addresses) {
             if (address.getIsDefault().equalsIgnoreCase("Y")) {
@@ -173,31 +172,38 @@ public class UserController {
     }
 
 
-    @GetMapping("/addresses/by/{id}")
-    public ResponseEntity<?> getAddressesById(@PathVariable("id") String id) {
-        AddressDTO dto = new AddressDTO();
+//    @GetMapping("/addresses/by/{id}")
+//    public ResponseEntity<?> getAddressesById(@PathVariable("id") String id) {
+//        AddressDTO dto = new AddressDTO();
+//
+//        Optional<Address> address = userService.getAddressesById(id);
+//
+//        if (address.isPresent()) {
+//            dto.setId(address.get().getId());
+//            dto.setLine1(address.get().getLine1());
+//
+//            dto.setLine2(address.get().getLine2());
+//
+//            dto.setCity(address.get().getCity());
+//            dto.setState(address.get().getState());
+//            dto.setCountry(address.get().getCountry());
+//
+//            dto.setType(address.get().getType());
+//            dto.setUserId(address.get().getUserId());
+//            dto.setIsDefault(address.get().getIsDefault());
+//        }
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(dto);
+//    }
 
-        Optional<Address> address = userService.getAddressesById(id);
 
-        if (address.isPresent()) {
-            dto.setId(address.get().getId());
-            dto.setLine1(address.get().getLine1());
-
-            dto.setLine2(address.get().getLine2());
-
-            dto.setCity(address.get().getCity());
-            dto.setState(address.get().getState());
-            dto.setCountry(address.get().getCountry());
-
-            dto.setType(address.get().getType());
-            dto.setUserId(address.get().getUserId());
-            dto.setIsDefault(address.get().getIsDefault());
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @DeleteMapping(value = "/address/{id}")
+    public ResponseEntity<?> deleteAddressById(@PathVariable("id") String id) {
+        logger.info("Fetching & Deleting Users Address with id {}", id);
+        userService.deleteAddressById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
 
 

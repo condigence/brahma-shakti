@@ -2,6 +2,7 @@ package com.condigence.service.impl;
 
 import com.condigence.bean.OrderBean;
 import com.condigence.bean.OrderDetailBean;
+import com.condigence.dto.CartDTO;
 import com.condigence.dto.OrderDTO;
 import com.condigence.dto.OrderDetailDTO;
 import com.condigence.model.Order;
@@ -86,7 +87,8 @@ public class OrderServiceImpl implements OrderService {
 			orderDTO.setType(order.getType());
 			orderDTO.setStatus(order.getStatus());
 
-			List<OrderDetailDTO> orderDetails = new ArrayList<>();
+			//TODO : Need to work on
+			List<CartDTO> orderDetails = new ArrayList<>();
 			for(OrderDetail items :order.getOrderItems()) {
 				OrderDetailDTO orderDetail = new OrderDetailDTO();
 				Product product = productRepository.findOneById(items.getProductId());
@@ -94,9 +96,9 @@ public class OrderServiceImpl implements OrderService {
 				orderDetail.setId(items.getId());
 				orderDetail.setQuantity(items.getQuantity());
 				orderDetail.setProductId(product.getId());
-				orderDetails.add(orderDetail);
+				//orderDetails.add(orderDetail);
 			}
-			orderDTO.setOrderItems(orderDetails);
+		//	orderDTO.setOrderItems(orderDetails);
 			return orderDTO;
 		}else{
 			return OrderDTO.builder().id("0").userId("Not Found").build();

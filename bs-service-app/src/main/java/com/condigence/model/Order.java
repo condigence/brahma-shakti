@@ -26,7 +26,7 @@ public class Order implements Serializable {
     private String userId;
     private String type;
     private String dateTime;
-    private String status;
+    private String status; // PENDING or CONFIRMED or CANCELLED
     private int totalItemCount;
     private float discountAmount;
     private float taxAmount;

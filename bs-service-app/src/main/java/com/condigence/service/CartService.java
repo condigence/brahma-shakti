@@ -18,7 +18,7 @@ public interface CartService {
 
 	CartDTO getProductsInCart(String userId);
 
-	void checkout() throws NotEnoughProductsInStockException;
+	void checkout(CartDTO cartDTO) throws NotEnoughProductsInStockException;
 
 	void unsubscribeProduct(Subscription subscription);
 
