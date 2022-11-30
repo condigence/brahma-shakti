@@ -62,18 +62,32 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping(value = "/")
-    public ResponseEntity<?> addUser(@RequestBody UserBean userBean) {
+    @PostMapping({"/", "/register"})
+    public ResponseEntity<UserDTO> addUser(@RequestBody UserBean userBean) {
         logger.info("Entering addUser with User Details >>>>>>>>  : {}", userBean);
+        UserDTO userDTO = null;
         HttpHeaders headers = new HttpHeaders();
         if(userService.isUserExists(userBean.getContact())){
             return new ResponseEntity(new CustomErrorType("Sorry User already. Exists with the contact : "+userBean.getContact()),
                     HttpStatus.CONFLICT);
         }else{
-            userDetailsService.save(userBean);
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            userDTO = userDetailsService.save(userBean);
+            return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         }
+    }
 
+    @PostMapping({"/update-info"})
+    public ResponseEntity<UserDTO> signUpUser(@RequestBody UserBean userBean) {
+        logger.info("Entering addUser with User Details >>>>>>>>  : {}", userBean);
+        UserDTO userDTO = null;
+        HttpHeaders headers = new HttpHeaders();
+        if(userService.isUserExists(userBean.getContact())){
+            userDTO = userDetailsService.updateUser(userBean);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new CustomErrorType("Sorry User info can not be updated with this contact. Please contact Admin : "+userBean.getContact()),
+                    HttpStatus.CONFLICT);
+        }
     }
 
     @DeleteMapping(value = "/{id}")

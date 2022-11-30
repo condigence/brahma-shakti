@@ -2,6 +2,7 @@ package com.condigence.service;
 
 import com.condigence.bean.ProfileBean;
 import com.condigence.bean.UserBean;
+import com.condigence.dto.ProfileDTO;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.Profile;
 import com.condigence.model.User;
@@ -55,5 +56,26 @@ public class JwtUserDetailsService implements UserDetailsService {
         Profile profile = new Profile();
         user.setProfileId(profileRepository.save(profile).getId());
         return userDao.save(user);
+    }
+
+    public UserDTO updateUser(UserBean userBean) {
+        User user = userService.findByUserContact(userBean.getContact());
+        user.setContact(userBean.getContact());
+        user.setEmail(userBean.getEmail());
+        user.setOtp("1234");
+        user.setFirstName(userBean.getFirstName());
+        userDao.save(user);
+
+        ProfileDTO profile = userService.getProfileById(user.getProfileId());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setRegistered(true);
+        userDTO.setContact(user.getContact());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setProfile(profile);
+        return userDTO;
+
+
+
+
     }
 }

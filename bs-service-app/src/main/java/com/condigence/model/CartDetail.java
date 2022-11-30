@@ -1,5 +1,6 @@
 package com.condigence.model;
 
+import com.condigence.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +17,8 @@ public class CartDetail implements Serializable {
 
 	@Id
 	private String id;
-	private String productId;
-	private int itemCount;
+	private int itemQuantity;
 	private int totalAmount;
+	private String productId;
 	
 }

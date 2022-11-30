@@ -1,5 +1,8 @@
 package com.condigence.model;
 
+import com.condigence.dto.CartDetailDTO;
+import com.condigence.dto.SubscriptionDetailDTO;
+import com.condigence.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +21,16 @@ public class Cart implements Serializable {
 	@Id
 	private String id;
 	private String userId;
-	private List<CartDetail> itemDetails;
+	private String convId;
+	private String lastUpdated;
+
+	private float subtotalAmount;
+	private float grandTotal;
 	private int totalItemCount;
 	private float discountAmount;
 	private float taxAmount;
-	private float subtotalAmount;
-	private float grandTotal;
-	private String lastUpdated;
-	
+
+	private List<CartDetail> itemDetails;
+	private List<Subscription> subscriptionDetails;
+
 }

@@ -336,18 +336,16 @@ public class UserServiceImpl implements UserService {
         address.setPin(dto.getPin());
         address.setCity(dto.getCity());
         address.setState(dto.getState());
-        address.setCountry(dto.getState());
+        address.setCountry(dto.getCountry());
         if (dto.getIsDefault() != null && dto.getIsDefault().equalsIgnoreCase("true")) {
             List<Address> addresses = (List<Address>) getAllAddressesByUserId(dto.getUserId());
             for (Address add : addresses) {
                 add.setIsDefault("N");
-
             }
             address.setIsDefault("Y");
         } else {
             address.setIsDefault("N");
         }
-
         address.setUserId(dto.getUserId());
         return addressRepository.save(address);
     }
@@ -362,15 +360,6 @@ public class UserServiceImpl implements UserService {
     public List<Address> getAllAddressesByUserId(String id) {
         return addressRepository.findByUserId(id);
     }
-
-//    @Override
-//    public ProfileDTO getProfileByContact(String contact) {
-//        User user = userRepository.findByContact(contact);
-//        ProfileDTO profileDTO = profileRepository.
-//
-//
-//        return null;
-//    }
 
     @Override
     public Optional<Address> getAddressesById(String id) {

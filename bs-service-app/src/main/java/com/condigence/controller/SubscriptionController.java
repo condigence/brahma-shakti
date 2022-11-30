@@ -39,11 +39,7 @@ public class SubscriptionController {
 		logger.info("Fetching Subscription with userid {}", userId);
 		CartDTO mySubscriptions = subscriptionService.getMySubscriptionsByUserId(userId);
 		if (mySubscriptions != null && mySubscriptions.getSubscriptionDetails().size() > 0) {
-			if(mySubscriptions.getSubscriptionDetails().get(0).getStatus().equalsIgnoreCase("CONFIRMED")){
-				return ResponseEntity.status(HttpStatus.OK).body(mySubscriptions.getSubscriptionDetails());
-			}else{
-				return new ResponseEntity(new CustomErrorType("No subscriptions has confirmed yet. Please contact admin!"), HttpStatus.NOT_FOUND);
-			}
+			return ResponseEntity.status(HttpStatus.OK).body(mySubscriptions.getSubscriptionDetails());
 		}
 		 else {
 			return new ResponseEntity(new CustomErrorType("subscriptions not found for User Id : "+userId), HttpStatus.NOT_FOUND);

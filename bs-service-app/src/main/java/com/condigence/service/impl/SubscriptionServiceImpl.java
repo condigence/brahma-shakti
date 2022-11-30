@@ -76,7 +76,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 			dto.setProductDTO(productDTO);
 
 			User user = userRepository.findByContact(subscription.getUserId());
-
 			UserDTO userDTO = new UserDTO();
 			userDTO.setRegistered(userDTO.isRegistered());
 			userDTO.setContact(userDTO.getContact());
@@ -86,7 +85,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 			dto.setFromDate(subscription.getFromDate());
 			dto.setNoOfDays(subscription.getNoOfDays());
 			dto.setToDate(subscription.getToDate());
-			subscriptionsList.add(dto);
+			if(dto.getStatus().equalsIgnoreCase("CONFIRMED")){
+				subscriptionsList.add(dto);
+			}
+
 		}
 
 		cartDTO.setSubscriptionDetails(subscriptionsList);

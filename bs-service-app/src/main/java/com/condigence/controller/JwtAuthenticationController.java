@@ -124,6 +124,38 @@ public class JwtAuthenticationController {
             }
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @PostMapping(value = "/validate-signup-otp")
+    public ResponseEntity<?> validateRegistrationOTP(@RequestBody UserDTO userDTO) {
+        logger.info("Entering validateOTP user Details >>>>>>>>  : {}", userDTO.getContact() , userDTO.getOtp());
+        // HttpHeaders headers = new HttpHeaders();
+        System.out.println("Inside verify-sign-up-OTP with contact " + userDTO.getContact());
+
+        if (userDTO.getOtp() != null && userDTO.getOtp().equalsIgnoreCase(getGOTP())) {
+            System.out.println("OTP Match");
+            User userDetails = userDetailsService.findByUserContact(userDTO.getContact());
+            if(!userDTO.isRegistered() && userDetails == null){
+                userDetails = userDetailsService.saveNewUser(userDTO);
+            }
+            userDTO.setRegistered(true);
+            userDTO.setContact(userDetails.getContact());
+            userDTO.setFirstName(userDetails.getFirstName());
+            userDTO.setEmail(userDetails.getEmail());
+            userDTO.setLastName(userDetails.getLastName());
+            userDTO.setId(userDetails.getId());
+            userDTO.setOtp("****");
+            //202 Accepted => OTP validation Successful
+            return new ResponseEntity(userDTO, HttpStatus.ACCEPTED);
+        } else {
+            System.out.println("OTP did not Match");
+            //count
+            //
+
+            // 401 => OTP is not valid ( Unauthorized ).
+            return new ResponseEntity(new CustomErrorType("Sorry, OTP is not valid. Try again!"), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     private String getGOTP() {
         return "1234";
     }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,10 +17,8 @@ public class OrderDTO implements Serializable {
 
 	private String id;
 	private String number;
-	private String userId;
 	private String type;
 	private String dateTime;
-	private String status;
 	private int totalItemCount;
 	private float discountAmount;
 	private float taxAmount;
@@ -28,7 +27,21 @@ public class OrderDTO implements Serializable {
 	private float subtotalAmount;
 	private float grandTotal;
 	private String lastUpdated;
-	//private List<OrderDetailDTO> orderItems;
-	private CartDTO cartDTO;
+	private UserDTO user;
+	private List<CartDetailDTO> itemDetails;
+	private List<SubscriptionDetailDTO> subscriptionDetails;
+	private String status; // PENDING or CONFIRMED or CANCELLED
+	private String paymentMethod;
+	private String razorpayPaymentId;
+	private String razorpayOrderId;
+	private String razorpaySignature;
+
+
+
+
+
+
+
+
 	
 }
