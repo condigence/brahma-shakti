@@ -300,7 +300,7 @@ public class CartServiceImpl implements CartService {
 
         subscription.setQuantity(newQuantity);
         if (cart.getSubscriptions().containsKey(subscription.getProductId())) {
-            cart.getSubscriptions().replace(subscription.getProductId(), subscription);
+            cart.getSubscriptions().replace(subscription.getProductId(),subscription);
         }
         updateMyCart(convId, userId, cart);
     }

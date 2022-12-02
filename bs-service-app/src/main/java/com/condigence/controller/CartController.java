@@ -146,13 +146,14 @@ public class CartController {
         if (productService.findById(productId).isPresent()) {
             Product p = productService.findById(productId).get();
             cartService.removeProduct(p, convId, userId);
+            return shoppingCart(convId, userId);
         } else {
             logger.warn("Either Product is not available or product quantity is not provided.");
             System.out.println("Sorry Product Id is not correct, So product can not be removed from the cart!");
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be removed from  the cart!:( "),
                     HttpStatus.NOT_FOUND);
         }
-        return shoppingCart(convId, userId);
+
     }
 
     @GetMapping("/remove/all/{productId}")
@@ -202,14 +203,25 @@ public class CartController {
 
     @PostMapping("/unsubscribe")
     public ResponseEntity<?> unSubscribeProductFromCart(@RequestBody Subscription subscription, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        cartService.unsubscribeProduct(subscription, convId, userId);
-        return shoppingCart(convId, userId);
+        if (productService.findById(subscription.getProductId()).isPresent()) {
+            cartService.unsubscribeProduct(subscription, convId, userId);
+            return shoppingCart(convId, userId);
+        }else{
+            return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be unsubscribed!:( "),
+                    HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PostMapping("/unsubscribe/all")
     public ResponseEntity<?> unsubscribeAll(@RequestBody Subscription subscription, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        cartService.unsubscribeAllProduct(subscription, convId, userId);
-        return shoppingCart(convId, userId);
+        if (productService.findById(subscription.getProductId()).isPresent()) {
+            cartService.unsubscribeAllProduct(subscription, convId, userId);
+            return shoppingCart(convId, userId);
+        }else{
+            return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be unsubscribed!:( "),
+                    HttpStatus.NOT_FOUND);
+        }
     }
 
     //loggedUserId
