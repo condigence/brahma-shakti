@@ -59,39 +59,44 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public CartDTO getMySubscriptionsByUserId(String userId) {
-
-		CartDTO cartDTO = new CartDTO();
-		List<SubscriptionDetailDTO> subscriptionsList = new ArrayList<>();
-		List<Subscription> subscriptions = repository.findByUserId(userId);
-		for(Subscription subscription : subscriptions){
-			SubscriptionDetailDTO dto = new SubscriptionDetailDTO();
-
-			Product product = productRepository.findOneById(subscription.getProductId());
-
-			ProductDTO  productDTO =  new ProductDTO();
-			productDTO.setId(product.getId());
-			productDTO.setCategory(product.getCategory());
-			productDTO.setDescription(product.getDescription());
-			productDTO.setPrice(product.getPrice());
-			dto.setProductDTO(productDTO);
-
-			User user = userRepository.findByContact(subscription.getUserId());
-			UserDTO userDTO = new UserDTO();
-			userDTO.setRegistered(userDTO.isRegistered());
-			userDTO.setContact(userDTO.getContact());
-
-			dto.setFrequency(subscription.getFrequency());
-			dto.setId(subscription.getId());
-			dto.setFromDate(subscription.getFromDate());
-			dto.setNoOfDays(subscription.getNoOfDays());
-			dto.setToDate(subscription.getToDate());
-			if(dto.getStatus().equalsIgnoreCase("CONFIRMED")){
-				subscriptionsList.add(dto);
-			}
-
-		}
-
-		cartDTO.setSubscriptionDetails(subscriptionsList);
-		return cartDTO;
+		return null;
 	}
+
+//	@Override
+//	public CartDTO getMySubscriptionsByUserId(String userId) {
+//
+//		CartDTO cartDTO = new CartDTO();
+//		List<SubscriptionDetailDTO> subscriptionsList = new ArrayList<>();
+//		List<Subscription> subscriptions = repository.findByUserId(userId);
+//		for(Subscription subscription : subscriptions){
+//			SubscriptionDetailDTO dto = new SubscriptionDetailDTO();
+//
+//			Product product = productRepository.findOneById(subscription.getProductId());
+//
+//			ProductDTO  productDTO =  new ProductDTO();
+//			productDTO.setId(product.getId());
+//			productDTO.setCategory(product.getCategory());
+//			productDTO.setDescription(product.getDescription());
+//			productDTO.setPrice(product.getPrice());
+//			dto.setProductDTO(productDTO);
+//
+//			User user = userRepository.findByContact(subscription.getUserId());
+//			UserDTO userDTO = new UserDTO();
+//			userDTO.setRegistered(userDTO.isRegistered());
+//			userDTO.setContact(userDTO.getContact());
+//
+//			dto.setFrequency(subscription.getFrequency());
+//			dto.setId(subscription.getId());
+//			dto.setFromDate(subscription.getFromDate());
+//			dto.setNoOfDays(subscription.getNoOfDays());
+//			dto.setToDate(subscription.getToDate());
+//			if(dto.getStatus().equalsIgnoreCase("CONFIRMED")){
+//				subscriptionsList.add(dto);
+//			}
+//
+//		}
+//
+//		cartDTO.setSubscriptionDetails(subscriptionsList);
+//		return cartDTO;
+//	}
 }

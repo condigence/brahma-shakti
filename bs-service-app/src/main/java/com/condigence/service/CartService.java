@@ -18,13 +18,13 @@ public interface CartService {
 
 	void checkout(CartDTO cartDTO) throws NotEnoughProductsInStockException;
 
-	void unsubscribeProduct(Subscription subscription);
+	void unsubscribeProduct(Subscription subscription, String convId, String userId);
 
-	void unsubscribeAllProduct(Subscription subscription);
+	void unsubscribeAllProduct(Subscription subscription, String convId, String userId);
 
-	void subscribeProduct(Subscription subscription);
+	void subscribeProduct(Subscription subscription, String convId, String userId);
 
-	void updateSubscription(Subscription subscription);
+	void updateSubscription(Subscription subscription, String convId, String userId);
 
 
 }

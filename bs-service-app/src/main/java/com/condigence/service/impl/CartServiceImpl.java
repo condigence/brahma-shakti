@@ -1,12 +1,8 @@
 package com.condigence.service.impl;
 
-import com.condigence.bean.CartBean;
 import com.condigence.bean.ProductBean;
-import com.condigence.bean.SubscriptionBean;
 import com.condigence.dto.*;
 import com.condigence.exception.NotEnoughProductsInStockException;
-import com.condigence.model.Cart;
-import com.condigence.model.CartDetail;
 import com.condigence.model.Product;
 import com.condigence.model.Subscription;
 import com.condigence.repository.CartRepository;
@@ -20,7 +16,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -38,16 +37,6 @@ public class CartServiceImpl implements CartService {
 
     private Map<String, CartDTO> cartMap = new HashMap<>();  //  convId ---> Cart { id, details }
 
-    private Map<String, Integer> products = new HashMap<>();
-
-    private Map<String, Integer> subscribedProducts = new HashMap<>();
-
-    private Map<String, Subscription> subscriptionDetails = new HashMap<>();
-
-
-    private Map<String, ProductBean> productsPicked = new HashMap<>();
-    private Map<String, SubscriptionBean> subscriptions = new HashMap<>();
-
 
     /**
      * if quantity is less than 2 i.e 1,0, Not Present
@@ -63,19 +52,18 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addProduct(Product product, String convId, String userId) {
         CartDTO cart = getMyCart(convId, userId);
-        ProductBean productBean = new ProductBean();
         int newQuantity = 0;
         if (cart.getProductsPicked().get(product.getId()) != null) {
             newQuantity = (product.getQuantity() <= 1 ? 1 : product.getQuantity()) + cart.getProductsPicked().get(product.getId()).getQuantity();
         } else {
             newQuantity = product.getQuantity() <= 1 ? 1 : product.getQuantity();
         }
-        productBean.setId(product.getId());
-        productBean.setQuantity(newQuantity);
+        product.setQuantity(newQuantity);
+
         if (cart.getProductsPicked().containsKey(product.getId())) {
-            cart.getProductsPicked().replace(product.getId(), productBean);
+            cart.getProductsPicked().replace(product.getId(), product);
         } else {
-            cart.getProductsPicked().put(product.getId(), productBean);
+            cart.getProductsPicked().put(product.getId(), product);
         }
         updateMyCart(convId, userId, cart);
     }
@@ -90,14 +78,9 @@ public class CartServiceImpl implements CartService {
         if (dto == null) {   // it means User has no cart yet
             dto = new CartDTO();
             dto.setProductsPicked(new HashMap<>());
+            dto.setSubscriptions(new HashMap<>());
         }
         return dto;
-    }
-
-    @Override
-    public CartDTO getProductsInCart(String convId, String userId) {
-        CartDTO cartItems = getMyCart(convId, userId);
-        return cartItems;
     }
 
 
@@ -119,21 +102,20 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeProduct(Product product, String convId, String userId) {
         CartDTO cart = getMyCart(convId, userId);
-        ProductBean productBean = new ProductBean();
         int newQuantity = 0;
         int quantityToBeDeleted = product.getQuantity() <= 1 ? 1 : product.getQuantity();
 
-        ProductBean pb = cart.getProductsPicked().get(product.getId());
+        Product pb = cart.getProductsPicked().get(product.getId());
         if (pb.getQuantity() > quantityToBeDeleted) {
-            newQuantity =  pb.getQuantity() - quantityToBeDeleted;
+            newQuantity = pb.getQuantity() - quantityToBeDeleted;
         } else {
-           // Can not delete
+            // Can not delete
             newQuantity = 0;
         }
-        productBean.setId(product.getId());
-        productBean.setQuantity(newQuantity);
+
+        product.setQuantity(newQuantity);
         if (cart.getProductsPicked().containsKey(product.getId())) {
-            cart.getProductsPicked().replace(product.getId(), productBean);
+            cart.getProductsPicked().replace(product.getId(), product);
         }
         updateMyCart(convId, userId, cart);
     }
@@ -142,7 +124,7 @@ public class CartServiceImpl implements CartService {
     public void removeAllProduct(Product product, String convId, String userId) {
         CartDTO cart = getMyCart(convId, userId);
         ProductBean productBean = new ProductBean();
-        ProductBean pb = cart.getProductsPicked().get(product.getId());
+        Product pb = cart.getProductsPicked().get(product.getId());
         productBean.setId(product.getId());
         if (cart.getProductsPicked().containsKey(product.getId())) {
             cart.getProductsPicked().remove(product.getId());
@@ -150,16 +132,8 @@ public class CartServiceImpl implements CartService {
         updateMyCart(convId, userId, cart);
     }
 
-    /**
-     * @return unmodifiable copy of the map
-     */
-//	@Override
-//	public Map<Product, Integer> getProductsInCart() {
-//		return Collections.unmodifiableMap(products);
-//	}
 
-
-//	The authentication instance now provides the following methods:
+    //	The authentication instance now provides the following methods:
 //
 //	Get the username of the logged in user: getPrincipal()
 //	Get the password of the authenticated user: getCredentials()
@@ -172,84 +146,71 @@ public class CartServiceImpl implements CartService {
         return userDTO;
     }
 
-//    @Override
-//    public CartDTO getProductsInCart(String userId) {
-//        UserDTO userDTO = new UserDTO();
-//        if (userId != null || !userId.equalsIgnoreCase("")) {
-//            userDTO = getLoggedInUser();
-//        }
-//        CartDTO cartItems = getProductsInCartWithOutLogin(userId);
-//        cartItems.setUserDTO(userDTO);
-//        return cartItems;
-//    }
 
-//    @Override
-//    public CartDTO getProductsInCart(String convId, String userId) {
-//
-//        CartDTO cartItems = new CartDTO();
-//        List<CartDetailDTO> cartDetailDTOS = new ArrayList<>();
-//        List<SubscriptionDetailDTO> subscriptionDetailDTOS = new ArrayList<>();
-//        int sum = 0;
-//        int count = 0;
-//        for (Map.Entry<String, Integer> entry : products.entrySet()) {
-//            Product p = productRepository.findOneById(entry.getKey());
-//            ProductDTO productDTO = new ProductDTO();
-//            productDTO.setId(p.getId());
-//            productDTO.setTitle(p.getName());
-//            productDTO.setPrice(p.getPrice());
-//            productDTO.setQuantity(p.getQuantity());
-//            productDTO.setQuantity(entry.getValue());
-//            productDTO.setStockLeft(p.getQuantityInStock());
-//            productDTO.setSubscribable(p.isSubscribable());
-//            CartDetailDTO cartDetailDTO = new CartDetailDTO();
-//            cartDetailDTO.setProductDTO(productDTO);
-//            cartDetailDTO.setItemQuantity(entry.getValue());
-//            cartDetailDTO.setTotalAmount(p.getPrice() * entry.getValue());
-//            cartDetailDTOS.add(cartDetailDTO);
-//            sum += cartDetailDTO.getTotalAmount();
-//            cartItems.setGrandTotal(sum);
-//            count += cartDetailDTO.getItemQuantity();
-//        }
-//
-//        for (Map.Entry<String, Integer> entry : subscribedProducts.entrySet()) {
-//            Product p = productRepository.findOneById(entry.getKey());
-//            ProductDTO productDTO = new ProductDTO();
-//            productDTO.setId(p.getId());
-//            productDTO.setTitle(p.getName());
-//            productDTO.setPrice(p.getPrice());
-//            productDTO.setQuantity(p.getQuantity());
-//            productDTO.setQuantity(entry.getValue());
-//            productDTO.setSubscribable(p.isSubscribable());
-//            productDTO.setStockLeft(p.getQuantityInStock());
-//            SubscriptionDetailDTO subscriptionDetailDTO = new SubscriptionDetailDTO();
-//            subscriptionDetailDTO.setProductDTO(productDTO);
-//            subscriptionDetailDTO.setItemQuantity(entry.getValue());
-//            subscriptionDetailDTO.setTotalAmount(p.getPrice() * entry.getValue());
-//
+    @Override
+    public CartDTO getProductsInCart(String convId, String userId) {
+
+        CartDTO cartItems = getMyCart(convId, userId);
+
+        List<CartDetailDTO> cartDetailDTOS = new ArrayList<>();
+        List<SubscriptionDetailDTO> subscriptionDetailDTOS = new ArrayList<>();
+        int sum = 0;
+        int count = 0;
+        for (Map.Entry<String, Product> entry : cartItems.getProductsPicked().entrySet()) {
+            Product p = entry.getValue();
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(p.getId());
+            productDTO.setTitle(p.getName());
+            productDTO.setPrice(p.getPrice());
+            productDTO.setQuantity(p.getQuantity());
+            productDTO.setStockLeft(p.getQuantityInStock());
+            productDTO.setSubscribable(p.isSubscribable());
+            CartDetailDTO cartDetailDTO = new CartDetailDTO();
+            cartDetailDTO.setProductDTO(productDTO);
+            cartDetailDTO.setItemQuantity(p.getQuantity());
+            cartDetailDTO.setTotalAmount(p.getPrice() * p.getQuantity());
+            cartDetailDTOS.add(cartDetailDTO);
+            sum += cartDetailDTO.getTotalAmount();
+            cartItems.setGrandTotal(sum);
+            count += cartDetailDTO.getItemQuantity();
+        }
+
+        for (Map.Entry<String, Subscription> entry : cartItems.getSubscriptions().entrySet()) {
+            Product p = productRepository.findOneById(entry.getKey());
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(p.getId());
+            productDTO.setTitle(p.getName());
+            productDTO.setPrice(p.getPrice());
+            productDTO.setQuantity(entry.getValue().getQuantity());
+            productDTO.setSubscribable(p.isSubscribable());
+            productDTO.setStockLeft(p.getQuantityInStock());
+            SubscriptionDetailDTO subscriptionDetailDTO = new SubscriptionDetailDTO();
+            subscriptionDetailDTO.setProductDTO(productDTO);
+            subscriptionDetailDTO.setItemQuantity(entry.getValue().getQuantity());
+            subscriptionDetailDTO.setTotalAmount(p.getPrice() * entry.getValue().getQuantity());
+
 //            for (Map.Entry<String, Subscription> items : subscriptionDetails.entrySet()) {
 //                if (items.getKey().equalsIgnoreCase(entry.getKey())) {
 //                    Subscription item = items.getValue();
-//                    subscriptionDetailDTO.setFromDate(item.getFromDate());
-//                    subscriptionDetailDTO.setToDate(item.getToDate());
-//                    subscriptionDetailDTO.setFrequency(item.getFrequency());
-//                    subscriptionDetailDTO.setNoOfDays(item.getNoOfDays());
-//                    subscriptionDetailDTO.setStatus("PENDING");
+            subscriptionDetailDTO.setFromDate(entry.getValue().getFromDate());
+            subscriptionDetailDTO.setToDate(entry.getValue().getToDate());
+            subscriptionDetailDTO.setFrequency(entry.getValue().getFrequency());
+            subscriptionDetailDTO.setNoOfDays(entry.getValue().getNoOfDays());
+            subscriptionDetailDTO.setStatus("PENDING");
 //                }
 //            }
-//            subscriptionDetailDTOS.add(subscriptionDetailDTO);
-//            sum += subscriptionDetailDTO.getTotalAmount();
-//            cartItems.setGrandTotal(sum);
-//            count += subscriptionDetailDTO.getItemQuantity();
-//        }
-//
-//        cartItems.setLastUpdated(HelperUtil.getCurrentDateTIme());
-//        cartItems.setTotalItemCount(count);
-//        cartItems.setItemDetails(cartDetailDTOS);
-//        cartItems.setSubscriptionDetails(subscriptionDetailDTOS);
-//        return cartItems;
-//    }
+            subscriptionDetailDTOS.add(subscriptionDetailDTO);
+            sum += subscriptionDetailDTO.getTotalAmount();
+            cartItems.setGrandTotal(sum);
+            count += subscriptionDetailDTO.getItemQuantity();
+        }
 
-
+        cartItems.setLastUpdated(HelperUtil.getCurrentDateTIme());
+        cartItems.setTotalItemCount(count);
+        cartItems.setItemDetails(cartDetailDTOS);
+        cartItems.setSubscriptionDetails(subscriptionDetailDTOS);
+        return cartItems;
+    }
 
 
     /**
@@ -267,98 +228,114 @@ public class CartServiceImpl implements CartService {
         //TODO : Need to work on
         List<Product> productList = new ArrayList<>();
         Product product;
-        for (Map.Entry<String, Integer> entry : products.entrySet()) {
+        for (Map.Entry<String, Product> entry : cartDTO.getProductsPicked().entrySet()) {
             // Refresh quantity for every product before checking
             //product = productRepository.findOne(entry.getKey().getId());
             product = productRepository.findOneById(entry.getKey());
-            if (product.getQuantityInStock() < entry.getValue())
+            if (product.getQuantityInStock() < entry.getValue().getQuantity())
                 throw new NotEnoughProductsInStockException(product);
-            product.setQuantityInStock(product.getQuantityInStock() - entry.getValue());
+            product.setQuantityInStock(product.getQuantityInStock() - entry.getValue().getQuantity());
             productList.add(product);
         }
         productRepository.saveAll(productList);
         //// save Cart details to DB
-        saveCart(cartDTO);
-        products.clear();
-        subscribedProducts.clear();
+        // saveCart(cartDTO);
+        cartDTO.getProductsPicked().clear();
+        cartDTO.getSubscriptions().clear();
     }
-
-    private void saveCart(CartDTO cartDTO) {
-
-        Cart cart = new Cart();
-        List<Subscription> subscriptions = new ArrayList<>();
-        List<CartDetail> cartDetails = new ArrayList<>();
-        for (SubscriptionDetailDTO subscriptionDetailDTO : cartDTO.getSubscriptionDetails()) {
-            Subscription subscription = new Subscription();
-            subscription.setQuantity(subscriptionDetailDTO.getItemQuantity());
-            subscription.setFrequency(subscriptionDetailDTO.getFrequency());
-            subscription.setToDate(subscriptionDetailDTO.getToDate());
-            subscription.setFromDate(subscriptionDetailDTO.getFromDate());
-            subscription.setProductId(subscriptionDetailDTO.getProductDTO().getId());
-            subscription.setUserId(cartDTO.getUserId());
-            subscriptions.add(subscription);
-        }
-
-        cart.setSubscriptionDetails(subscriptions);
-        // save Subscription
-        subscriptionRepository.saveAll(subscriptions);
-
-        for (CartDetailDTO cartDetailDTO : cartDTO.getItemDetails()) {
-            CartDetail cartDetail = new CartDetail();
-            cartDetail.setProductId(cartDetailDTO.getProductDTO().getId());
-            cartDetail.setItemQuantity(cartDetailDTO.getItemQuantity());
-            cartDetail.setTotalAmount(cartDetailDTO.getTotalAmount());
-            cartDetails.add(cartDetail);
-        }
-
-        cart.setItemDetails(cartDetails);
-        cart.setDiscountAmount(cartDTO.getDiscountAmount());
-        cart.setSubtotalAmount(cartDTO.getSubtotalAmount());
-        cart.setGrandTotal(cartDTO.getGrandTotal());
-        cart.setTaxAmount(cartDTO.getTaxAmount());
-        cart.setLastUpdated(cartDTO.getLastUpdated());
-        cart.setUserId(cartDTO.getUserId());
-        //save cart
-        repository.save(cart);
-    }
+//
+//    private void saveCart(CartDTO cartDTO) {
+//
+//        Cart cart = new Cart();
+//        List<Subscription> subscriptions = new ArrayList<>();
+//        List<CartDetail> cartDetails = new ArrayList<>();
+//        for (SubscriptionDetailDTO subscriptionDetailDTO : cartDTO.getSubscriptionDetails()) {
+//            Subscription subscription = new Subscription();
+//            subscription.setQuantity(subscriptionDetailDTO.getItemQuantity());
+//            subscription.setFrequency(subscriptionDetailDTO.getFrequency());
+//            subscription.setToDate(subscriptionDetailDTO.getToDate());
+//            subscription.setFromDate(subscriptionDetailDTO.getFromDate());
+//            subscription.setProductId(subscriptionDetailDTO.getProductDTO().getId());
+//            subscription.setUserId(cartDTO.getUserId());
+//            subscriptions.add(subscription);
+//        }
+//
+//        cart.setSubscriptionDetails(subscriptions);
+//        // save Subscription
+//        subscriptionRepository.saveAll(subscriptions);
+//
+//        for (CartDetailDTO cartDetailDTO : cartDTO.getItemDetails()) {
+//            CartDetail cartDetail = new CartDetail();
+//            cartDetail.setProductId(cartDetailDTO.getProductDTO().getId());
+//            cartDetail.setItemQuantity(cartDetailDTO.getItemQuantity());
+//            cartDetail.setTotalAmount(cartDetailDTO.getTotalAmount());
+//            cartDetails.add(cartDetail);
+//        }
+//
+//        cart.setItemDetails(cartDetails);
+//        cart.setDiscountAmount(cartDTO.getDiscountAmount());
+//        cart.setSubtotalAmount(cartDTO.getSubtotalAmount());
+//        cart.setGrandTotal(cartDTO.getGrandTotal());
+//        cart.setTaxAmount(cartDTO.getTaxAmount());
+//        cart.setLastUpdated(cartDTO.getLastUpdated());
+//        cart.setUserId(cartDTO.getUserId());
+//        //save cart
+//        repository.save(cart);
+//    }
 
 
     @Override
-    public void unsubscribeProduct(Subscription subscription) {
-        if (subscribedProducts.containsKey(subscription.getProductId())) {
-            if (subscribedProducts.get(subscription.getProductId()) > 1)
-                subscribedProducts.replace(subscription.getProductId(), subscribedProducts.get(subscription.getProductId()) - 1);
-            else if (subscribedProducts.get(subscription.getProductId()) == 1) {
-                subscribedProducts.remove(subscription.getProductId());
-            }
-        }
-    }
+    public void unsubscribeProduct(Subscription subscription, String convId, String userId) {
 
-    @Override
-    public void unsubscribeAllProduct(Subscription subscription) {
-        if (subscribedProducts.containsKey(subscription.getProductId())) {
-            subscribedProducts.remove(subscription.getProductId());
-        }
-    }
+        CartDTO cart = getMyCart(convId, userId);
+        int newQuantity = 0;
+        int quantityToBeDeleted = subscription.getQuantity() <= 1 ? 1 : subscription.getQuantity();
 
-
-    @Override
-    public void subscribeProduct(Subscription subscription) {
-        // update subscriptionDetails Map as well
-
-        if (subscribedProducts.containsKey(subscription.getProductId())) {
-            int newQuantity = subscription.getQuantity() + subscribedProducts.get(subscription.getProductId());
-            subscribedProducts.replace(subscription.getProductId(), newQuantity);
+        if (cart.getSubscriptions().get(subscription.getProductId()).getQuantity() > quantityToBeDeleted) {
+            newQuantity = cart.getSubscriptions().get(subscription.getProductId()).getQuantity() - quantityToBeDeleted;
         } else {
-            subscribedProducts.put(subscription.getProductId(), subscription.getQuantity());
+            // Can not delete
+            newQuantity = 0;
         }
 
-        // Updating the subscription Details in new map
-        subscriptionDetails.put(subscription.getProductId(), subscription);
+        subscription.setQuantity(newQuantity);
+        if (cart.getSubscriptions().containsKey(subscription.getProductId())) {
+            cart.getSubscriptions().replace(subscription.getProductId(), subscription);
+        }
+        updateMyCart(convId, userId, cart);
     }
 
     @Override
-    public void updateSubscription(Subscription subscription) {
+    public void unsubscribeAllProduct(Subscription subscription, String convId, String userId) {
+        CartDTO cart = getMyCart(convId, userId);
+        if (cart.getSubscriptions().containsKey(subscription.getProductId())) {
+            cart.getSubscriptions().remove(subscription.getProductId());
+        }
+        updateMyCart(convId, userId, cart);
+    }
+
+
+    @Override
+    public void subscribeProduct(Subscription subscription, String convId, String userId) {
+
+        CartDTO cart = getMyCart(convId, userId);
+        int newQuantity = 0;
+        if (cart.getSubscriptions().get(subscription.getProductId()) != null) {
+            newQuantity = subscription.getQuantity() + cart.getSubscriptions().get(subscription.getProductId()).getQuantity();
+        } else {
+            newQuantity = subscription.getQuantity();
+        }
+        subscription.setQuantity(newQuantity);
+        if (cart.getSubscriptions().containsKey(subscription.getProductId())) {
+            cart.getSubscriptions().replace(subscription.getProductId(), subscription);
+        } else {
+            cart.getSubscriptions().put(subscription.getProductId(), subscription);
+        }
+        updateMyCart(convId, userId, cart);
+    }
+
+    @Override
+    public void updateSubscription(Subscription subscription, String convId, String userId) {
 
     }
 

@@ -1,8 +1,6 @@
 package com.condigence.controller;
 
 import com.condigence.dto.CartDTO;
-import com.condigence.dto.ProductDTO;
-import com.condigence.dto.SubscriptionDetailDTO;
 import com.condigence.dto.UserDTO;
 import com.condigence.exception.NotEnoughProductsInStockException;
 import com.condigence.model.Product;
@@ -17,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 
 @RestController
@@ -80,20 +76,12 @@ public class CartController {
 //	}
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-//    @GetMapping("/?userId=")
-//    public ResponseEntity<?> shoppingCartForUser(@RequestParam(name="userId", required = true) String userId) {
-//        CartDTO dto = cartService.getProductsInCart(userId);
-//        if (dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0) {
-//            return ResponseEntity.status(HttpStatus.OK).body("Cart is Empty!");
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(dto);
-//    }
 
     @GetMapping("/")
     public ResponseEntity<?> shoppingCart(@RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
         logger.info("Entering shoppingCart");
         CartDTO dto = cartService.getProductsInCart(convId, userId);
-        if (dto.getProductsPicked().size() == 0) {
+        if (dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0) {
             return new ResponseEntity(new CustomErrorType("Sorry You do not have any Items in your your the cart!:( "),
                     HttpStatus.NOT_FOUND);
         }
@@ -102,15 +90,15 @@ public class CartController {
 
     @GetMapping("/add/{productId}")
     public ResponseEntity<?> addProductToCart(@PathVariable("productId") String productId, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        logger.info("Inside addProductToCart() with Product Id : "+productId);
+        logger.info("Inside addProductToCart() with Product Id : " + productId);
 
         Product product = null;
-        if(productService.findById(productId).isPresent()){
-            product =  productService.findById(productId).get();
-            if(product.getQuantity() <= 1){
+        if (productService.findById(productId).isPresent()) {
+            product = productService.findById(productId).get();
+            if (product.getQuantity() <= 1) {
                 product.setQuantity(1);
             }
-        }else{
+        } else {
             System.out.println("Sorry Product Id is not correct, So product can not be added to the cart!");
             logger.info("Existing addProductToCart()");
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be added to the cart!:( "),
@@ -118,45 +106,47 @@ public class CartController {
         }
 
         //check if user is not Logged In it means userid is not present
-        if(userId == null){
-            if(convId == null){
+        if (userId == null) {
+            if (convId == null) {
                 System.out.println("Sorry convId or User Id is not present in the request, So product can not be added to the cart!");
                 logger.info("Existing addProductToCart()");
                 return new ResponseEntity(new CustomErrorType("Sorry convId or User Id is not present in the request, So product can not be added to the cart!:( "),
                         HttpStatus.BAD_REQUEST);
-            }else{
+            } else {
                 // Proceed as user is not Logged In
                 cartService.addProduct(product, convId, null);
-                return  shoppingCart(convId, null);
+                return shoppingCart(convId, null);
             }
-        }else{
+        } else {
             // Proceed as user is Logged In
             cartService.addProduct(product, convId, userId);
-            return  shoppingCart(convId,userId);
+            return shoppingCart(convId, userId);
         }
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> addProductWithQuantityToCart(@RequestBody Product product, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        logger.info("Inside addProductWithQuantityToCart() with Product Id : "+product.getId() + " and Quantity : " + product.getQuantity());
-        if(productService.findById(product.getId()).isPresent()){
-            cartService.addProduct(product, convId, userId);
-        }else{
+        logger.info("Inside addProductWithQuantityToCart() with Product Id : " + product.getId() + " and Quantity : " + product.getQuantity());
+        if (productService.findById(product.getId()).isPresent()) {
+            Product p = productService.findById(product.getId()).get();
+            p.setQuantity(product.getQuantity());
+            cartService.addProduct(p, convId, userId);
+        } else {
             logger.warn("Either Product is not available or product quantity is not provided.");
             System.out.println("Sorry Product Id is not correct, So product can not be added to the cart!");
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be added to the cart!:( "),
                     HttpStatus.NOT_FOUND);
         }
         logger.info("Existing addProductWithQuantityToCart()");
-        return shoppingCart(convId,userId);
+        return shoppingCart(convId, userId);
     }
 
     @GetMapping("/remove/{productId}")
     public ResponseEntity<?> removeProductFromCart(@PathVariable("productId") String productId, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        if(productService.findById(productId).isPresent()){
+        if (productService.findById(productId).isPresent()) {
             Product p = productService.findById(productId).get();
-            cartService.removeProduct(p,convId,userId);
-        }else{
+            cartService.removeProduct(p, convId, userId);
+        } else {
             logger.warn("Either Product is not available or product quantity is not provided.");
             System.out.println("Sorry Product Id is not correct, So product can not be removed from the cart!");
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be removed from  the cart!:( "),
@@ -167,12 +157,12 @@ public class CartController {
 
     @GetMapping("/remove/all/{productId}")
     public ResponseEntity<?> removeAllProductFromCart(@PathVariable("productId") String productId, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        if(productService.findById(productId).isPresent()){
+        if (productService.findById(productId).isPresent()) {
             Product p = productService.findById(productId).get();
-            cartService.removeAllProduct(p,convId,userId);
+            cartService.removeAllProduct(p, convId, userId);
             return new ResponseEntity(new CustomErrorType("Product removed from cart Successfully !:) "),
                     HttpStatus.OK);
-        }else{
+        } else {
             logger.warn("Either Product is not available or product quantity is not provided.");
             System.out.println("Sorry Product Id is not correct, So product can not be removed from the cart!");
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be removed from  the cart!:( "),
@@ -182,36 +172,43 @@ public class CartController {
 
 
     @PostMapping("/subscribe")
-    public ResponseEntity<?> subscribeProductItemsToCart(@RequestBody Subscription subscription , @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
+    public ResponseEntity<?> subscribeProductItemsToCart(@RequestBody Subscription subscription, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
         // check if product is available
-        if(productService.findById(subscription.getProductId()).isPresent()){
-            cartService.subscribeProduct(subscription);
+
+        logger.info("Inside subscribeProductItemsToCart() with Product Id : " + subscription.getProductId());
+        Product product = null;
+        if (productService.findById(subscription.getProductId()).isPresent()) {
+            cartService.subscribeProduct(subscription, convId, userId);
             return shoppingCart(convId, userId);
-        }else{
-            return ResponseEntity.status(HttpStatus.OK).body("Product That your are trying to add does not exist! Please contact admin!");
+        } else {
+            System.out.println("Sorry Product Id is not correct, So product can not be subscribed to the cart!");
+            logger.info("Existing subscribeProductItemsToCart()");
+            return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be added to the cart!:( "),
+                    HttpStatus.NOT_FOUND);
         }
+
     }
 
     @PutMapping("/update/subscription")
-    public ResponseEntity<?> updateSubscriptions(@RequestBody Subscription subscription , @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
+    public ResponseEntity<?> updateSubscriptions(@RequestBody Subscription subscription, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
         // check if product is available
-        if(productService.findById(subscription.getProductId()).isPresent()){
-            cartService.subscribeProduct(subscription);
+        if (productService.findById(subscription.getProductId()).isPresent()) {
+            cartService.subscribeProduct(subscription, convId, userId);
             return shoppingCart(convId, userId);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body("Product That your are trying to update does not exist! Please contact admin!");
         }
     }
 
     @PostMapping("/unsubscribe")
     public ResponseEntity<?> unSubscribeProductFromCart(@RequestBody Subscription subscription, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        cartService.unsubscribeProduct(subscription);
+        cartService.unsubscribeProduct(subscription, convId, userId);
         return shoppingCart(convId, userId);
     }
 
     @PostMapping("/unsubscribe/all")
     public ResponseEntity<?> unsubscribeAll(@RequestBody Subscription subscription, @RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-        cartService.unsubscribeAllProduct(subscription);
+        cartService.unsubscribeAllProduct(subscription, convId, userId);
         return shoppingCart(convId, userId);
     }
 
@@ -219,17 +216,16 @@ public class CartController {
 
     @GetMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestParam(required = false) String userId, @RequestParam(required = true) String convId) {
-
-        CartDTO dto = cartService.getProductsInCart(convId,userId);
-        if(userId != null && !userId.equalsIgnoreCase("")){
+        if (userId != null && !userId.equalsIgnoreCase("")) {
+            CartDTO dto = cartService.getProductsInCart(convId, userId);
             UserDTO userDTO = userService.getUserById(userId);
             dto.setUserDTO(userDTO);
-        }
-
-        try {
-            cartService.checkout(dto);
-        } catch (NotEnoughProductsInStockException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            dto.setConvId(convId);
+            try {
+                cartService.checkout(dto);
+            } catch (NotEnoughProductsInStockException e) {
+                throw new RuntimeException(e);
+            }
         }
         return ResponseEntity.status(HttpStatus.OK).body("SUCCESS");
     }

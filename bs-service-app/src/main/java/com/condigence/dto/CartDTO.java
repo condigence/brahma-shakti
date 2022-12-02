@@ -2,6 +2,9 @@ package com.condigence.dto;
 
 import com.condigence.bean.ProductBean;
 import com.condigence.bean.SubscriptionBean;
+import com.condigence.model.Product;
+import com.condigence.model.Subscription;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,17 +30,15 @@ public class CartDTO implements Serializable {
 	private int totalItemCount;
 	private float discountAmount;
 	private float taxAmount;
-
-
-
 	private String lastUpdated;
 
+	@JsonIgnore
+	private Map<String, Product> productsPicked = new HashMap<>();
+	@JsonIgnore
+    private Map<String, Subscription> subscriptions = new HashMap<>();
+
 	private List<CartDetailDTO> itemDetails;
-
 	private List<SubscriptionDetailDTO> subscriptionDetails;
-
-	private Map<String, ProductBean> productsPicked;
-	private Map<String, SubscriptionBean> subscriptions;
 
 	private String userId;
 	private String convId;

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SubscriptionBean {
-    private ProductBean productBean;
+    private ProductBean productBean = new ProductBean();
     private String fromDate;
     private String toDate;
     private Integer noOfDays;
