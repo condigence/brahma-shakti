@@ -14,11 +14,8 @@ import java.io.Serializable;
 @Builder
 public class OrderDetail implements Serializable {
 
-
 	private String id;
-	private String productId;
-	private Integer quantity;
-	private Integer orderDiscount;
+	private String cartId;
 
 	
 }

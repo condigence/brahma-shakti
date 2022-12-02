@@ -8,26 +8,23 @@ import com.condigence.model.Subscription;
 
 public interface CartService {
 
-	void addProduct(Product product);
+	void addProduct(Product product, String convId, String userId);
 
-	void removeProduct(Product product);
+	CartDTO getProductsInCart(String convId, String userId);
 
-	void removeAllProduct(Product product);
+	void removeProduct(Product product, String convId, String userId);
 
-	CartDTO getProductsInCart();
-
-	CartDTO getProductsInCart(String userId);
+	void removeAllProduct(Product product, String convId, String userId);
 
 	void checkout(CartDTO cartDTO) throws NotEnoughProductsInStockException;
 
-	void unsubscribeProduct(Subscription subscription);
+	void unsubscribeProduct(Subscription subscription, String convId, String userId);
 
-	void unsubscribeAllProduct(Subscription subscription);
+	void unsubscribeAllProduct(Subscription subscription, String convId, String userId);
 
-	CartDTO getProductsInCartByUserId(String userId);
+	void subscribeProduct(Subscription subscription, String convId, String userId);
 
-	void subscribeProduct(Subscription subscription);
+	void updateSubscription(Subscription subscription, String convId, String userId);
 
-	void updateSubscription(Subscription subscription);
 
 }

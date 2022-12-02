@@ -18,6 +18,7 @@ public class Order implements Serializable {
     /**
      *
      */
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,20 +28,13 @@ public class Order implements Serializable {
     private String type;
     private String dateTime;
     private String status; // PENDING or CONFIRMED or CANCELLED
-    private int totalItemCount;
-    private float discountAmount;
-    private float taxAmount;
-    private float gst;
-    private float serviceCharge;
-    private float subtotalAmount;
-    private float grandTotal;
-    private String lastUpdated;
-    private List<OrderDetail> orderItems;
+
+    private String addressId;
+    private String paymentMethod;
+    private String cartId;
 
     private String razorpayPaymentId;
-
     private String razorpayOrderId;
-
     private String razorpaySignature;
 
 }

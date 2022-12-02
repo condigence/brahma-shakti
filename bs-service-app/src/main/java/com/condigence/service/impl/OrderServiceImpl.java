@@ -1,13 +1,8 @@
 package com.condigence.service.impl;
 
 import com.condigence.bean.OrderBean;
-import com.condigence.bean.OrderDetailBean;
-import com.condigence.dto.CartDTO;
 import com.condigence.dto.OrderDTO;
-import com.condigence.dto.OrderDetailDTO;
 import com.condigence.model.Order;
-import com.condigence.model.OrderDetail;
-import com.condigence.model.Product;
 import com.condigence.repository.OrderRepository;
 import com.condigence.repository.ProductRepository;
 import com.condigence.service.OrderService;
@@ -17,9 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,75 +27,74 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void placeOrder(OrderBean orderBean){
 		Order order = new Order();
-		/////
 		order.setUserId(orderBean.getUserId());
-		order.setDiscountAmount(orderBean.getDiscountAmount());
-		order.setGrandTotal(orderBean.getGrandTotal());
-		order.setLastUpdated(orderBean.getLastUpdated());
-		order.setSubtotalAmount(orderBean.getSubtotalAmount());
-		order.setTaxAmount(orderBean.getTaxAmount());
-		order.setDateTime(orderBean.getDateTime());
-		order.setGst(orderBean.getGst());
-		order.setNumber(orderBean.getNumber());
-		order.setServiceCharge(orderBean.getServiceCharge());
-		order.setTotalItemCount(orderBean.getTotalItemCount());
-		order.setType(orderBean.getType());
-		order.setStatus(orderBean.getStatus());
-
-
-		List<OrderDetail> orderDetails = new ArrayList<>();
-		for(OrderDetailBean items :orderBean.getOrderItems()) {
-			OrderDetail orderDetail = new OrderDetail();
-			Product product = productRepository.findOneById(items.getProductId());
-			orderDetail.setOrderDiscount(product.getDiscount());
-			orderDetail.setId(items.getId());
-			orderDetail.setQuantity(items.getQuantity());
-			orderDetail.setProductId(product.getId());
-			orderDetails.add(orderDetail);
-		}
-
-		order.setOrderItems(orderDetails);
-		//////////
+		order.setCartId(orderBean.getCartId());
+		order.setAddressId(orderBean.getAddressId());
+		order.setPaymentMethod(orderBean.getPaymentMethod());
 		repository.save(order);
-
 	}
 
 	@Override
 	public OrderDTO getOrderByUserId(String userId) {
 		Order order = repository.findByUserId(userId);
-		if(order != null){
-			OrderDTO orderDTO = new OrderDTO();
-			orderDTO.setUserId(order.getUserId());
-			orderDTO.setDiscountAmount(order.getDiscountAmount());
-			orderDTO.setGrandTotal(order.getGrandTotal());
-			orderDTO.setLastUpdated(order.getLastUpdated());
-			orderDTO.setSubtotalAmount(order.getSubtotalAmount());
-			orderDTO.setTaxAmount(order.getTaxAmount());
-			orderDTO.setDateTime(order.getDateTime());
-			orderDTO.setGst(order.getGst());
-			orderDTO.setNumber(order.getNumber());
-			orderDTO.setServiceCharge(order.getServiceCharge());
-			orderDTO.setTotalItemCount(order.getTotalItemCount());
-			orderDTO.setType(order.getType());
-			orderDTO.setStatus(order.getStatus());
+		OrderDTO orderDTO = new OrderDTO();
 
-			//TODO : Need to work on
-			List<CartDTO> orderDetails = new ArrayList<>();
-			for(OrderDetail items :order.getOrderItems()) {
-				OrderDetailDTO orderDetail = new OrderDetailDTO();
-				Product product = productRepository.findOneById(items.getProductId());
-				orderDetail.setOrderDiscount(product.getDiscount());
-				orderDetail.setId(items.getId());
-				orderDetail.setQuantity(items.getQuantity());
-				orderDetail.setProductId(product.getId());
-				//orderDetails.add(orderDetail);
-			}
-		//	orderDTO.setOrderItems(orderDetails);
-			return orderDTO;
-		}else{
-			return OrderDTO.builder().id("0").userId("Not Found").build();
-		}
 
+		// populate User Info
+		orderDTO = populateUser(order, orderDTO);
+
+		// Populate Cart Info
+		orderDTO = populateCartInfo(order, orderDTO);
+
+		// Populate Payment Info
+
+		orderDTO = populatePaymentInfo(order, orderDTO);
+
+		// Populate Order info
+
+		order.setNumber(order.getNumber());
+		order.setDateTime(order.getDateTime());
+		order.setType(order.getType());
+		order.setStatus(order.getStatus());
+		order.setRazorpayOrderId(order.getRazorpayOrderId());
+		order.setRazorpaySignature(order.getRazorpaySignature());
+
+
+
+
+
+		return orderDTO;
+	}
+
+	private OrderDTO populatePaymentInfo(Order order, OrderDTO orderDTO) {
+
+		return orderDTO;
+	}
+
+	private OrderDTO populateCartInfo(Order order, OrderDTO orderDTO) {
+
+		order.setCartId(order.getCartId());
+		// Populate Subscription Info
+
+
+		// Populate products purchased Info
+		return orderDTO;
+	}
+
+	private OrderDTO populateUser(Order order, OrderDTO orderDTO) {
+
+		order.setUserId(order.getUserId());
+		// populate Address Info
+
+
+
+		// Populate Profile Info
+
+
+		// populate User info
+
+		// return dto
+		return orderDTO;
 	}
 
 	/**
@@ -113,7 +104,6 @@ public class OrderServiceImpl implements OrderService {
 	public void deleteOrderByUserId(String userId) {
 		repository.delete(repository.findByUserId(userId));
 	}
-
 
 	@Transactional
 	@Override

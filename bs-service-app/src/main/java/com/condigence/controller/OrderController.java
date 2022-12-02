@@ -52,7 +52,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> getByUserId(@PathVariable String userId) {
+	public ResponseEntity<?> getOrderByUserId(@PathVariable String userId) {
 		logger.info("Fetching Order with userid {}", userId);
 		OrderDTO orderDTO = orderService.getOrderByUserId(userId);
 		if (orderDTO !=null && !orderDTO.getId().equalsIgnoreCase("0")) {
@@ -87,6 +87,10 @@ public class OrderController {
 	}
 
 	//////////////////////////////
+
+
+
+
 
 	@Autowired
 	public OrderController(RazorPayClientConfig razorpayClientConfig) throws RazorpayException {

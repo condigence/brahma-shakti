@@ -22,10 +22,10 @@ public class HelperUtil {
                     Product.builder().id("2").name("COW MILK").description("Fresh farm Cow Milk").quantityInStock(500).price(55).displayPrice(55).offers("FIRSTSELL").build(),
                     Product.builder().id("3").name("PANEER").description("Fresh farm Paneer").quantityInStock(500).price(320).displayPrice(320).imageLink("https://img.freepik.com/premium-photo/homemade-indian-paneer-cheese-wooden-bowl_114420-600.jpg").build()
             );
-    public static Supplier<List<Cart>> cartSupplier = () ->
-            Arrays.asList(
-                    Cart.builder().id("1").userId("1").totalItemCount(5).subtotalAmount(620).lastUpdated("09: 41 20 - 07 - 2022").grandTotal(500).itemDetails(Arrays.asList(CartDetail.builder().id("1").productId("1").itemCount(2).totalAmount(140).build())).build()
-            );
+//    public static Supplier<List<Cart>> cartSupplier = () ->
+//            Arrays.asList(
+//                    Cart.builder().id("1").userId("1").totalItemCount(5).subtotalAmount(620).lastUpdated("09: 41 20 - 07 - 2022").grandTotal(500).itemDetails(Arrays.asList(CartDetail.builder().id("1").productId("1").itemCount(2).totalAmount(140).build())).build()
+//            );
     public static Supplier<List<User>> userSupplier = () ->
             Arrays.asList(
                     User.builder().id("9742503868").username("condigence").firstName("Vishal").lastName("Aryan").address("S M Nagar").contact("9742503868").email("onlyvishalaaryan@gmail.com").password("$2a$12$VZSBLRb/bR9kOJofU.FQIuIK/r9z.61573K.W6XaERFFqkF2C6oMa").otp("1234").build(),
@@ -39,10 +39,10 @@ public class HelperUtil {
                     Category.builder().categoryName("Sweets").build()
             );
 
-    public static Supplier<List<Order>> orderSupplier = () ->
-            Arrays.asList(
-                    Order.builder().id("1").dateTime("").discountAmount(0).build()
-            );
+//    public static Supplier<List<Order>> orderSupplier = () ->
+//            Arrays.asList(
+//                    Order.builder().id("1").dateTime("").discountAmount(0).build()
+//            );
 
     public static Supplier<List<Favourite>> favouriteSupplier = () ->
             Arrays.asList(

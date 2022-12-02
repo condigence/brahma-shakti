@@ -19,7 +19,6 @@ public class SubscriptionDetailDTO implements Serializable {
 	private int itemQuantity;
 	private int totalAmount;
 	private ProductDTO productDTO;
-
 	private String fromDate;
 	private String toDate;
 	private Integer noOfDays;
