@@ -54,7 +54,9 @@ public interface UserService {
 
     Address updateAddress(Address address);
 
-    Optional<Address> getAddressesById(String id);
+    Optional<Address> getAddressById(String id);
+
+    Optional<Address> getAddressByUserId(String id);
 
     List<Address> getAllAddresses();
 

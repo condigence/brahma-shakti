@@ -12,16 +12,10 @@ import java.util.List;
 
 public interface FavouriteService {
 
-
-    List<FavouriteDTO> getAll();
-
-    Favourite getByUserId(String userId);
+    List<FavouriteDTO> getAll(String userId);
 
    void addToFavourite(FavouriteBean bean);
 
-    FavouriteDTO getUserById(String userId);
-
     void deleteById(String id);
-
 
 }

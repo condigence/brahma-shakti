@@ -2,16 +2,31 @@ package com.condigence.service.impl;
 
 import com.condigence.bean.OrderBean;
 import com.condigence.dto.OrderDTO;
+import com.condigence.dto.ProfileDTO;
+import com.condigence.dto.UserDTO;
+import com.condigence.model.Address;
 import com.condigence.model.Order;
+import com.condigence.model.Profile;
+import com.condigence.model.User;
 import com.condigence.repository.OrderRepository;
 import com.condigence.repository.ProductRepository;
+import com.condigence.repository.ProfileRepository;
+import com.condigence.repository.UserRepository;
+import com.condigence.service.CartService;
 import com.condigence.service.OrderService;
+import com.condigence.service.UserService;
+import com.condigence.utils.HelperUtil;
 import com.condigence.utils.Signature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -22,8 +37,14 @@ public class OrderServiceImpl implements OrderService {
 	private OrderRepository repository;
 
 	@Autowired
-	private ProductRepository productRepository;
+	private UserService userService;
 
+
+	@Autowired
+	private CartService cartService;
+
+
+	@Transactional
 	@Override
 	public void placeOrder(OrderBean orderBean){
 		Order order = new Order();
@@ -31,6 +52,9 @@ public class OrderServiceImpl implements OrderService {
 		order.setCartId(orderBean.getCartId());
 		order.setAddressId(orderBean.getAddressId());
 		order.setPaymentMethod(orderBean.getPaymentMethod());
+		order.setStatus("PENDING");
+		order.setNumber(UUID.randomUUID().toString());
+		order.setDateTime(HelperUtil.getCurrentDateTIme());
 		repository.save(order);
 	}
 
@@ -38,10 +62,8 @@ public class OrderServiceImpl implements OrderService {
 	public OrderDTO getOrderByUserId(String userId) {
 		Order order = repository.findByUserId(userId);
 		OrderDTO orderDTO = new OrderDTO();
-
-
-		// populate User Info
-		orderDTO = populateUser(order, orderDTO);
+		UserDTO userDTO = userService.getUserById(order.getUserId());
+		orderDTO.setUser(userDTO);
 
 		// Populate Cart Info
 		orderDTO = populateCartInfo(order, orderDTO);
@@ -59,11 +81,30 @@ public class OrderServiceImpl implements OrderService {
 		order.setRazorpayOrderId(order.getRazorpayOrderId());
 		order.setRazorpaySignature(order.getRazorpaySignature());
 
-
-
-
-
 		return orderDTO;
+	}
+
+	@Override
+	public List<OrderDTO> getAllOrderByUserId(String userId) {
+		List<Order> myOrders = repository.findAllByUserId(userId);
+		List<OrderDTO> orderDTOS = new ArrayList<>();
+		// Populate orders here
+		//TODO: 06-12-2022
+		for(Order order : myOrders){
+			OrderDTO dto = new OrderDTO();
+			dto.setNumber(order.getNumber());
+			dto.setDateTime(order.getDateTime());
+			dto.setType(order.getType());
+			dto.setStatus(order.getStatus());
+			dto.setRazorpayOrderId(order.getRazorpayOrderId());
+			dto.setRazorpaySignature(order.getRazorpaySignature());
+			dto.setUser(userService.getUserById(order.getUserId()));
+
+			populateCartInfo(order, dto);
+			populatePaymentInfo(order, dto);
+			orderDTOS.add(dto);
+		}
+		return orderDTOS;
 	}
 
 	private OrderDTO populatePaymentInfo(Order order, OrderDTO orderDTO) {
@@ -81,21 +122,6 @@ public class OrderServiceImpl implements OrderService {
 		return orderDTO;
 	}
 
-	private OrderDTO populateUser(Order order, OrderDTO orderDTO) {
-
-		order.setUserId(order.getUserId());
-		// populate Address Info
-
-
-
-		// Populate Profile Info
-
-
-		// populate User info
-
-		// return dto
-		return orderDTO;
-	}
 
 	/**
 	 * @param userId

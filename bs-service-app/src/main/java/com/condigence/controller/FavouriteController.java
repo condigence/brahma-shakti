@@ -34,20 +34,14 @@ public class FavouriteController {
         return "Hello Spring boot";
     }
 
-    @GetMapping(value = "/{userId}")
-    public Favourite getAllbyUserId(@PathVariable String userId) {
-
-        return favouriteService.getByUserId(userId);
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<FavouriteDTO>> getAll() {
-        return ResponseEntity.ok().body(favouriteService.getAll());
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<FavouriteDTO>> getAll(@PathVariable String userId) {
+        return ResponseEntity.ok().body(favouriteService.getAll(userId));
     }
 
 
     @PostMapping(value = "/")
-    public ResponseEntity<?> addUser(@RequestBody FavouriteBean favouriteBean) {
+    public ResponseEntity<?> addToMyFavourites(@RequestBody FavouriteBean favouriteBean) {
 
         logger.info("Entering addFavourite with Favourite Details >>>>>>>>  : {}", favouriteBean);
         HttpHeaders headers = new HttpHeaders();
@@ -55,15 +49,20 @@ public class FavouriteController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
-        logger.info("Fetching & Deleting Item with id {}", id);
-        FavouriteDTO fav = favouriteService.getUserById(id);
-        if (fav != null && !fav.getId().equalsIgnoreCase("0")) {
-            favouriteService.deleteById(id);
+    @DeleteMapping(value = "/")
+    public ResponseEntity<?> removeFromMyFavourites(@RequestBody FavouriteBean favouriteBean) {
+        logger.info("Fetching & Deleting Item with id {}", favouriteBean.getId());
+        List<FavouriteDTO> favs = favouriteService.getAll(favouriteBean.getUserId());
+        if (!favs.isEmpty()) {
+            for(FavouriteDTO f : favs){
+                if(f.getId().equalsIgnoreCase(favouriteBean.getId())){
+                    favouriteService.deleteById(favouriteBean.getId());
+                }
+            }
+
         } else {
-            logger.error("Unable to delete. Product with id {} not found.", id);
-            return new ResponseEntity(new CustomErrorType("Unable to delete. Favourite with id " + id + " not found."),
+            logger.error("Unable to delete. Product with id {} not found.", favouriteBean.getId());
+            return new ResponseEntity(new CustomErrorType("Unable to delete. Favourite with id " + favouriteBean.getId() + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<UserDTO>(HttpStatus.OK);

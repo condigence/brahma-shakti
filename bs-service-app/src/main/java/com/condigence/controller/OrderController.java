@@ -63,6 +63,11 @@ public class OrderController {
 		}
 	}
 
+	@GetMapping("/order-history/{userId}")
+	public ResponseEntity<?> orderHistory(@PathVariable String userId) {
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getAllOrderByUserId(userId));
+	}
+
 	@PostMapping("/")
 	public ResponseEntity<?> placeOrder(@RequestBody OrderBean orderBean) {
 		logger.info("Entering placeOrder with Order Details >>>>>>>>  : {}", orderBean);

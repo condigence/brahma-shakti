@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setEmail(user.getEmail());
             userDTO.setContact(user.getContact());
             userDTO.setUsername(user.getUsername());
+            userDTO.setRegistered(user.isRegistered());
             Optional<Profile> profile = profileRepository.findById(user.getProfileId());
             if (profile.isPresent()) {
                 ProfileDTO profileDTO = new ProfileDTO();
@@ -63,6 +64,7 @@ public class UserServiceImpl implements UserService {
                     }
                 }
 
+                profileDTO.setId(profile.get().getId());
                 userDTO.setProfile(profileDTO);
             }
             userDTOS.add(userDTO);
@@ -124,6 +126,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setContact(user.getContact());
             userDTO.setUsername(user.getUsername());
             userDTO.setPassword(user.getPassword());
+            userDTO.setRegistered(true);
             if (userData.get().getProfileId() != null) {
                 profile = profileRepository.findById(userData.get().getProfileId()).get();
                 ProfileDTO profileDTO = new ProfileDTO();
@@ -337,7 +340,16 @@ public class UserServiceImpl implements UserService {
         address.setCity(dto.getCity());
         address.setState(dto.getState());
         address.setCountry(dto.getCountry());
-        if (dto.getIsDefault() != null && dto.getIsDefault().equalsIgnoreCase("true")) {
+
+        address.setUserId(dto.getUserId());
+        User user = userRepository.findByContact(dto.getContact());
+        //TODO: Check if same address is getting updated
+        if(dto.getContact().equalsIgnoreCase(user.getContact())){
+
+        }
+
+
+        if (dto.getIsDefault() != null && (dto.getIsDefault().equalsIgnoreCase("true") || dto.getIsDefault().equalsIgnoreCase("Y"))) {
             List<Address> addresses = (List<Address>) getAllAddressesByUserId(dto.getUserId());
             for (Address add : addresses) {
                 add.setIsDefault("N");
@@ -347,7 +359,15 @@ public class UserServiceImpl implements UserService {
             address.setIsDefault("N");
         }
         address.setUserId(dto.getUserId());
-        return addressRepository.save(address);
+
+        Address savedAddress = addressRepository.save(address);
+
+
+        Profile p = profileRepository.findById(user.getProfileId()).get();
+        p.setAddressId(savedAddress.getId());
+        profileRepository.save(p);
+        return savedAddress;
+
     }
 
 
@@ -362,8 +382,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<Address> getAddressesById(String id) {
+    public Optional<Address> getAddressById(String id) {
         return addressRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Address> getAddressByUserId(String id) {
+        return addressRepository.findOneByUserId(id);
     }
 
     @Override

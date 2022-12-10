@@ -11,7 +11,7 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     Order save(Order order);
 
-    List<Order> findAll();
-
     Order findByRazorpayOrderId(String orderId);
+
+    List<Order> findAllByUserId(String userId);
 }
