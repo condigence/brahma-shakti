@@ -349,6 +349,8 @@ public class CartServiceImpl implements CartService {
         } else {
             // Can not delete
             newQuantity = 0;
+            // delete Product itself
+            cart.getSubscriptions().remove(subscription.getProductId());
         }
 
         subscription.setQuantity(newQuantity);
