@@ -48,8 +48,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void placeOrder(OrderBean orderBean){
 		Order order = new Order();
-		order.setUserId(orderBean.getUserId());
-		order.setCartId(orderBean.getCartId());
+		order.setUserId(orderBean.getUserId()); // get from cart if userId is null
+		order.setCartId(orderBean.getCartId()); // get from cart - user - profile - address -  if address Id  is null
 		order.setAddressId(orderBean.getAddressId());
 		order.setPaymentMethod(orderBean.getPaymentMethod());
 		order.setStatus("PENDING");
