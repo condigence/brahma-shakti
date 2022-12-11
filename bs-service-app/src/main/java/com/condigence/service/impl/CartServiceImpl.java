@@ -247,6 +247,7 @@ public class CartServiceImpl implements CartService {
         cartDTO = populateCartDetails(cart, cartDTO); // TODO: New change as per Virender Request Fixed on 06-12-22
         cartDTO.getProductsPicked().clear();
         cartDTO.getSubscriptions().clear();
+        cartDTO.setId(cart.getId());
         return cartDTO;
     }
 
