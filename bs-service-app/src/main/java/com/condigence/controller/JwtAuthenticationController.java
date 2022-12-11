@@ -103,9 +103,9 @@ public class JwtAuthenticationController {
                 System.out.println("OTP Match");
                 User userDetails = userDetailsService.findByUserContact(userDTO.getContact());
                 if(!userDTO.isRegistered() && userDetails == null){
+                    userDTO.setRegistered(true);
                     userDetails = userDetailsService.saveNewUser(userDTO);
                 }
-                userDTO.setRegistered(true);
                 userDTO.setContact(userDetails.getContact());
                 userDTO.setFirstName(userDetails.getFirstName());
                 userDTO.setEmail(userDetails.getEmail());

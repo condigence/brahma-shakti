@@ -30,5 +30,6 @@ public class User implements Serializable {
 	@JsonIgnore
 	private String otp;
 	private String otpCreationTime;
+	private boolean isRegistered;
 	
 }

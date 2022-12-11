@@ -52,28 +52,20 @@ public class CartController {
 //		return ResponseEntity.status(HttpStatus.OK).body(dto);
 //	}
 
-//	@PostMapping("/")
-//	public ResponseEntity<?> addToCart(@RequestBody CartBean cartBean) {
-//		logger.info("Entering addBrands with Brand Details >>>>>>>>  : {}", cartBean);
-//		HttpHeaders headers = new HttpHeaders();
-//		cartService.addToCart(cartBean);
-//		return new ResponseEntity<>(headers, HttpStatus.CREATED);
-//	}
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-//	@DeleteMapping(value = "/{userId}")
-//	public ResponseEntity<?> clearCart(@PathVariable("userId") String userId) {
-//		logger.info("Fetching & Deleting Cart with id {}", userId);
-//		CartDTO item = cartService.getCartByUserId(userId);
-//		if (item != null) {
-//			cartService.deleteCartByUserId(userId);
-//		} else {
-//			logger.error("Unable to delete. Item with id {} not found.", userId);
-//			return new ResponseEntity(new CustomErrorType("Unable to delete. Cart with userId " + userId + " not found."),
-//					HttpStatus.NOT_FOUND);
-//		}
-//		return new ResponseEntity<CartDTO>(HttpStatus.OK);
-//	}
+	@DeleteMapping(value = "/{userId}")
+	public ResponseEntity<?> clearCart(@RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
+		logger.info("Fetching & Deleting Cart with id {}", convId);
+		if (convId != null) {
+            cartService.clearCart(convId, userId);
+		} else {
+			logger.error("Unable to clear Cart. convId {} not found.", convId);
+			return new ResponseEntity(new CustomErrorType("Unable to clear Cart. convId not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
     ////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -206,7 +198,7 @@ public class CartController {
         if (productService.findById(subscription.getProductId()).isPresent()) {
             cartService.unsubscribeProduct(subscription, convId, userId);
             return shoppingCart(convId, userId);
-        }else{
+        } else {
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be unsubscribed!:( "),
                     HttpStatus.NOT_FOUND);
         }
@@ -218,7 +210,7 @@ public class CartController {
         if (productService.findById(subscription.getProductId()).isPresent()) {
             cartService.unsubscribeAllProduct(subscription, convId, userId);
             return shoppingCart(convId, userId);
-        }else{
+        } else {
             return new ResponseEntity(new CustomErrorType("Sorry Product Id is not correct, So product can not be unsubscribed!:( "),
                     HttpStatus.NOT_FOUND);
         }
@@ -228,18 +220,28 @@ public class CartController {
 
     @GetMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestParam(required = false) String userId, @RequestParam(required = true) String convId) {
-        if (userId != null && !userId.equalsIgnoreCase("")) {
-            CartDTO dto = cartService.getProductsInCart(convId, userId);
-            UserDTO userDTO = userService.getUserById(userId);
-            dto.setUserDTO(userDTO);
-            dto.setConvId(convId);
-            try {
-                cartService.checkout(dto);
-            } catch (NotEnoughProductsInStockException e) {
-                throw new RuntimeException(e);
-            }
+        if(convId == null){
+            return new ResponseEntity(new CustomErrorType("Sorry Conv Id is should not ne empty, Checkout is not successful!:( "),
+                    HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.status(HttpStatus.OK).body("SUCCESS");
+        UserDTO userDTO = null;
+        CartDTO dto = null;
+
+        dto = cartService.getProductsInCart(convId, userId);
+        if (userId != null) {
+            userDTO = userService.getUserById(userId);
+            dto.setUserId(userId);
+            dto.setUserDTO(userDTO);
+        }
+        dto.setConvId(convId);
+        try {
+            dto = cartService.checkout(dto);
+        } catch (NotEnoughProductsInStockException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new ResponseEntity(dto,
+                HttpStatus.OK);
     }
 }
 

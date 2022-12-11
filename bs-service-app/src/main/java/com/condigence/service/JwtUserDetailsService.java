@@ -4,6 +4,7 @@ import com.condigence.bean.ProfileBean;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.ProfileDTO;
 import com.condigence.dto.UserDTO;
+import com.condigence.model.Address;
 import com.condigence.model.Profile;
 import com.condigence.model.User;
 import com.condigence.repository.ProfileRepository;
@@ -53,6 +54,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         User user = new User();
         user.setContact(userDTO.getContact());
         user.setOtp("1234");
+        user.setRegistered(userDTO.isRegistered());
         Profile profile = new Profile();
         user.setProfileId(profileRepository.save(profile).getId());
         return userDao.save(user);
@@ -64,18 +66,29 @@ public class JwtUserDetailsService implements UserDetailsService {
         user.setEmail(userBean.getEmail());
         user.setOtp("1234");
         user.setFirstName(userBean.getFirstName());
-        userDao.save(user);
+        User u = userDao.save(user);
 
-        ProfileDTO profile = userService.getProfileById(user.getProfileId());
-        UserDTO userDTO = new UserDTO();
-        userDTO.setRegistered(true);
-        userDTO.setContact(user.getContact());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setProfile(profile);
+        Profile p= new Profile();
+        p.setFullName(user.getFirstName()+" "+user.getLastName());
+        if(userService.getAddressByUserId(u.getId()).isPresent()){
+            Address address = userService.getAddressByUserId(u.getId()).get();
+            if(address != null){
+                p.setAddressId(address.getId());
+            }
+        }
+        Profile savedProfile = profileRepository.save(p);
+
+
+//        ProfileDTO profile = userService.getProfileById(savedProfile.getId());
+//        profile.setId(savedProfile.getId());
+//        profile.setAddress();
+//        UserDTO userDTO = new UserDTO();
+//        userDTO.setRegistered(true);
+//        userDTO.setContact(user.getContact());
+//        userDTO.setEmail(user.getEmail());
+//        userDTO.setFirstName(user.getFirstName()); // 05-12-2022 Virneder requested fixed
+ //         userDTO.setProfile(profile);
+        UserDTO userDTO = userService.getUserById(u.getId());
         return userDTO;
-
-
-
-
     }
 }

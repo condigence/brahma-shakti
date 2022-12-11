@@ -22,23 +22,14 @@ public class FavouriteImpl implements FavouriteService {
     private FavouriteRepository favouriteRepository;
 
     @Override
-    public Favourite getByUserId(String userId) {
-
-        return favouriteRepository.findByUserId(userId);
-
-    }
-
-
-    @Override
-    public List<FavouriteDTO> getAll() {
+    public List<FavouriteDTO> getAll(String userId) {
         List<FavouriteDTO> favouriteDTOS = new ArrayList<>();
-        List<Favourite> favourites = favouriteRepository.findAll();
+        List<Favourite> favourites = favouriteRepository.findAllById(userId);
         for (Favourite fav : favourites) {
             FavouriteDTO favouriteDTO = new FavouriteDTO();
             favouriteDTO.setId(fav.getId());
             favouriteDTO.setProductId(fav.getProductId());
             favouriteDTO.setUserId(fav.getUserId());
-
             favouriteDTOS.add(favouriteDTO);
         }
         return favouriteDTOS;
@@ -54,22 +45,6 @@ public class FavouriteImpl implements FavouriteService {
         favouriteRepository.save(fav);
 
     }
-
-    public FavouriteDTO getUserById(String userId) {
-        Optional<Favourite> favouriteData = favouriteRepository.findById(userId);
-        FavouriteDTO favouriteDTO = new FavouriteDTO();
-        if (favouriteData.isPresent()) {
-            Favourite favourite = favouriteData.get();
-            favouriteDTO.setId(favourite.getId());
-            favouriteDTO.setProductId(favourite.getProductId());
-            favouriteDTO.setUserId(favourite.getUserId());
-            return favouriteDTO;
-        } else {
-            return favouriteDTO.builder().id("0").build();
-        }
-    }
-
-//    public void removefromFavourite
 
     @Override
     public void deleteById(String id) {
