@@ -340,12 +340,11 @@ public class UserServiceImpl implements UserService {
         address.setCity(dto.getCity());
         address.setState(dto.getState());
         address.setCountry(dto.getCountry());
-
-        address.setUserId(dto.getUserId());
         User user = userRepository.findByContact(dto.getContact());
-        //TODO: Check if same address is getting updated
-        if(dto.getContact().equalsIgnoreCase(user.getContact())){
+        address.setUserId(user.getId());
 
+        if(dto.getContact().equalsIgnoreCase(user.getContact())){
+            //TODO: Check if same address is getting updated
         }
 
 
