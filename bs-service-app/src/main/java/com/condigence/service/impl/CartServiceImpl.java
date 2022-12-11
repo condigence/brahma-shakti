@@ -82,12 +82,7 @@ public class CartServiceImpl implements CartService {
     }
 
     private CartDTO getMyCart(String convId, String userId) {
-        CartDTO dto = null;
-        if (userId != null) {  // it means User is Logged In
-            dto = cartMap.get(userId);
-        } else { // it means User is not Logged In
-            dto = cartMap.get(convId);
-        }
+        CartDTO dto = cartMap.get(convId);
         if (dto == null) {   // it means User has no cart yet
             dto = new CartDTO();
             dto.setProductsPicked(new HashMap<>());
@@ -256,7 +251,6 @@ public class CartServiceImpl implements CartService {
     }
 
     private CartDTO populateCartDetails(Cart cart, CartDTO cartDTO) {
-        //cartDTO.setUserDTO(userService.getUserById(cartDTO.getUserDTO().getId()));
         cartDTO.setConvId(cart.getConvId());
         cartDTO.setTaxAmount(cart.getTaxAmount());
         cartDTO.setDiscountAmount(cart.getDiscountAmount());
@@ -329,8 +323,10 @@ public class CartServiceImpl implements CartService {
         cart.setGrandTotal(cartDTO.getGrandTotal());
         cart.setTaxAmount(cartDTO.getTaxAmount());
         cart.setLastUpdated(cartDTO.getLastUpdated());
-        cart.setUserId(cartDTO.getUserDTO().getId());
-        cart.setConvId(cartDTO.getUserDTO().getContact());
+        if(cartDTO.getUserDTO() != null){
+            cart.setUserId(cartDTO.getUserDTO().getId());
+            cart.setConvId(cartDTO.getUserDTO().getContact());
+        }
         //save cart
         Cart savedCart = repository.save(cart);
         return savedCart;

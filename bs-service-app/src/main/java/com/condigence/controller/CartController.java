@@ -220,19 +220,17 @@ public class CartController {
 
     @GetMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestParam(required = false) String userId, @RequestParam(required = true) String convId) {
-
-        // Need to remove TODO:
-//        userId = userService.getUserByContact("9742503868").getId();
-//        convId = userService.getUserByContact("9742503868").getContact();
         if(convId == null){
             return new ResponseEntity(new CustomErrorType("Sorry Conv Id is should not ne empty, Checkout is not successful!:( "),
                     HttpStatus.NOT_FOUND);
         }
         UserDTO userDTO = null;
-        CartDTO dto = cartService.getProductsInCart(convId, userId);
+        CartDTO dto = null;
+
+        dto = cartService.getProductsInCart(convId, userId);
         if (userId != null) {
             userDTO = userService.getUserById(userId);
-            dto.setUserDTO(userDTO);
+            dto.setUserId(userId);
             dto.setUserDTO(userDTO);
         }
         dto.setConvId(convId);
