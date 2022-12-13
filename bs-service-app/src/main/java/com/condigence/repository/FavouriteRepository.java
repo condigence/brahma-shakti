@@ -9,5 +9,5 @@ import java.util.List;
 public interface FavouriteRepository extends MongoRepository<Favourite, String>
 
 {
-    List<Favourite> findAllById(String userId);
+    List<Favourite> findAllByUserId(String userId);
 }

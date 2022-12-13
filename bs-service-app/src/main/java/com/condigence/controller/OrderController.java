@@ -51,17 +51,17 @@ public class OrderController {
 		return "Hello, I am doing fine!";
 	}
 
-	@GetMapping("/{userId}")
-	public ResponseEntity<?> getOrderByUserId(@PathVariable String userId) {
-		logger.info("Fetching Order with userid {}", userId);
-		OrderDTO orderDTO = orderService.getOrderByUserId(userId);
-		if (orderDTO !=null && !orderDTO.getId().equalsIgnoreCase("0")) {
-			return ResponseEntity.status(HttpStatus.OK).body(orderDTO);
-		}
-		 else {
-			return new ResponseEntity(new CustomErrorType("Order not found for User Id : "+userId), HttpStatus.NOT_FOUND);
-		}
-	}
+//	@GetMapping("/{userId}")
+//	public ResponseEntity<?> getOrderByUserId(@PathVariable String userId) {
+//		logger.info("Fetching Order with userid {}", userId);
+//		OrderDTO orderDTO = orderService.getOrderByUserId(userId);
+//		if (orderDTO !=null && !orderDTO.getId().equalsIgnoreCase("0")) {
+//			return ResponseEntity.status(HttpStatus.OK).body(orderDTO);
+//		}
+//		 else {
+//			return new ResponseEntity(new CustomErrorType("Order not found for User Id : "+userId), HttpStatus.NOT_FOUND);
+//		}
+//	}
 
 	@GetMapping("/order-history/{userId}")
 	public ResponseEntity<?> orderHistory(@PathVariable String userId) {

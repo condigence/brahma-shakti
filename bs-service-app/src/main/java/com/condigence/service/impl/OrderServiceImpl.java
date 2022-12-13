@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setCartId(orderBean.getCartId()); // get from cart - user - profile - address -  if address Id  is null
 		order.setAddressId(orderBean.getAddressId());
 		order.setPaymentMethod(orderBean.getPaymentMethod());
-		order.setStatus("PENDING");
+		order.setStatus("CONFIRMED");
 		order.setNumber(UUID.randomUUID().toString());
 		order.setDateTime(HelperUtil.getCurrentDateTIme());
 		repository.save(order);

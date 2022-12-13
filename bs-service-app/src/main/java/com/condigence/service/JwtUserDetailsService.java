@@ -69,7 +69,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         User u = userDao.save(user);
 
         Profile p= new Profile();
-        p.setFullName(user.getFirstName()+" "+user.getLastName());
+        p.setFullName(user.getFirstName()+" "+user.getLastName()== null? "" : user.getLastName());
         if(userService.getAddressByUserId(u.getId()).isPresent()){
             Address address = userService.getAddressByUserId(u.getId()).get();
             if(address != null){
@@ -77,8 +77,6 @@ public class JwtUserDetailsService implements UserDetailsService {
             }
         }
         Profile savedProfile = profileRepository.save(p);
-
-
 //        ProfileDTO profile = userService.getProfileById(savedProfile.getId());
 //        profile.setId(savedProfile.getId());
 //        profile.setAddress();

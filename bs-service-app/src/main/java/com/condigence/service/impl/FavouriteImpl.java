@@ -24,7 +24,7 @@ public class FavouriteImpl implements FavouriteService {
     @Override
     public List<FavouriteDTO> getAll(String userId) {
         List<FavouriteDTO> favouriteDTOS = new ArrayList<>();
-        List<Favourite> favourites = favouriteRepository.findAllById(userId);
+        List<Favourite> favourites = favouriteRepository.findAllByUserId(userId);
         for (Favourite fav : favourites) {
             FavouriteDTO favouriteDTO = new FavouriteDTO();
             favouriteDTO.setId(fav.getId());
