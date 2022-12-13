@@ -28,8 +28,9 @@ public class OrderDTO implements Serializable {
 	private float grandTotal;
 	private String lastUpdated;
 	private UserDTO user;
-	private List<CartDetailDTO> itemDetails;
-	private List<SubscriptionDetailDTO> subscriptionDetails;
+//	private List<CartDetailDTO> itemDetails;
+//	private List<SubscriptionDetailDTO> subscriptionDetails;
+	private CartDTO cartDTO;
 	private String status; // PENDING or CONFIRMED or CANCELLED
 	private String paymentMethod;
 	private String razorpayPaymentId;

@@ -77,8 +77,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDTO getCartByUserId(String userId) {
-        return null;
+    public Cart getCartByUserId(String userId) {
+        return repository.findByUserId(userId);
+    }
+
+    @Override
+    public Cart getCartById(String id) {
+        return repository.findById(id).get();
     }
 
     private CartDTO getMyCart(String convId, String userId) {
@@ -251,7 +256,8 @@ public class CartServiceImpl implements CartService {
         return cartDTO;
     }
 
-    private CartDTO populateCartDetails(Cart cart, CartDTO cartDTO) {
+    @Override
+    public CartDTO populateCartDetails(Cart cart, CartDTO cartDTO) {
         cartDTO.setConvId(cart.getConvId());
         cartDTO.setTaxAmount(cart.getTaxAmount());
         cartDTO.setDiscountAmount(cart.getDiscountAmount());

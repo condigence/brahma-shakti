@@ -1,13 +1,11 @@
 package com.condigence.service.impl;
 
 import com.condigence.bean.OrderBean;
+import com.condigence.dto.CartDTO;
 import com.condigence.dto.OrderDTO;
 import com.condigence.dto.ProfileDTO;
 import com.condigence.dto.UserDTO;
-import com.condigence.model.Address;
-import com.condigence.model.Order;
-import com.condigence.model.Profile;
-import com.condigence.model.User;
+import com.condigence.model.*;
 import com.condigence.repository.OrderRepository;
 import com.condigence.repository.ProductRepository;
 import com.condigence.repository.ProfileRepository;
@@ -59,30 +57,35 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderDTO getOrderByUserId(String userId) {
-		Order order = repository.findByUserId(userId);
-		OrderDTO orderDTO = new OrderDTO();
-		UserDTO userDTO = userService.getUserById(order.getUserId());
-		orderDTO.setUser(userDTO);
-
-		// Populate Cart Info
-		orderDTO = populateCartInfo(order, orderDTO);
-
-		// Populate Payment Info
-
-		orderDTO = populatePaymentInfo(order, orderDTO);
-
-		// Populate Order info
-
-		order.setNumber(order.getNumber());
-		order.setDateTime(order.getDateTime());
-		order.setType(order.getType());
-		order.setStatus(order.getStatus());
-		order.setRazorpayOrderId(order.getRazorpayOrderId());
-		order.setRazorpaySignature(order.getRazorpaySignature());
-
-		return orderDTO;
+	public Order getOrderById(String id) {
+		return repository.findById(id).get();
 	}
+
+//	@Override
+//	public OrderDTO getOrderByUserId(String userId) {
+//		Order order = repository.findByUserId(userId);
+//		OrderDTO orderDTO = new OrderDTO();
+//		UserDTO userDTO = userService.getUserById(order.getUserId());
+//		orderDTO.setUser(userDTO);
+//
+//		// Populate Cart Info
+//		orderDTO = populateCartInfo(order, orderDTO);
+//
+//		// Populate Payment Info
+//
+//		orderDTO = populatePaymentInfo(order, orderDTO);
+//
+//		// Populate Order info
+//
+//		order.setNumber(order.getNumber());
+//		order.setDateTime(order.getDateTime());
+//		order.setType(order.getType());
+//		order.setStatus(order.getStatus());
+//		order.setRazorpayOrderId(order.getRazorpayOrderId());
+//		order.setRazorpaySignature(order.getRazorpaySignature());
+//
+//		return orderDTO;
+//	}
 
 	@Override
 	public List<OrderDTO> getAllOrderByUserId(String userId) {
@@ -99,27 +102,18 @@ public class OrderServiceImpl implements OrderService {
 			dto.setRazorpayOrderId(order.getRazorpayOrderId());
 			dto.setRazorpaySignature(order.getRazorpaySignature());
 			dto.setUser(userService.getUserById(order.getUserId()));
+			//populateCartInfo
+			Cart cart = cartService.getCartById(order.getCartId());
+			CartDTO cartDTO = new CartDTO();
+			cartDTO = cartService.populateCartDetails(cart, cartDTO);
+			dto.setCartDTO(cartDTO);
+			dto.setPaymentMethod(order.getPaymentMethod());
+			dto.setGrandTotal(cart.getGrandTotal());
+			dto.setTotalItemCount(cart.getTotalItemCount());
 
-			populateCartInfo(order, dto);
-			populatePaymentInfo(order, dto);
 			orderDTOS.add(dto);
 		}
 		return orderDTOS;
-	}
-
-	private OrderDTO populatePaymentInfo(Order order, OrderDTO orderDTO) {
-
-		return orderDTO;
-	}
-
-	private OrderDTO populateCartInfo(Order order, OrderDTO orderDTO) {
-
-		order.setCartId(order.getCartId());
-		// Populate Subscription Info
-
-
-		// Populate products purchased Info
-		return orderDTO;
 	}
 
 
@@ -162,5 +156,10 @@ public class OrderServiceImpl implements OrderService {
 			errorMsg = e.getMessage();
 		}
 		return errorMsg;
+	}
+
+	@Override
+	public void deleteById(String orderId) {
+		repository.deleteById(orderId);
 	}
 }

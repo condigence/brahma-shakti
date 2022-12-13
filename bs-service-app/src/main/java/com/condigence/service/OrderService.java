@@ -11,7 +11,7 @@ public interface OrderService {
 
 	void placeOrder(OrderBean orderBean);
 
-	OrderDTO getOrderByUserId(String userId);
+	Order getOrderById(String id);
 
 	List<OrderDTO> getAllOrderByUserId(String userId);
 
@@ -22,6 +22,5 @@ public interface OrderService {
 	public String validateAndUpdateOrder(final String razorpayOrderId, final String razorpayPaymentId, final String razorpaySignature, final String secret);
 
 
-
-
+	void deleteById(String orderId);
 }

@@ -2,6 +2,7 @@ package com.condigence.service;
 
 
 import com.condigence.dto.CartDTO;
+import com.condigence.model.Cart;
 import com.condigence.model.Product;
 import com.condigence.exception.NotEnoughProductsInStockException;
 import com.condigence.model.Subscription;
@@ -10,9 +11,13 @@ public interface CartService {
 
 	void addProduct(Product product, String convId, String userId);
 
-	CartDTO getCartByUserId(String userId);
+	Cart getCartByUserId(String userId);
+
+	Cart getCartById(String id);
 
 	CartDTO getProductsInCart(String convId, String userId);
+
+	CartDTO populateCartDetails(Cart cart, CartDTO cartDTO);
 
 	void removeProduct(Product product, String convId, String userId);
 
