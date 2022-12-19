@@ -220,14 +220,21 @@ public class CartController {
 
     @GetMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestParam(required = false) String userId, @RequestParam(required = true) String convId) {
+        UserDTO userDTO = null;
+        CartDTO dto = null;
         if(convId == null){
             return new ResponseEntity(new CustomErrorType("Sorry Conv Id is should not ne empty, Checkout is not successful!:( "),
                     HttpStatus.NOT_FOUND);
-        }
-        UserDTO userDTO = null;
-        CartDTO dto = null;
+        }else{
+            //TODO: if convId is correct or not
+            dto = cartService.getProductsInCart(convId, userId);
+            if(dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0){
+                return new ResponseEntity(new CustomErrorType("Sorry your Cart Not found :( "),
+                        HttpStatus.NOT_FOUND);
+            }
 
-        dto = cartService.getProductsInCart(convId, userId);
+        }
+        //dto = cartService.getProductsInCart(convId, userId);
         if (userId != null) {
             userDTO = userService.getUserById(userId);
             dto.setUserId(userId);
