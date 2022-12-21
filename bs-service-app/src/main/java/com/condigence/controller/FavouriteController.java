@@ -45,21 +45,18 @@ public class FavouriteController {
 
         logger.info("Entering addFavourite with Favourite Details >>>>>>>>  : {}", favouriteBean);
         HttpHeaders headers = new HttpHeaders();
-        favouriteService.addToFavourite(favouriteBean);
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        FavouriteDTO favouriteDTO = favouriteService.addToFavourite(favouriteBean);
+        return ResponseEntity.ok().body(favouriteDTO);
     }
 
     @DeleteMapping(value = "/")
     public ResponseEntity<?> removeFromMyFavourites(@RequestBody FavouriteBean favouriteBean) {
         logger.info("Fetching & Deleting Item with id {}", favouriteBean.getId());
-        List<FavouriteDTO> favs = favouriteService.getAll(favouriteBean.getUserId());
-        if (!favs.isEmpty()) {
-            for(FavouriteDTO f : favs){
-                if(f.getId().equalsIgnoreCase(favouriteBean.getId())){
+        FavouriteDTO fav = favouriteService.findById(favouriteBean);
+        if (fav != null) {
+                if(fav.getUser().getId().equalsIgnoreCase(favouriteBean.getUserId())){
                     favouriteService.deleteById(favouriteBean.getId());
                 }
-            }
-
         } else {
             logger.error("Unable to delete. Product with id {} not found.", favouriteBean.getId());
             return new ResponseEntity(new CustomErrorType("Unable to delete. Favourite with id " + favouriteBean.getId() + " not found."),

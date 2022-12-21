@@ -15,7 +15,7 @@ import java.util.List;
 public class FavouriteDTO implements Serializable {
 
 	private String id;
-	private String productId;
-	private String userId;
+	private ProductDTO product;
+	private UserDTO user;
 	
 }
