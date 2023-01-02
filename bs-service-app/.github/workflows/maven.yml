@@ -28,6 +28,5 @@ jobs:
         distribution: 'adopt'
         architecture: x64
         cache: maven
-        path: D:\condigence\clients\brahma-shakti\bs-service-app\
     - name: Build with Maven
-      run: mvn clean install
+      run: cd ../../ mvn - f ("D://condigence//clients//brahma-shakti//bs-service-app//pom.xml") clean install
