@@ -3,6 +3,7 @@ package com.condigence.controller;
 import com.condigence.bean.ProductBean;
 import com.condigence.dto.ProductDTO;
 import com.condigence.model.Product;
+import com.condigence.model.Subscription;
 import com.condigence.service.ProductService;
 import com.condigence.utils.CustomErrorType;
 import org.slf4j.Logger;
@@ -95,6 +96,19 @@ public class ProductController {
 		}
 		return new ResponseEntity<ProductDTO>(HttpStatus.OK);
 	}
+
+	@PutMapping("/")
+	public ResponseEntity<?> updateProduct(@RequestBody ProductBean productBean) {
+		// check if product is available
+		if (productService.findById(productBean.getId()).isPresent()) {
+			ProductDTO productDTO = productService.updateProduct(productBean);
+			return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product That your are trying to update does not exist! Please contact admin!");
+		}
+	}
+
+
 }
 
 

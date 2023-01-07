@@ -146,7 +146,7 @@
 
     <build>
         <!-- Need to comment this on local setup -->
-                <finalName>brahmashakti</finalName>
+        <finalName>brahmashakti</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

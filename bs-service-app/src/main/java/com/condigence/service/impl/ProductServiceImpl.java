@@ -36,6 +36,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDTO updateProduct(ProductBean product) {
+        Product p = repository.findById(product.getId()).get();
+        p.setCategory(product.getCategory());
+        p.setDescription(product.getDescription());
+        p.setDiscount(product.getDiscount());
+        p.setImageLink(product.getImage());
+        p.setPrice(product.getPrice());
+        if (product.getPromoCodes() != null) {
+            if (product.getPromoCodes().contains(",")) {
+                p.setOffers(product.getPromoCodes());
+            } else if (!product.getPromoCodes().equalsIgnoreCase("")) {
+                p.setOffers(product.getPromoCodes());
+            } else {
+                p.setOffers("NA");
+            }
+        }
+        p.setRating(product.getRating());
+        p.setQuantityInStock(product.getStockLeft());
+        p.setSubscribable(product.isSubscribable());
+        p.setName(product.getTitle());
+        p.setProductType(product.getProductType());
+        p.setUnit(product.getUnit());
+        p.setId(product.getId());
+        Product savedProduct = repository.save(p);
+        return getProductById(savedProduct.getId());
+    }
+
+    @Override
     public Optional<Product> findSubscribleProductById(String productId) {
         Optional<Product> p = repository.findById(productId);
         if(p.isPresent() && p.get().isSubscribable()){
@@ -43,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
         }else{
             return Optional.empty();
         }
-
     }
 
 

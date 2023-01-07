@@ -37,4 +37,6 @@ public interface ProductService {
 	 Page<Product> findAllProductsPageable(Pageable pageable);
 
     Optional<Product> findById(String productId);
+
+	ProductDTO updateProduct(ProductBean productBean);
 }
