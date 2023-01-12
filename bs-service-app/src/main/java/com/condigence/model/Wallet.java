@@ -12,15 +12,15 @@ import org.springframework.data.annotation.Id;
 @Builder
 public class Wallet {
 
-	@Id
-	private Long id;
+    @Id
+    private Long id;
 
-	private Long userId;
+    private Long userId;
 
-	private Integer balance;
+    private Integer balance;
 
-	private String isActive;
+    private String isActive;
 
-	private String lastRecharged;
+    private String lastRecharged;
 
 }

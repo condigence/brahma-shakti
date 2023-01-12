@@ -2,7 +2,7 @@ package com.condigence;
 
 
 import com.condigence.dto.ProductDTO;
-import com.condigence.model.*;
+import com.condigence.model.Product;
 import com.condigence.service.ProductService;
 import com.condigence.utils.ProductData;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -61,7 +61,7 @@ public class Application extends SpringBootServletInitializer {
 
                     if (productsData != null && !productsData.isEmpty()) {
                         List<Product> list = new ArrayList<>();
-                        for(ProductData pd : productsData){
+                        for (ProductData pd : productsData) {
                             Product product = new Product();
                             product.setCategory(pd.getCategory());
                             product.setDescription(pd.getDescription());
@@ -85,7 +85,7 @@ public class Application extends SpringBootServletInitializer {
 
                 } else {
                     logger.info("******* Products stored in DB Size :: {}", products.size());
-                   // logger.info("******* Products stored in DB :: {}", products);
+                    // logger.info("******* Products stored in DB :: {}", products);
                 }
             } catch (Exception e) {
                 logger.info("******* Error while Saving *******");

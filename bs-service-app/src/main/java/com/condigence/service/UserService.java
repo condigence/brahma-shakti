@@ -31,6 +31,8 @@ public interface UserService {
 
     boolean isUserExists(String contact);
 
+    boolean isUserIdExists(String id);
+
     // Wallet
 
     void addBalance(String userId, int amount);
@@ -50,6 +52,7 @@ public interface UserService {
 
     // Address
     Address saveAddress(AddressDTO dto);
+
     void deleteAddressById(String id);
 
     Address updateAddress(Address address);
@@ -62,5 +65,6 @@ public interface UserService {
 
     List<Address> getAllAddressesByUserId(String id);
 
-//    ProfileDTO getProfileByContact(String contact);
+    List<Address> getAllAddressesByContact(String contact);
+
 }

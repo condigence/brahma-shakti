@@ -1,21 +1,21 @@
 package com.condigence.repository;
 
-import java.util.List;
-
 import com.condigence.model.Employee;
 
+import java.util.List;
+
 public interface EmployeeQueryDao {
-	
-	List<Employee> getAll();
 
-	List<Employee> getEmployeeByFirstName(String firstName);
+    List<Employee> getAll();
 
-	Employee getSingleEmployeeByFirstName(String firstName);
+    List<Employee> getEmployeeByFirstName(String firstName);
 
-	List<Employee> getEmployeeByFirstNameLike(String firstName);
+    Employee getSingleEmployeeByFirstName(String firstName);
 
-	Employee getSingleEmployeeByLastName(String lastName);
+    List<Employee> getEmployeeByFirstNameLike(String firstName);
 
-	List<Employee> getEmployeeBySalaryGreaterThan(int salary);
+    Employee getSingleEmployeeByLastName(String lastName);
+
+    List<Employee> getEmployeeBySalaryGreaterThan(int salary);
 
 }

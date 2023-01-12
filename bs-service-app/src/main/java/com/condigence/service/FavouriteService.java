@@ -2,7 +2,6 @@ package com.condigence.service;
 
 import com.condigence.bean.FavouriteBean;
 import com.condigence.dto.FavouriteDTO;
-import com.condigence.model.Favourite;
 
 import java.util.List;
 

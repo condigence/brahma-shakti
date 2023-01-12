@@ -12,9 +12,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class StockBean implements Serializable {
-	
-	private String id;
-	private int productId;
-	private int quantityInStock;
-	
+
+    private String id;
+    private int productId;
+    private int quantityInStock;
+
 }

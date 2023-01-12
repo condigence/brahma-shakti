@@ -1,27 +1,24 @@
 package com.condigence.controller;
 
 
-
 import com.condigence.bean.ProfileBean;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.AddressDTO;
 import com.condigence.dto.UserDTO;
 import com.condigence.model.Address;
-import com.condigence.model.User;
 import com.condigence.service.JwtUserDetailsService;
 import com.condigence.service.UserService;
 import com.condigence.utils.CustomErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -29,7 +26,7 @@ import java.util.Optional;
 public class UserController {
 
 
-    public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
@@ -67,25 +64,25 @@ public class UserController {
         logger.info("Entering addUser with User Details >>>>>>>>  : {}", userBean);
         UserDTO userDTO = null;
         HttpHeaders headers = new HttpHeaders();
-        if(userService.isUserExists(userBean.getContact())){
-            return new ResponseEntity(new CustomErrorType("Sorry User already. Exists with the contact : "+userBean.getContact()),
+        if (userService.isUserExists(userBean.getContact())) {
+            return new ResponseEntity(new CustomErrorType("Sorry User already. Exists with the contact , Plz try Login with this contact: " + userBean.getContact()),
                     HttpStatus.CONFLICT);
-        }else{
-            userDTO = userDetailsService.save(userBean);
+        } else {
+            userDTO = userDetailsService.register(userBean);
             return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
         }
     }
 
     @PostMapping({"/update-info"})
-    public ResponseEntity<UserDTO> signUpUser(@RequestBody UserBean userBean) {
-        logger.info("Entering addUser with User Details >>>>>>>>  : {}", userBean);
+    public ResponseEntity<UserDTO> updateUserProfile(@RequestBody ProfileBean profileBean) {
+        logger.info("Entering addUser with User Details >>>>>>>>  : {}", profileBean);
         UserDTO userDTO = null;
         HttpHeaders headers = new HttpHeaders();
-        if(userService.isUserExists(userBean.getContact())){
-            userDTO = userDetailsService.updateUser(userBean);
+        if (userService.isUserExists(profileBean.getContact())) {
+            userDTO = userDetailsService.updateUserProfile(profileBean);
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
-        }else{
-            return new ResponseEntity(new CustomErrorType("Sorry User info can not be updated with this contact. Please contact Admin : "+userBean.getContact()),
+        } else {
+            return new ResponseEntity(new CustomErrorType("Sorry User does not exists for this contact you have provided! Please contact Admin : "),
                     HttpStatus.CONFLICT);
         }
     }
@@ -103,24 +100,30 @@ public class UserController {
         return new ResponseEntity<UserDTO>(HttpStatus.OK);
     }
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
-    @PutMapping(value = "/update")
-    public ResponseEntity<?> updateUserProfile(@RequestBody ProfileBean profileBean) {
-        logger.info("Updating UserProfile  with id {}", profileBean.getId());
-        return new ResponseEntity<UserDTO>(userService.updateUserProfile(profileBean), HttpStatus.OK);
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//        @SuppressWarnings({"rawtypes", "unchecked"})
+//    @PutMapping(value = "/update")
+//    public ResponseEntity<?> updateUserProfile(@RequestBody ProfileBean profileBean) {
+//        logger.info("Updating UserProfile  with id {}", profileBean.getId());
+//        return new ResponseEntity<UserDTO>(userService.updateUserProfile(profileBean), HttpStatus.OK);
+//    }
 
     ////////////////////////////////////////////////Address API's//////////////////////////////////////////////////
 
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @PostMapping(value = "/address")
     public ResponseEntity<?> addUserAddress(@RequestBody AddressDTO dto) {
         logger.info("Entering addUserAddress with Details >>>>>>>>  : {}", dto);
-        HttpHeaders headers = new HttpHeaders();
-        Address address = userService.saveAddress(dto);
-        return new ResponseEntity<Address>(address, HttpStatus.CREATED);
-
+        if (dto.getUserId() != null && userService.isUserIdExists(dto.getUserId())) {
+            HttpHeaders headers = new HttpHeaders();
+            Address address = userService.saveAddress(dto);
+            return new ResponseEntity<Address>(address, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(new CustomErrorType("Sorry User does not exists! Please contact Admin : "),
+                    HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("/addresses/by/user/{id}")
@@ -152,18 +155,32 @@ public class UserController {
 
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @PutMapping(value = "/makeDefault")
     public ResponseEntity<?> makeDefault(@RequestBody AddressDTO dto) {
         logger.info("Updating Address  with id {}", dto.getId());
-        List<Address> address = (List<Address>) getAllUserAddresses(dto.getUserId());
+        List<Address> address = getAllUserAddresses(dto.getUserId());
         for (Address add : address) {
+
             System.out.println(add);
-            if (add.getId() == dto.getId() && add.getIsDefault().equalsIgnoreCase("N") ) {
+            if (add.getId().equalsIgnoreCase(dto.getId())) {
                 add.setIsDefault("Y");
+
+//            add.setType(dto.getType());
+//            add.setLine1(dto.getLine1());
+//            add.setLine2(dto.getLine2());
+//            add.setPin(dto.getPin());
+//            add.setCity(dto.getCity());
+//            add.setState(dto.getState());
+//            add.setCountry(dto.getCountry());
+//            add.setUserId(dto.getUserId());
+
+
             } else {
                 add.setIsDefault("N");
             }
+
+
             userService.updateAddress(add);
         }
         return new ResponseEntity<Address>(HttpStatus.OK);
@@ -210,15 +227,20 @@ public class UserController {
 //        return ResponseEntity.status(HttpStatus.OK).body(dto);
 //    }
 
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    //TODO:FIX me
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @DeleteMapping(value = "/address/{id}")
     public ResponseEntity<?> deleteAddressById(@PathVariable("id") String id) {
         logger.info("Fetching & Deleting Users Address with id {}", id);
-        userService.deleteAddressById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+        if (userService.getAddressById(id).isPresent()) {
+            userService.deleteAddressById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Address That your are trying to delete does not exist! Please contact admin!");
+        }
 
+
+    }
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

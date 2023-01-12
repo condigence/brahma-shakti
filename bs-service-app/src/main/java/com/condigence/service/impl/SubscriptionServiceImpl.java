@@ -19,61 +19,61 @@ import java.util.List;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
-	public static final Logger logger = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
-	@Autowired
-	private ProductService productService;
+    public static final Logger logger = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
+    @Autowired
+    private ProductService productService;
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private SubscriptionRepository subscriptionRepository;
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
-	@Override
-	public void subscribe(SubscriptionDetailDTO subscriptionDTO) {
-		Subscription subscription = new Subscription();
-		subscription.setFrequency(subscriptionDTO.getFrequency());
-		subscription.setFromDate(subscriptionDTO.getFromDate());
-		subscription.setId(subscriptionDTO.getId());
-		subscription.setNoOfDays(subscriptionDTO.getNoOfDays());
-		subscription.setToDate(subscriptionDTO.getToDate());
-		subscription.setProductId(subscriptionDTO.getProductDTO().getId());
-		subscriptionRepository.save(subscription);
-	}
+    @Override
+    public void subscribe(SubscriptionDetailDTO subscriptionDTO) {
+        Subscription subscription = new Subscription();
+        subscription.setFrequency(subscriptionDTO.getFrequency());
+        subscription.setFromDate(subscriptionDTO.getFromDate());
+        subscription.setId(subscriptionDTO.getId());
+        subscription.setNoOfDays(subscriptionDTO.getNoOfDays());
+        subscription.setToDate(subscriptionDTO.getToDate());
+        subscription.setProductId(subscriptionDTO.getProductDTO().getId());
+        subscriptionRepository.save(subscription);
+    }
 
-	@Override
-	public void unSubscribe(SubscriptionDetailDTO subscriptionDTO) {
-		Subscription subscription = subscriptionRepository.findById(subscriptionDTO.getId()).get();
-		subscriptionRepository.delete(subscription);
-	}
+    @Override
+    public void unSubscribe(SubscriptionDetailDTO subscriptionDTO) {
+        Subscription subscription = subscriptionRepository.findById(subscriptionDTO.getId()).get();
+        subscriptionRepository.delete(subscription);
+    }
 
-	@Override
-	public List<SubscriptionDetailDTO> getMySubscriptionsByUserId(String userId) {
+    @Override
+    public List<SubscriptionDetailDTO> getMySubscriptionsByUserId(String userId) {
 
-		List<Subscription> subscriptions = subscriptionRepository.findByUserId(userId);
-		List<SubscriptionDetailDTO> subscriptionsList = new ArrayList<>();
-		for(Subscription subscription : subscriptions){
-			SubscriptionDetailDTO dto = new SubscriptionDetailDTO();
-			ProductDTO productDTO =  productService.getProductById(subscription.getProductId());
-			dto.setProductDTO(productDTO);
-			UserDTO userDTO = userService.getUserById(subscription.getUserId());
-			dto.setUserDTO(userDTO);
+        List<Subscription> subscriptions = subscriptionRepository.findByUserId(userId);
+        List<SubscriptionDetailDTO> subscriptionsList = new ArrayList<>();
+        for (Subscription subscription : subscriptions) {
+            SubscriptionDetailDTO dto = new SubscriptionDetailDTO();
+            ProductDTO productDTO = productService.getProductById(subscription.getProductId());
+            dto.setProductDTO(productDTO);
+            UserDTO userDTO = userService.getUserById(subscription.getUserId());
+            dto.setUserDTO(userDTO);
 
-			dto.setFrequency(subscription.getFrequency());
-			dto.setId(subscription.getId());
-			dto.setFromDate(subscription.getFromDate());
-			dto.setNoOfDays(subscription.getNoOfDays());
-			dto.setToDate(subscription.getToDate());
-			if(dto.getStatus() == null || dto.getStatus().equalsIgnoreCase("NOT CONFIRMED")){
-				dto.setStatus("NOT CONFIRMED");
-			}else{
-				dto.setStatus("CONFIRMED");
-			}
-			subscriptionsList.add(dto);
-		}
+            dto.setFrequency(subscription.getFrequency());
+            dto.setId(subscription.getId());
+            dto.setFromDate(subscription.getFromDate());
+            dto.setNoOfDays(subscription.getNoOfDays());
+            dto.setToDate(subscription.getToDate());
+            if (dto.getStatus() == null || dto.getStatus().equalsIgnoreCase("NOT CONFIRMED")) {
+                dto.setStatus("NOT CONFIRMED");
+            } else {
+                dto.setStatus("CONFIRMED");
+            }
+            subscriptionsList.add(dto);
+        }
 
-		return subscriptionsList;
-	}
+        return subscriptionsList;
+    }
 
 
 }

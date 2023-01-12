@@ -14,10 +14,10 @@ import java.io.Serializable;
 @Builder
 public class CartDetailDTO implements Serializable {
 
-	@Id
-	private String id;
-	private int itemQuantity;
-	private int totalAmount;
-	private ProductDTO productDTO;
-	
+    @Id
+    private String id;
+    private int itemQuantity;
+    private int totalAmount;
+    private ProductDTO productDTO;
+
 }

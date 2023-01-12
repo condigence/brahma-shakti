@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,9 +13,9 @@ import java.util.List;
 @Builder
 public class OrderBean implements Serializable {
 
-	private String id;
-	private String userId;
-	private String addressId;
-	private String paymentMethod;
-	private String cartId;
+    private String id;
+    private String userId;
+    private String addressId;
+    private String paymentMethod;
+    private String cartId;
 }

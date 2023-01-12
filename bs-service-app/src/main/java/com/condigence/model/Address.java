@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,17 +14,18 @@ import java.util.List;
 @Builder
 public class Address implements Serializable {
 
-	@Id
-	private String id;
-	private String type;
-	private String line1;
-	private String line2;
-	private String pin;
-	private String city;
-	private String state;
-	private String country;
-	private String contact;
-	private String isDefault;
-	private String userId;
-	
+    @Id
+    private String id;
+    private String type;
+    private String line1;
+    private String line2;
+    private String pin;
+    private String city;
+    private String state;
+    private String country;
+    private String contact;
+    private String isDefault;
+    private String userId;
+    private String profileId;
+
 }

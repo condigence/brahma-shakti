@@ -1,7 +1,7 @@
 package com.condigence.controller;
+
 import com.condigence.model.Category;
 import com.condigence.service.CategoryService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/bs-category")
 public class CategoryController {
 
-    @Autowired(required=true)
+    @Autowired(required = true)
     private CategoryService categoryService;
 
     @GetMapping("/say")

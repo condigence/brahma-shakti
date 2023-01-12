@@ -64,6 +64,7 @@ public class UserQueryDaoImpl implements UserQueryDao {
 
         return mongoTemplate.findOne(query, User.class);
     }
+
     @Override
     public List<User> getUserByEmail(String email) {
 

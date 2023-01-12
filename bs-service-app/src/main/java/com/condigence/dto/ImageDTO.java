@@ -2,46 +2,45 @@ package com.condigence.dto;
 
 public class ImageDTO {
 
-	private String id;
+    private String id;
 
-	private String name;
-	
-	private String imageId;
+    private String name;
 
-	private byte[] pic;
+    private String imageId;
 
-	public String getName() {
-		return name;
-	}
+    private byte[] pic;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getImageId() {
-		return imageId;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
-	}
+    public String getImageId() {
+        return imageId;
+    }
 
-	public byte[] getPic() {
-		return pic;
-	}
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
 
-	public void setPic(byte[] pic) {
-		this.pic = pic;
-	}
+    public byte[] getPic() {
+        return pic;
+    }
 
-	
+    public void setPic(byte[] pic) {
+        this.pic = pic;
+    }
+
 
 }

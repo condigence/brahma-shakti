@@ -1,7 +1,5 @@
 package com.condigence.dto;
 
-import com.condigence.bean.ProductBean;
-import com.condigence.bean.SubscriptionBean;
 import com.condigence.model.Product;
 import com.condigence.model.Subscription;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -22,28 +19,28 @@ import java.util.Map;
 @Builder
 public class CartDTO implements Serializable {
 
-	private String id;
+    private String id;
 
-	private float subtotalAmount;
-	private float grandTotal;
+    private float subtotalAmount;
+    private float grandTotal;
 
-	private int totalItemCount;
-	private float discountAmount;
-	private float taxAmount;
-	private String lastUpdated;
+    private int totalItemCount;
+    private float discountAmount;
+    private float taxAmount;
+    private String lastUpdated;
 
-	@JsonIgnore
-	private Map<String, Product> productsPicked = new HashMap<>();
-	@JsonIgnore
+    @JsonIgnore
+    private Map<String, Product> productsPicked = new HashMap<>();
+    @JsonIgnore
     private Map<String, Subscription> subscriptions = new HashMap<>();
 
-	private List<CartDetailDTO> itemDetails;
-	private List<SubscriptionDetailDTO> subscriptionDetails;
+    private List<CartDetailDTO> itemDetails;
+    private List<SubscriptionDetailDTO> subscriptionDetails;
 
-	private String userId;
-	private String convId;
-	private UserDTO userDTO;
+    private String userId;
+    private String convId;
+    private UserDTO userDTO;
 
-	String outOfStockMessage;
-	
+    String outOfStockMessage;
+
 }

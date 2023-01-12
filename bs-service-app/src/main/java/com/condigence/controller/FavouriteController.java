@@ -1,12 +1,8 @@
 package com.condigence.controller;
 
 import com.condigence.bean.FavouriteBean;
-import com.condigence.bean.UserBean;
 import com.condigence.dto.FavouriteDTO;
 import com.condigence.dto.UserDTO;
-import com.condigence.model.Category;
-import com.condigence.model.Favourite;
-import com.condigence.service.CategoryService;
 import com.condigence.service.FavouriteService;
 import com.condigence.utils.CustomErrorType;
 import org.slf4j.Logger;
@@ -54,9 +50,9 @@ public class FavouriteController {
         logger.info("Fetching & Deleting Item with id {}", favouriteBean.getId());
         FavouriteDTO fav = favouriteService.findById(favouriteBean);
         if (fav != null) {
-                if(fav.getUser().getId().equalsIgnoreCase(favouriteBean.getUserId())){
-                    favouriteService.deleteById(favouriteBean.getId());
-                }
+            if (fav.getUser().getId().equalsIgnoreCase(favouriteBean.getUserId())) {
+                favouriteService.deleteById(favouriteBean.getId());
+            }
         } else {
             logger.error("Unable to delete. Product with id {} not found.", favouriteBean.getId());
             return new ResponseEntity(new CustomErrorType("Unable to delete. Favourite with id " + favouriteBean.getId() + " not found."),

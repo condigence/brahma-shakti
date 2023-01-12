@@ -1,4 +1,5 @@
 package com.condigence.repository;
+
 import com.condigence.model.User;
 
 import java.util.List;

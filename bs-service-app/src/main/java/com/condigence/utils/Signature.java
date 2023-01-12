@@ -1,10 +1,9 @@
 package com.condigence.utils;
 
-import java.security.SignatureException;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+import java.security.SignatureException;
 
 /**
  * This class defines common routines for generating authentication signatures
@@ -12,15 +11,14 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class Signature {
     private static final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
+
     /**
      * Computes RFC 2104-compliant HMAC signature. * @param data The data to be
      * signed.
      *
-     * @param secret
-     *            The signing key.
+     * @param secret The signing key.
      * @return The Base64-encoded RFC 2104-compliant HMAC signature.
-     * @throws java.security.SignatureException
-     *             when signature generation fails
+     * @throws java.security.SignatureException when signature generation fails
      */
     public static String calculateRFC2104HMAC(String data, String secret) throws java.security.SignatureException {
         String result;

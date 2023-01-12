@@ -4,7 +4,6 @@ import com.condigence.bean.ProfileBean;
 import com.condigence.bean.UserBean;
 import com.condigence.dto.ProfileDTO;
 import com.condigence.dto.UserDTO;
-import com.condigence.model.Address;
 import com.condigence.model.Profile;
 import com.condigence.model.User;
 import com.condigence.repository.ProfileRepository;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,40 +51,88 @@ public class JwtUserDetailsService implements UserDetailsService {
     public User saveNewUser(UserDTO userDTO) {
         User user = new User();
         user.setContact(userDTO.getContact());
-        user.setOtp("1234");
         user.setRegistered(userDTO.isRegistered());
-        Profile profile = new Profile();
-        user.setProfileId(profileRepository.save(profile).getId());
+//        Profile profile = new Profile();
+//        user.setProfileId(profileRepository.save(profile).getId());
         return userDao.save(user);
     }
 
-    public UserDTO updateUser(UserBean userBean) {
-        User user = userService.findByUserContact(userBean.getContact());
-        user.setContact(userBean.getContact());
-        user.setEmail(userBean.getEmail());
-        user.setOtp("1234");
-        user.setFirstName(userBean.getFirstName());
+    public UserDTO updateUserProfile(ProfileBean profileBean) {
+        User user = userService.findByUserContact(profileBean.getContact());
+        user.setEmail(profileBean.getEmail());
         User u = userDao.save(user);
 
-        Profile p= new Profile();
-        p.setFullName(user.getFirstName()+" "+user.getLastName()== null? "" : user.getLastName());
-        if(userService.getAddressByUserId(u.getId()).isPresent()){
-            Address address = userService.getAddressByUserId(u.getId()).get();
-            if(address != null){
-                p.setAddressId(address.getId());
-            }
+        Profile p = profileRepository.findByUserId(u.getId());
+        if (p == null) { // User has no profile
+            p = new Profile();
         }
-        Profile savedProfile = profileRepository.save(p);
-//        ProfileDTO profile = userService.getProfileById(savedProfile.getId());
-//        profile.setId(savedProfile.getId());
-//        profile.setAddress();
-//        UserDTO userDTO = new UserDTO();
-//        userDTO.setRegistered(true);
-//        userDTO.setContact(user.getContact());
-//        userDTO.setEmail(user.getEmail());
-//        userDTO.setFirstName(user.getFirstName()); // 05-12-2022 Virneder requested fixed
- //         userDTO.setProfile(profile);
+        p.setUserId(user.getId());
+        p.setFirstName(profileBean.getFirstName());
+        p = profileRepository.save(p);
         UserDTO userDTO = userService.getUserById(u.getId());
         return userDTO;
     }
+
+    public UserDTO generateOTP(String contact) {
+        User user = new User();
+        user.setContact(contact);
+
+        //TODO :FIXME Create SMS OTP generator
+        user.setOtp("****");
+        user.setActive(false);
+        user.setRegistered(false);
+        user = userDao.save(user);
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setContact(user.getContact());
+        dto.setActive(user.isActive());
+        return dto;
+    }
+
+    public UserDTO register(UserBean userBean) {
+        User user = new User();
+        user.setContact(userBean.getContact());
+        user.setEmail(userBean.getEmail());
+        user.setRegistered(true);
+        User u = userDao.save(user);
+        Profile p = new Profile();
+        p.setFirstName(userBean.getFirstName());
+        p.setUserId(u.getId());
+        Profile savedProfile = profileRepository.save(p);
+        return userService.getUserById(u.getId());
+    }
+
+    public UserDTO activateUserAndgetUserDetails(UserBean bean, String journeyName) {
+        User user = findByUserContact(bean.getContact());
+        if (journeyName.equalsIgnoreCase("register")) {
+            user.setRegistered(true);
+        }
+        UserDTO userDTO = new UserDTO();
+        Profile p = profileRepository.findByUserId(user.getId());
+        if (p == null) { // User has no profile
+            p = new Profile();
+            p.setUserId(user.getId());
+            p = profileRepository.save(p);
+        }
+        if (!user.isActive()) { // User is not active
+            user = userDao.save(user);
+        }
+
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setId(p.getId());
+        profileDTO.setUserId(p.getUserId());
+        profileDTO.setFirstName(p.getFirstName());
+
+        userDTO.setRegistered(user.isRegistered());
+        userDTO.setContact(user.getContact());
+        userDTO.setActive(true);
+        userDTO.setEmail(user.getEmail());
+        userDTO.setId(user.getId());
+        userDTO.setOtp(user.getOtp());
+        userDTO.setProfile(profileDTO);
+        userDTO.setProfileUpdated(user.isProfileCompleted());
+        return userDTO;
+    }
+
+
 }

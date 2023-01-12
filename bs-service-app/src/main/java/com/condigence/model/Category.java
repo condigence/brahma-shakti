@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Builder
 public class Category implements Serializable {
 
-	@Id
-	private String id;
-	private String categoryName;
-	
+    @Id
+    private String id;
+    private String categoryName;
+
 }

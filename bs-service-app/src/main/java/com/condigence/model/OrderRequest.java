@@ -14,11 +14,11 @@ import java.io.Serializable;
 @Builder
 public class OrderRequest implements Serializable {
 
-	@Id
-	private String id;
-	private String customerName;
-	private String email;
-	private String phoneNumber;
-	private String amount;
-	
+    @Id
+    private String id;
+    private String customerName;
+    private String email;
+    private String phoneNumber;
+    private String amount;
+
 }

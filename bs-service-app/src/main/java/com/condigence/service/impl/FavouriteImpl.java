@@ -49,7 +49,7 @@ public class FavouriteImpl implements FavouriteService {
     @Override
     public FavouriteDTO addToFavourite(FavouriteBean bean) {
 
-        Favourite fav=new Favourite();
+        Favourite fav = new Favourite();
         fav.setId(bean.getId());
         fav.setUserId(bean.getUserId());
         fav.setProductId(bean.getProductId());

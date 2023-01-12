@@ -14,7 +14,7 @@ import org.springframework.data.annotation.Id;
 public class Image {
 
 
-	@Id
+    @Id
     private String id;
     private String moduleName;
     private String name;

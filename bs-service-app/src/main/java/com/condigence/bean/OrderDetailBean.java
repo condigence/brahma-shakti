@@ -14,11 +14,10 @@ import java.io.Serializable;
 @Builder
 public class OrderDetailBean implements Serializable {
 
-	@Id
-	private String id;
-	private String productId;
-	private Integer quantity;
-	private Integer orderDiscount;
+    private String id;
+    private String productId;
+    private Integer quantity;
+    private Integer orderDiscount;
 
-	
+
 }

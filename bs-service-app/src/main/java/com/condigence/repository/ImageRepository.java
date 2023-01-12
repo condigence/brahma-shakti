@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface ImageRepository extends MongoRepository<Image, String> {
 
-	Optional<Image> getByImageName(String imageName);
+    Optional<Image> getByImageName(String imageName);
 
 }

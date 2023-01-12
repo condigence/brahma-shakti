@@ -14,11 +14,11 @@ import java.io.Serializable;
 @Builder
 public class OrderDetailDTO implements Serializable {
 
-	@Id
-	private String id;
-	private String productId;
-	private Integer quantity;
-	private Integer orderDiscount;
+    @Id
+    private String id;
+    private String productId;
+    private Integer quantity;
+    private Integer orderDiscount;
 
-	
+
 }

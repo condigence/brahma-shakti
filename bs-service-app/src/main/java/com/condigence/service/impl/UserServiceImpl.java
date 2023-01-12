@@ -44,18 +44,16 @@ public class UserServiceImpl implements UserService {
         for (User user : users) {
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
-            userDTO.setFirstName(user.getFirstName());
-            userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
             userDTO.setContact(user.getContact());
             userDTO.setUsername(user.getUsername());
             userDTO.setRegistered(user.isRegistered());
-            Optional<Profile> profile = profileRepository.findById(user.getProfileId());
-            if (profile.isPresent()) {
+            Profile profile = profileRepository.findByUserId(user.getId());
+            if (profile != null) {
                 ProfileDTO profileDTO = new ProfileDTO();
-                profileDTO.setFullName(profile.get().getFullName());
-                if (profile.get().getImageId() != null) {
-                    Optional<Image> image = imageRepository.findById(profile.get().getImageId());
+                profileDTO.setFirstName(profile.getFirstName());
+                if (profile.getImageId() != null) {
+                    Optional<Image> image = imageRepository.findById(profile.getImageId());
                     if (image.isPresent()) {
                         ImageDTO imageDTO = new ImageDTO();
                         imageDTO.setPic(image.get().getPic());
@@ -64,7 +62,7 @@ public class UserServiceImpl implements UserService {
                     }
                 }
 
-                profileDTO.setId(profile.get().getId());
+                profileDTO.setId(profile.getId());
                 userDTO.setProfile(profileDTO);
             }
             userDTOS.add(userDTO);
@@ -88,26 +86,21 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
 
             userDTO.setId(user.getId());
-            userDTO.setFirstName(user.getFirstName());
-            userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
             userDTO.setContact(user.getContact());
             userDTO.setUsername(user.getUsername());
             userDTO.setPassword(user.getPassword());
-
-            if (user.getProfileId() != null) {
-                profile = profileRepository.findById(user.getProfileId()).get();
-                profileDTO.setFullName(profile.getFullName());
-                profileDTO.setId(profile.getId());
-                if (profile.getImageId() != null) {
-                    image = imageRepository.findById(profile.getImageId()).get();
-                    ImageDTO imageDTO = new ImageDTO();
-                    imageDTO.setPic(image.getPic());
-                    imageDTO.setId(image.getId());
-                    profileDTO.setImage(imageDTO);
-                }
-                userDTO.setProfile(profileDTO);
+            profile = profileRepository.findById(user.getId()).get();
+            profileDTO.setFullName(profile.getFullName());
+            profileDTO.setId(profile.getId());
+            if (profile.getImageId() != null) {
+                image = imageRepository.findById(profile.getImageId()).get();
+                ImageDTO imageDTO = new ImageDTO();
+                imageDTO.setPic(image.getPic());
+                imageDTO.setId(image.getId());
+                profileDTO.setImage(imageDTO);
             }
+            userDTO.setProfile(profileDTO);
         }
         return userDTO;
     }
@@ -120,17 +113,17 @@ public class UserServiceImpl implements UserService {
         if (userData.isPresent()) {
             User user = userData.get();
             userDTO.setId(user.getId());
-            userDTO.setFirstName(user.getFirstName());
-            userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
             userDTO.setContact(user.getContact());
             userDTO.setUsername(user.getUsername());
             userDTO.setPassword(user.getPassword());
-            userDTO.setRegistered(true);
-            if (userData.get().getProfileId() != null) {
-                profile = profileRepository.findById(userData.get().getProfileId()).get();
+            userDTO.setRegistered(user.isRegistered());
+            userDTO.setActive(user.isActive());
+            userDTO.setProfileUpdated(user.isProfileCompleted());
+            if (userData.get().getId() != null) {
+                profile = profileRepository.findByUserId(userData.get().getId());
                 ProfileDTO profileDTO = new ProfileDTO();
-                profileDTO.setFullName(profile.getFullName());
+                profileDTO.setFirstName(profile.getFirstName());
                 profileDTO.setId(profile.getId());
                 if (profile.getImageId() != null) {
                     Image image = imageRepository.findById(profile.getImageId()).get();
@@ -139,11 +132,17 @@ public class UserServiceImpl implements UserService {
                     imageDTO.setId(image.getId());
                     profileDTO.setImage(imageDTO);
                 }
+                // check if user Has Address
+                List<Address> addresses = getAllAddressesByUserId(user.getId());
+                if (addresses.size() > 0) {
+                    profileDTO.setAddresses(addresses);
+                }
                 userDTO.setProfile(profileDTO);
             }
+
             return userDTO;
         } else {
-            return userDTO.builder().id("0").build();
+            return UserDTO.builder().id("0").build();
         }
     }
 
@@ -185,18 +184,18 @@ public class UserServiceImpl implements UserService {
             user.setContact(profileBean.getContact());
         }
 
-        if (profileBean.getName() != null || profileBean.getName() != "") {
-            user.setFirstName(profileBean.getName());
-        }
+//        if (profileBean.getName() != null || profileBean.getName() != "") {
+//            user.setFirstName(profileBean.getName());
+//        }
 
         if (profileBean.getId() != null) {  // it means profile is already exist for user
-            profile = profileRepository.findById(user.getProfileId()).get();
+            profile = profileRepository.findById(user.getId()).get();
             profile.setImageId(image.getId());
 
         }
 
         profile = profileRepository.save(profile);
-        user.setProfileId(profile.getId());
+        // user.setProfileId(profile.getId());
         user = userRepository.save(user);
 
         // Now prepare User View Object
@@ -223,9 +222,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProfileDTO saveProfile(ProfileBean bean) {
         Profile profile = new Profile();
-        if (bean.getAddressId() != null) {
-            profile.setAddressId(bean.getAddressId());
-        }
+//        if (bean.getAddressId() != null) {
+//            profile.setAddressId(bean.getAddressId());
+//        }
         if (bean.getImageId() != null) {
             profile.setImageId(bean.getImageId());
         }
@@ -257,10 +256,10 @@ public class UserServiceImpl implements UserService {
         profileDTO.setSecondaryEmail(profile.getSecondaryEmail());
 
         AddressDTO addressDTO = null;
-        if (profile.getAddressId() != null) {
-            Address address = addressRepository.findById(profile.getAddressId()).get();
+        if (profile.getId() != null) {
+            Address address = addressRepository.findById(profile.getUserId()).get();
             addressDTO = new AddressDTO();
-            profileDTO.setAddress(addressDTO);
+            // profileDTO.setAddress(addressDTO);
         }
         if (profile.getImageId() != null) {
             ImageDTO imageDTO = new ImageDTO();
@@ -291,17 +290,17 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userBean.getEmail());
         user.setContact(userBean.getContact());
-        user.setFirstName(userBean.getFirstName());
+        //  user.setFirstName(userBean.getFirstName());
 
         Profile profile = new Profile();
         profile.setImageId(userBean.getImageId());
-        if (userBean.getProfileId() != null) {
-            profile = profileRepository.findById(userBean.getProfileId()).get();
-            user.setProfileId(profile.getId());
-        } else {
-            profile = profileRepository.save(profile);
-            user.setProfileId(profile.getId());
-        }
+//        if (userBean.getId() != null) {
+//            profile = profileRepository.findById(userBean.getId()).get();
+//          //  user.setProfileId(profile.getId());
+//        } else {
+//            profile = profileRepository.save(profile);
+//          //  user.setProfileId(profile.getId());
+//        }
         user.setOtp("1234");
         User userObj = userRepository.save(user);
 
@@ -310,8 +309,8 @@ public class UserServiceImpl implements UserService {
         userDTO.setContact(userObj.getContact());
         userDTO.setEmail(userObj.getEmail());
         ProfileDTO profileDTO = new ProfileDTO();
-        profileDTO.setId(userObj.getProfileId());
-        profileDTO.setFullName(userObj.getFirstName());
+//        profileDTO.setId(userObj.getProfileId());
+//        profileDTO.setFullName(userObj.getFirstName());
         Image image = imageRepository.findById(profile.getImageId()).get();
         ImageDTO imageDTO = new ImageDTO();
         imageDTO.setId(image.getId());
@@ -326,13 +325,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserExists(String contact) {
-        return userRepository.findByContact(contact) != null? true : false;
+        return userRepository.findByContact(contact) != null;
+    }
+
+    @Override
+    public boolean isUserIdExists(String id) {
+        return userRepository.findById(id).isPresent();
     }
 
     /////////////////////////////
     @Override
     public Address saveAddress(AddressDTO dto) {
         Address address = new Address();
+        List<Address> addresses = getAllAddressesByUserId(dto.getUserId());
+        if (addresses.size() == 0) {
+            // if user has no address then make this as default
+            address.setIsDefault("Y");
+        } else {
+            address.setIsDefault("N");
+        }
         address.setType(dto.getType());
         address.setLine1(dto.getLine1());
         address.setLine2(dto.getLine2());
@@ -340,35 +351,9 @@ public class UserServiceImpl implements UserService {
         address.setCity(dto.getCity());
         address.setState(dto.getState());
         address.setCountry(dto.getCountry());
-        User user = userRepository.findByContact(dto.getContact());
-        address.setUserId(user.getId());
-
-        if(dto.getContact().equalsIgnoreCase(user.getContact())){
-            //TODO: Check if same address is getting updated
-        }
-
-
-        if (dto.getIsDefault() != null && (dto.getIsDefault().equalsIgnoreCase("true") || dto.getIsDefault().equalsIgnoreCase("Y"))) {
-            List<Address> addresses = (List<Address>) getAllAddressesByUserId(dto.getUserId());
-            for (Address add : addresses) {
-                add.setIsDefault("N");
-            }
-            address.setIsDefault("Y");
-        } else {
-            address.setIsDefault("N");
-        }
         address.setUserId(dto.getUserId());
-
-        Address savedAddress = addressRepository.save(address);
-
-
-        Profile p = profileRepository.findById(user.getProfileId()).get();
-        p.setAddressId(savedAddress.getId());
-        profileRepository.save(p);
-        return savedAddress;
-
+        return addressRepository.save(address);
     }
-
 
     @Override
     public List<Address> getAllAddresses() {
@@ -378,6 +363,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Address> getAllAddressesByUserId(String id) {
         return addressRepository.findByUserId(id);
+    }
+
+    @Override
+    public List<Address> getAllAddressesByContact(String contact) {
+        return null;
     }
 
     @Override

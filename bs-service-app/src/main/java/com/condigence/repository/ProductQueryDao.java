@@ -5,13 +5,13 @@ import com.condigence.model.Product;
 import java.util.List;
 
 public interface ProductQueryDao {
-	
-	List<Product> getAll();
 
-	List<Product> getProductByName(String name);
+    List<Product> getAll();
 
-	Product getSingleProductByName(String name);
+    List<Product> getProductByName(String name);
 
-	List<Product> getProductByNameLike(String name);
+    Product getSingleProductByName(String name);
+
+    List<Product> getProductByNameLike(String name);
 
 }

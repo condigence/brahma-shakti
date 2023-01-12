@@ -14,9 +14,9 @@ import java.io.Serializable;
 @Builder
 public class Stock implements Serializable {
 
-	@Id
-	private String id;
-	private int productId;
-	private int quantityInStock;
-	
+    @Id
+    private String id;
+    private int productId;
+    private int quantityInStock;
+
 }

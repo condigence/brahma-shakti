@@ -14,16 +14,16 @@ import java.io.Serializable;
 @Builder
 public class SubscriptionDetailDTO implements Serializable {
 
-	@Id
-	private String id;
-	private int itemQuantity;
-	private int totalAmount;
-	private ProductDTO productDTO;
-	private UserDTO userDTO;
-	private String fromDate;
-	private String toDate;
-	private Integer noOfDays;
-	private String frequency;
-	private String status; // PENDING or CONFIRMED or CANCELLED
+    @Id
+    private String id;
+    private int itemQuantity;
+    private int totalAmount;
+    private ProductDTO productDTO;
+    private UserDTO userDTO;
+    private String fromDate;
+    private String toDate;
+    private Integer noOfDays;
+    private String frequency;
+    private String status; // PENDING or CONFIRMED or CANCELLED
 
 }

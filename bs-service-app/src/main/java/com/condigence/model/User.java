@@ -16,20 +16,20 @@ import java.io.Serializable;
 @Builder
 public class User implements Serializable {
 
-	@Id
-	private String id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String contact;
-	private String address;
-	private String username;
-	private String profileId;
-	@JsonIgnore
-	private String password;
-	@JsonIgnore
-	private String otp;
-	private String otpCreationTime;
-	private boolean isRegistered;
-	
+    @Id
+    private String id;
+    private String email;
+    private String contact;
+    private String username;
+    @JsonIgnore
+    private String password;
+    @JsonIgnore
+    private String otp;
+    private String otpCreationTime;
+
+    private boolean isRegistered; // When Registering by providing email, name and contact etc
+    private boolean isActive;  // when verified by OTP
+    private boolean hasAddress;  // when user has at least one Primary Address
+    private boolean isProfileCompleted;  // when user has updated his profile
+
 }

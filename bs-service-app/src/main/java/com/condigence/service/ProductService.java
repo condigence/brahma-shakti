@@ -12,31 +12,31 @@ import java.util.Optional;
 
 public interface ProductService {
 
-	Optional<Product> findSubscribleProductById(String productId);
+    Optional<Product> findSubscribleProductById(String productId);
 
-	List<ProductDTO> getAll();
+    List<ProductDTO> getAll();
 
-	List<Product> getProductByName(String name);
+    List<Product> getProductByName(String name);
 
-	Product getOneProductByName(String name);
+    Product getOneProductByName(String name);
 
-	List<Product> getProductByNameLike(String name);
+    List<Product> getProductByNameLike(String name);
 
-	ProductDTO getProductById(String productId);
+    ProductDTO getProductById(String productId);
 
-	void deleteById(String id);
+    void deleteById(String id);
 
-	void save(ProductBean productBean);
+    void save(ProductBean productBean);
 
-	void saveAll(List<ProductBean> products);
+    void saveAll(List<ProductBean> products);
 
-	void saveAllProducts(List<Product> products);
+    void saveAllProducts(List<Product> products);
 
 //	List<Product> getProductByCondition(Product product);
 
-	 Page<Product> findAllProductsPageable(Pageable pageable);
+    Page<Product> findAllProductsPageable(Pageable pageable);
 
     Optional<Product> findById(String productId);
 
-	ProductDTO updateProduct(ProductBean productBean);
+    ProductDTO updateProduct(ProductBean productBean);
 }

@@ -14,10 +14,10 @@ import java.io.Serializable;
 @Builder
 public class PaymentResponse implements Serializable {
 
-	@Id
-	private String id;
-	private String razorpayOrderId;
-	private String razorpayPaymentId;
-	private String razorpaySignature;
-	
+    @Id
+    private String id;
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private String razorpaySignature;
+
 }

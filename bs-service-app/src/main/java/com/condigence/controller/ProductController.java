@@ -3,7 +3,6 @@ package com.condigence.controller;
 import com.condigence.bean.ProductBean;
 import com.condigence.dto.ProductDTO;
 import com.condigence.model.Product;
-import com.condigence.model.Subscription;
 import com.condigence.service.ProductService;
 import com.condigence.utils.CustomErrorType;
 import org.slf4j.Logger;
@@ -21,92 +20,92 @@ import java.util.List;
 @RequestMapping("/api/bs-products")
 public class ProductController {
 
-	public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
-	
-	@Autowired
-	private ProductService productService;
+    public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-	@GetMapping("/healthCheck")
-	public String sayHello() {
-		return "Hello, I am doing Great!";
-	}
-	
-	@GetMapping
-	public List<ProductDTO> getAll() {
+    @Autowired
+    private ProductService productService;
 
-		logger.info("Entering getAll Products");
-		return productService.getAll();
-	}
+    @GetMapping("/healthCheck")
+    public String sayHello() {
+        return "Hello, I am doing Great!";
+    }
 
-	@PostMapping(value = "/")
-	public ResponseEntity<?> addProduct(@RequestBody ProductBean productBean) {
+    @GetMapping
+    public List<ProductDTO> getAll() {
 
-		logger.info("Entering addProduct with Product Details >>>>>>>>  : {}", productBean);
-		HttpHeaders headers = new HttpHeaders();
-		productService.save(productBean);
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
-	}
+        logger.info("Entering getAll Products");
+        return productService.getAll();
+    }
 
-	@PostMapping(value = "/addAll")
-	public ResponseEntity<?> addProducts(@RequestBody List<ProductBean> products) {
+    @PostMapping(value = "/")
+    public ResponseEntity<?> addProduct(@RequestBody ProductBean productBean) {
 
-		logger.info("Entering addAllProduct with Products Details >>>>>>>>  : {}", products);
-		HttpHeaders headers = new HttpHeaders();
-		productService.saveAll(products);
-		return new ResponseEntity<>(headers, HttpStatus.CREATED);
-	}
+        logger.info("Entering addProduct with Product Details >>>>>>>>  : {}", productBean);
+        HttpHeaders headers = new HttpHeaders();
+        productService.save(productBean);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getProductById(@PathVariable String id ) {
-		ProductDTO product = productService.getProductById(id);
-		if (product == null || product.getId().equalsIgnoreCase("0")) {
-			return new ResponseEntity(new CustomErrorType("Product not found."), HttpStatus.NOT_FOUND);
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(product);
-	}
-	
-	@GetMapping("/name/{name}")
-	public List<Product> getProductByName(@PathVariable String name ) {
-		return productService.getProductByName(name);
-	}
+    @PostMapping(value = "/addAll")
+    public ResponseEntity<?> addProducts(@RequestBody List<ProductBean> products) {
 
-	// get product by name (equals())
-	@GetMapping("/one-by-name/{name}")
-	public Product getOneProductByName(@PathVariable String name) {
-		return productService.getOneProductByName(name);
-	}
+        logger.info("Entering addAllProduct with Products Details >>>>>>>>  : {}", products);
+        HttpHeaders headers = new HttpHeaders();
+        productService.saveAll(products);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
 
-	// get product by first name %LIKE%
-	@GetMapping("/name-like/{name}")
-	public List<Product> getProductByNameLike(@PathVariable String name) {
-		return productService.getProductByNameLike(name);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable String id) {
+        ProductDTO product = productService.getProductById(id);
+        if (product == null || product.getId().equalsIgnoreCase("0")) {
+            return new ResponseEntity(new CustomErrorType("Product not found."), HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(product);
+    }
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteProduct(@PathVariable("id") String id) {
-		logger.info("Fetching & Deleting Item with id {}", id);
-		ProductDTO product = productService.getProductById(id);
-		if (product != null && !product.getId().equalsIgnoreCase("0")) {
-			productService.deleteById(id);
-		} else {
-			logger.error("Unable to delete. Product with id {} not found.", id);
-			return new ResponseEntity(new CustomErrorType("Unable to delete. Product with id " + id + " not found."),
-					HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<ProductDTO>(HttpStatus.OK);
-	}
+    @GetMapping("/name/{name}")
+    public List<Product> getProductByName(@PathVariable String name) {
+        return productService.getProductByName(name);
+    }
 
-	@PutMapping("/")
-	public ResponseEntity<?> updateProduct(@RequestBody ProductBean productBean) {
-		// check if product is available
-		if (productService.findById(productBean.getId()).isPresent()) {
-			ProductDTO productDTO = productService.updateProduct(productBean);
-			return ResponseEntity.status(HttpStatus.OK).body(productDTO);
-		} else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product That your are trying to update does not exist! Please contact admin!");
-		}
-	}
+    // get product by name (equals())
+    @GetMapping("/one-by-name/{name}")
+    public Product getOneProductByName(@PathVariable String name) {
+        return productService.getOneProductByName(name);
+    }
+
+    // get product by first name %LIKE%
+    @GetMapping("/name-like/{name}")
+    public List<Product> getProductByNameLike(@PathVariable String name) {
+        return productService.getProductByNameLike(name);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") String id) {
+        logger.info("Fetching & Deleting Item with id {}", id);
+        ProductDTO product = productService.getProductById(id);
+        if (product != null && !product.getId().equalsIgnoreCase("0")) {
+            productService.deleteById(id);
+        } else {
+            logger.error("Unable to delete. Product with id {} not found.", id);
+            return new ResponseEntity(new CustomErrorType("Unable to delete. Product with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<ProductDTO>(HttpStatus.OK);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<?> updateProduct(@RequestBody ProductBean productBean) {
+        // check if product is available
+        if (productService.findById(productBean.getId()).isPresent()) {
+            ProductDTO productDTO = productService.updateProduct(productBean);
+            return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product That your are trying to update does not exist! Please contact admin!");
+        }
+    }
 
 
 }

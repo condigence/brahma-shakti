@@ -13,17 +13,19 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class UserDTO implements Serializable {
-	
-	private String id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String contact;
-	private String username;
-	private ProfileDTO profile;
-	@JsonIgnore
-	private String password;
-	private String otp;
-	private boolean isRegistered;
-	
+
+    private String id;
+    private String email;
+    private String contact;
+    private String username;
+    private ProfileDTO profile;
+    @JsonIgnore
+    private String password;
+    @JsonIgnore
+    private String otp;
+
+    private boolean isRegistered;
+    private boolean isActive;
+    private boolean isProfileUpdated;
+
 }

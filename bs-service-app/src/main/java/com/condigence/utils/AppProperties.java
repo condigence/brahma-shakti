@@ -9,28 +9,27 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("app")
 public class AppProperties {
 
-	@Autowired
-	private Environment env;
+    @Autowired
+    private Environment env;
 
-	private String location;
-	
-	public String getLocation() {
-		return location;
-	}
+    private String location;
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public String getProperty(String pPropertyKey) {
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getProperty(String pPropertyKey) {
         return env.getProperty(pPropertyKey);
     }
 
-	@Override
-	public String toString() {
-		return "AppProperties [env=" + env + ", location=" + location + "]";
-	}
+    @Override
+    public String toString() {
+        return "AppProperties [env=" + env + ", location=" + location + "]";
+    }
 
-	
 
 }

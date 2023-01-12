@@ -1,8 +1,5 @@
 package com.condigence.repository.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.condigence.model.Employee;
 import com.condigence.repository.EmployeeQueryDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +8,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -66,8 +66,6 @@ class EmployeeQueryDaoImpl implements EmployeeQueryDao {
 
         return mongoTemplate.findOne(query, Employee.class);
     }
-
-
 
 
     @Override

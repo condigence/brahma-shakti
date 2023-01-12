@@ -1,6 +1,5 @@
 package com.condigence.bean;
 
-import com.condigence.dto.ProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

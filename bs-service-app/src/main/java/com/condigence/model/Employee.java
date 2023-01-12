@@ -14,12 +14,12 @@ import java.io.Serializable;
 @Builder
 public class Employee implements Serializable {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	private int empId;
-	private String firstName;
-	private String lastName;
-	private float salary;
-	
+    private int empId;
+    private String firstName;
+    private String lastName;
+    private float salary;
+
 }

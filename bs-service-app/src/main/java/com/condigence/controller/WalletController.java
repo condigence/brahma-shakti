@@ -16,25 +16,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/bs-wallet")
 public class WalletController {
 
-	public static final Logger logger = LoggerFactory.getLogger(WalletController.class);
+    public static final Logger logger = LoggerFactory.getLogger(WalletController.class);
 
-	@Autowired
-	public void setApp(AppProperties app) {
-		this.app = app;
-	}
+    @Autowired
+    public void setApp(AppProperties app) {
+        this.app = app;
+    }
 
-	private AppProperties app;
-	
-	@Autowired
-	UserService userService;
-	
-	@PostMapping("/balance/{userId}")
-	public void addBalance(@PathVariable("userId") String userId, @RequestBody int amount) {
-		userService.addBalance(userId, amount);
-	}
+    private AppProperties app;
 
-	@GetMapping("/balance/{userId}")
-	public ResponseEntity<?> getBalance(@PathVariable("userId") String userId) {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.getBalance(userId));
-	}
+    @Autowired
+    UserService userService;
+
+    @PostMapping("/balance/{userId}")
+    public void addBalance(@PathVariable("userId") String userId, @RequestBody int amount) {
+        userService.addBalance(userId, amount);
+    }
+
+    @GetMapping("/balance/{userId}")
+    public ResponseEntity<?> getBalance(@PathVariable("userId") String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getBalance(userId));
+    }
 }

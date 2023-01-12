@@ -1,9 +1,7 @@
 package com.condigence.repository;
 
 
-
 import com.condigence.model.Category;
-
 
 import java.util.List;
 

@@ -66,9 +66,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> findSubscribleProductById(String productId) {
         Optional<Product> p = repository.findById(productId);
-        if(p.isPresent() && p.get().isSubscribable()){
+        if (p.isPresent() && p.get().isSubscribable()) {
             return repository.findById(productId);
-        }else{
+        } else {
             return Optional.empty();
         }
     }
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
             populateOffers(productDTO, product);
             return productDTO;
         } else {
-            return productDTO.builder().id("0").title("Not Found").build();
+            return ProductDTO.builder().id("0").title("Not Found").build();
         }
 
     }
@@ -174,7 +174,7 @@ public class ProductServiceImpl implements ProductService {
     public void saveAll(List<ProductBean> products) {
 
         List<Product> productList = new ArrayList<>();
-        for(ProductBean productBean : products){
+        for (ProductBean productBean : products) {
             Product product = new Product();
             product.setCategory(productBean.getCategory());
             product.setDescription(productBean.getDescription());
@@ -190,7 +190,7 @@ public class ProductServiceImpl implements ProductService {
             product.setName(productBean.getTitle());
             product.setProductType(productBean.getProductType());
             product.setUnit(productBean.getUnit());
-            product.setDisplayPrice(productBean.getPrice()+productBean.getDiscount());
+            product.setDisplayPrice(productBean.getPrice() + productBean.getDiscount());
             productList.add(product);
         }
         repository.saveAll(productList);

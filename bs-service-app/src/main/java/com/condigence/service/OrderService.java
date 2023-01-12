@@ -9,18 +9,18 @@ import java.util.List;
 
 public interface OrderService {
 
-	void placeOrder(OrderBean orderBean);
+    void placeOrder(OrderBean orderBean);
 
-	Order getOrderById(String id);
+    Order getOrderById(String id);
 
-	List<OrderDTO> getAllOrderByUserId(String userId);
+    List<OrderDTO> getAllOrderByUserId(String userId);
 
-	void deleteOrderByUserId(String userId);
+    void deleteOrderByUserId(String userId);
 
-	public Order saveOrder(final String razorpayOrderId, final String userId);
+    Order saveOrder(final String razorpayOrderId, final String userId);
 
-	public String validateAndUpdateOrder(final String razorpayOrderId, final String razorpayPaymentId, final String razorpaySignature, final String secret);
+    String validateAndUpdateOrder(final String razorpayOrderId, final String razorpayPaymentId, final String razorpaySignature, final String secret);
 
 
-	void deleteById(String orderId);
+    void deleteById(String orderId);
 }

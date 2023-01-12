@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
- class CategoryServiceImpl implements CategoryService {
+class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository repository;
-
 
 
     @Override
@@ -22,7 +21,7 @@ import java.util.List;
     }
 
 
-     @Override
+    @Override
     public Category getOneCategoryByCategoryName(String categoryName) {
         return repository.findByCategoryName(categoryName);
     }
@@ -31,7 +30,6 @@ import java.util.List;
     public List<Category> getCategoryByCategoryNameLike(String firstName) {
         return repository.findByCategoryNameLike(firstName);
     }
-
 
 
 }

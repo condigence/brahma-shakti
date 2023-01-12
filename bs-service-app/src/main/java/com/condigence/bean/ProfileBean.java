@@ -13,13 +13,20 @@ import java.io.Serializable;
 @Builder
 public class ProfileBean implements Serializable {
 
-	private String id;
-	private String name;
-	private String imageId;
-	private String profileId;
-	private String addressId;
-	private String contact;
-	private String email;
-	private String type;
-	
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String nickName;
+    private String fullName;
+    private String email;
+    private String contact;
+    private String addressId;
+    private String imageId;
+    private String type;
+    private String otp;
+    private String dob;
+    private String secondaryEmail;
+    private String secondaryContact;
+    private String userId;
+
 }

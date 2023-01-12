@@ -1,24 +1,24 @@
 package com.condigence.service;
 
-import java.util.List;
-
 import com.condigence.model.Employee;
 
+import java.util.List;
+
 public interface EmployeeQueryService {
-	
-	List<Employee> getAll();
 
-	List<Employee> getEmployeeByFirstName(String firstName);
+    List<Employee> getAll();
 
-	Employee getSingleEmployeeByLastName(String lastName);
+    List<Employee> getEmployeeByFirstName(String firstName);
 
-	List<Employee> getEmployeeByFirstNameLike(String firstName);
+    Employee getSingleEmployeeByLastName(String lastName);
 
-	Employee getOneEmployeeByFirstName(String firstName);
+    List<Employee> getEmployeeByFirstNameLike(String firstName);
 
-	List<Employee> getEmployeeBySalaryGreaterThan(int salary);
+    Employee getOneEmployeeByFirstName(String firstName);
 
-	List<Employee> getEmployeeByCondition(Employee employee);
+    List<Employee> getEmployeeBySalaryGreaterThan(int salary);
+
+    List<Employee> getEmployeeByCondition(Employee employee);
 
 
 }

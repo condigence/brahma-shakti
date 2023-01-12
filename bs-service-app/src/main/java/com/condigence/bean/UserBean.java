@@ -1,11 +1,9 @@
 package com.condigence.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 
@@ -15,16 +13,15 @@ import java.io.Serializable;
 @Builder
 public class UserBean implements Serializable {
 
-	private String id;
-	private String firstName;
-	private String email;
-	private String contact;
-	private String address;
-	private String imageId;
-	private String profileId;
-	private String addressId;
-	private String type;
+    private String id;
+    private String email;
+    private String firstName;
+    private String contact;
+    private String addressId;
+    private String imageId;
+    private String type;
+    private String otp;
+    private String userId;
 
 
-	
 }

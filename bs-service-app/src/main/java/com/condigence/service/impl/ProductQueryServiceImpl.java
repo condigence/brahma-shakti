@@ -14,24 +14,24 @@ import java.util.List;
 @Service
 public class ProductQueryServiceImpl implements ProductQueryService {
 
-	@Autowired
-	private ProductQueryDao productQueryDao;
+    @Autowired
+    private ProductQueryDao productQueryDao;
 
-	@Override
-	public List<ProductDTO> getAll() {
-		System.out.println("Inside Product Query Service Impl");
-		List<ProductDTO> productDTOS = new ArrayList<>();
-		List<Product> products = productQueryDao.getAll();
-		for(Product product : products){
-			ProductDTO productDTO = new ProductDTO();
+    @Override
+    public List<ProductDTO> getAll() {
+        System.out.println("Inside Product Query Service Impl");
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        List<Product> products = productQueryDao.getAll();
+        for (Product product : products) {
+            ProductDTO productDTO = new ProductDTO();
 
-			productDTO.setTitle(product.getName());
-			productDTO.setPrice(product.getPrice());
-			productDTO.setImage(product.getImageLink());
-			productDTO.setId(product.getId());
-			productDTO.setCategory(product.getCategory());
-			productDTO.setDescription(product.getDescription());
-			productDTO.setDiscount(product.getDiscount());
+            productDTO.setTitle(product.getName());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setImage(product.getImageLink());
+            productDTO.setId(product.getId());
+            productDTO.setCategory(product.getCategory());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setDiscount(product.getDiscount());
 //			if(product.getOffers() != null ){
 //				if(product.getOffers().contains(",")){
 //					productDTO.setPromoCodes(product.getOffers().split(","));
@@ -42,46 +42,46 @@ public class ProductQueryServiceImpl implements ProductQueryService {
 //				}
 //
 //			}
-			productDTO.setStockLeft(product.getQuantityInStock());
-			productDTO.setRating(product.getRating());
+            productDTO.setStockLeft(product.getQuantityInStock());
+            productDTO.setRating(product.getRating());
 
 
+            productDTOS.add(productDTO);
+        }
 
-			productDTOS.add(productDTO);
-		}
+        return productDTOS;
+    }
 
-		return productDTOS;
-	}
+    @Override
+    public List<Product> getProductByName(String name) {
 
-	@Override
-	public List<Product> getProductByName(String name) {
+        if (!StringUtils.isEmpty(name)) {
+            return productQueryDao.getProductByName(name);
+        }
 
-		if (!StringUtils.isEmpty(name)) {
-			return productQueryDao.getProductByName(name);
-		}
-
-		return null;
-	}
+        return null;
+    }
 
 
-	@Override
-	public Product getOneProductByName(String name) {
+    @Override
+    public Product getOneProductByName(String name) {
 
-		if (!StringUtils.isEmpty(name)) {
-			return productQueryDao.getSingleProductByName(name);
-		}
+        if (!StringUtils.isEmpty(name)) {
+            return productQueryDao.getSingleProductByName(name);
+        }
 
-		return null;
-	}
-	@Override
-	public List<Product> getProductByNameLike(String name) {
+        return null;
+    }
 
-		if (!StringUtils.isEmpty(name)) {
-			return productQueryDao.getProductByNameLike(name);
-		}
+    @Override
+    public List<Product> getProductByNameLike(String name) {
 
-		return null;
-	}
+        if (!StringUtils.isEmpty(name)) {
+            return productQueryDao.getProductByNameLike(name);
+        }
+
+        return null;
+    }
 
 
 //	@Override

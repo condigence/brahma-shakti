@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
 
 
-	@GetMapping("/healthCheck")
-	public String sayHello() {
-		return "Hello, I am doing fine!";
-	}
+    @GetMapping("/healthCheck")
+    public String sayHello() {
+        return "Hello, I am doing fine!";
+    }
 
-	@RequestMapping(value = "/username", method = RequestMethod.GET)
-	@ResponseBody
-	public String currentUserName(Authentication authentication) {
-		return authentication.getName();
-	}
+    @RequestMapping(value = "/username", method = RequestMethod.GET)
+    @ResponseBody
+    public String currentUserName(Authentication authentication) {
+        return authentication.getName();
+    }
 
 
 }

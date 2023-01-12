@@ -12,19 +12,20 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class ProductBean implements Serializable {
-	private String id;
-	private String title;
-	private int stockLeft;
-	private int quantity;
-	private String image;
-	private String unit;
-	private String description;
-	private int price;
-	private int discount;
-	private String promoCodes;
-	private String category;
-	private String type;
-	private String productType;
-	private double rating;
-	private boolean isSubscribable;
+
+    private String id;
+    private String title;
+    private int stockLeft;
+    private int quantity;
+    private String image;
+    private String unit;
+    private String description;
+    private int price;
+    private int discount;
+    private String promoCodes;
+    private String category;
+    private String type;
+    private String productType;
+    private double rating;
+    private boolean isSubscribable;
 }

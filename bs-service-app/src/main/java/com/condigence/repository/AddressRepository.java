@@ -10,5 +10,10 @@ public interface AddressRepository extends MongoRepository<Address, String> {
 
     List<Address> findByUserId(String id);
 
+    List<Address> findByContact(String contact);
+
     Optional<Address> findOneByUserId(String id);
+
+//    @Query("SELECT a FROM Address u WHERE a.isDefault = ?Y")
+//    Address findAddressByIsDefault(String isDefault);
 }

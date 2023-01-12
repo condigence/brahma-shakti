@@ -6,18 +6,18 @@ import com.condigence.model.Product;
 import java.util.List;
 
 public interface ProductQueryService {
-	
-	List<ProductDTO> getAll();
 
-	List<Product> getProductByName(String name);
+    List<ProductDTO> getAll();
 
-	List<Product> getProductByNameLike(String name);
+    List<Product> getProductByName(String name);
 
-	Product getOneProductByName(String name);
+    List<Product> getProductByNameLike(String name);
 
-	//List<Product> getEmployeeBySalaryGreaterThan(int salary);
+    Product getOneProductByName(String name);
 
-	//List<Product> getProductByCondition(Product product);
+    //List<Product> getEmployeeBySalaryGreaterThan(int salary);
+
+    //List<Product> getProductByCondition(Product product);
 
 
 }

@@ -54,18 +54,18 @@ public class CartController {
 
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-	@DeleteMapping(value = "/{userId}")
-	public ResponseEntity<?> clearCart(@RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
-		logger.info("Fetching & Deleting Cart with id {}", convId);
-		if (convId != null) {
+    @DeleteMapping(value = "/{userId}")
+    public ResponseEntity<?> clearCart(@RequestParam(required = true) String convId, @RequestParam(required = false) String userId) {
+        logger.info("Fetching & Deleting Cart with id {}", convId);
+        if (convId != null) {
             cartService.clearCart(convId, userId);
-		} else {
-			logger.error("Unable to clear Cart. convId {} not found.", convId);
-			return new ResponseEntity(new CustomErrorType("Unable to clear Cart. convId not found."),
-					HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<String>(HttpStatus.OK);
-	}
+        } else {
+            logger.error("Unable to clear Cart. convId {} not found.", convId);
+            return new ResponseEntity(new CustomErrorType("Unable to clear Cart. convId not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -222,19 +222,19 @@ public class CartController {
     public ResponseEntity<?> checkout(@RequestParam(required = false) String userId, @RequestParam(required = true) String convId) {
         UserDTO userDTO = null;
         CartDTO dto = null;
-        if(convId == null){
+        if (convId == null) {
             return new ResponseEntity(new CustomErrorType("Sorry Conv Id is should not ne empty, Checkout is not successful!:( "),
                     HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             //TODO: if convId is correct or not
             dto = cartService.getProductsInCart(convId, userId);
-            if(dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0){
+            if (dto.getSubscriptionDetails().size() == 0 && dto.getItemDetails().size() == 0) {
                 return new ResponseEntity(new CustomErrorType("Sorry your Cart Not found :( "),
                         HttpStatus.NOT_FOUND);
             }
 
         }
-        //dto = cartService.getProductsInCart(convId, userId);
+
         if (userId != null) {
             userDTO = userService.getUserById(userId);
             dto.setUserId(userId);
@@ -242,7 +242,7 @@ public class CartController {
         }
         dto.setConvId(convId);
         try {
-            dto = cartService.checkout(dto);
+            dto = cartService.checkout(dto); // Not clearing the cart now on checkout
         } catch (NotEnoughProductsInStockException e) {
             throw new RuntimeException(e);
         }

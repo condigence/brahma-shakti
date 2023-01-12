@@ -42,8 +42,7 @@ public class CartServiceImpl implements CartService {
     private ProductService productService;
 
 
-
-    private Map<String, CartDTO> cartMap = new HashMap<>();  //  convId ---> Cart { id, details }
+    private final Map<String, CartDTO> cartMap = new HashMap<>();  //  convId ---> Cart { id, details }
 
 
     /**
@@ -141,9 +140,7 @@ public class CartServiceImpl implements CartService {
         ProductBean productBean = new ProductBean();
         Product pb = cart.getProductsPicked().get(product.getId());
         productBean.setId(product.getId());
-        if (cart.getProductsPicked().containsKey(product.getId())) {
-            cart.getProductsPicked().remove(product.getId());
-        }
+        cart.getProductsPicked().remove(product.getId());
         updateMyCart(convId, userId, cart);
     }
 
@@ -250,10 +247,15 @@ public class CartServiceImpl implements CartService {
         //// save Cart details to DB
         Cart cart = saveCart(cartDTO);
         cartDTO = populateCartDetails(cart, cartDTO); // TODO: New change as per Virender Request Fixed on 06-12-22
+        cartDTO.setId(cart.getId());
+        clearCart(cartDTO);
+        return cartDTO;
+    }
+
+    @Override
+    public void clearCart(CartDTO cartDTO) {
         cartDTO.getProductsPicked().clear();
         cartDTO.getSubscriptions().clear();
-        cartDTO.setId(cart.getId());
-        return cartDTO;
     }
 
     @Override
@@ -266,7 +268,7 @@ public class CartServiceImpl implements CartService {
         cartDTO.setUserId(cart.getUserId());
         cartDTO.setLastUpdated(cart.getLastUpdated());
         List<CartDetailDTO> cartDetailDTOS = new ArrayList<>();
-        for(CartDetail cartDetail : cart.getItemDetails()){
+        for (CartDetail cartDetail : cart.getItemDetails()) {
             CartDetailDTO cartDetailDTO = new CartDetailDTO();
             cartDetailDTO.setItemQuantity(cartDetail.getItemQuantity());
             cartDetailDTO.setId(cartDetail.getId());
@@ -277,7 +279,7 @@ public class CartServiceImpl implements CartService {
         cartDTO.setItemDetails(cartDetailDTOS);
         List<SubscriptionDetailDTO> subscriptionDetailDTOS = new ArrayList<>();
         Integer total = 0;
-        for(Subscription subscription : cart.getSubscriptionDetails()){
+        for (Subscription subscription : cart.getSubscriptionDetails()) {
             SubscriptionDetailDTO dto = new SubscriptionDetailDTO();
             dto.setStatus(subscription.getStatus());
             dto.setFrequency(subscription.getFrequency());
@@ -330,7 +332,7 @@ public class CartServiceImpl implements CartService {
         cart.setGrandTotal(cartDTO.getGrandTotal());
         cart.setTaxAmount(cartDTO.getTaxAmount());
         cart.setLastUpdated(cartDTO.getLastUpdated());
-        if(cartDTO.getUserDTO() != null){
+        if (cartDTO.getUserDTO() != null) {
             cart.setUserId(cartDTO.getUserDTO().getId());
             cart.setConvId(cartDTO.getUserDTO().getContact());
         }
@@ -358,7 +360,7 @@ public class CartServiceImpl implements CartService {
 
         subscription.setQuantity(newQuantity);
         if (cart.getSubscriptions().containsKey(subscription.getProductId())) {
-            cart.getSubscriptions().replace(subscription.getProductId(),subscription);
+            cart.getSubscriptions().replace(subscription.getProductId(), subscription);
         }
         updateMyCart(convId, userId, cart);
     }
@@ -366,9 +368,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void unsubscribeAllProduct(Subscription subscription, String convId, String userId) {
         CartDTO cart = getMyCart(convId, userId);
-        if (cart.getSubscriptions().containsKey(subscription.getProductId())) {
-            cart.getSubscriptions().remove(subscription.getProductId());
-        }
+        cart.getSubscriptions().remove(subscription.getProductId());
         updateMyCart(convId, userId, cart);
     }
 
@@ -399,7 +399,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void clearCart(String convId, String userId) {
-        CartDTO cartDTO= getMyCart(convId,userId);
+        CartDTO cartDTO = getMyCart(convId, userId);
         cartDTO.getProductsPicked().clear();
         cartDTO.getSubscriptions().clear();
     }
