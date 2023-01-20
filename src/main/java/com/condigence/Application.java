@@ -28,8 +28,6 @@ import java.util.List;
 @SpringBootApplication
 @EnableMongoRepositories
 @Configuration
-@EnableAutoConfiguration
-@ComponentScan
 @EnableSwagger2
 public class Application extends SpringBootServletInitializer {
 
