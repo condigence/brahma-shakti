@@ -60,6 +60,8 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDTO updateUserProfile(ProfileBean profileBean) {
         User user = userService.findByUserContact(profileBean.getContact());
         user.setEmail(profileBean.getEmail());
+        user.setRegistered(true);
+        user.setActive(true);
         User u = userDao.save(user);
 
         Profile p = profileRepository.findByUserId(u.getId());

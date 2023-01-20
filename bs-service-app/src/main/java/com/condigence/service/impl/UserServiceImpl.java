@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
             userDTO.setContact(user.getContact());
             userDTO.setUsername(user.getUsername());
             userDTO.setRegistered(user.isRegistered());
+            userDTO.setActive(user.isActive());
+            userDTO.setRegistered(user.isRegistered());
             Profile profile = profileRepository.findByUserId(user.getId());
             if (profile != null) {
                 ProfileDTO profileDTO = new ProfileDTO();
