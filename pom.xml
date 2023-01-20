@@ -10,9 +10,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.condigence</groupId>
-    <artifactId>bs-service-app</artifactId>
+    <artifactId>brahmashakti</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bs-service-app</name>
+    <name>brahmashakti</name>
     <description>Condigence project for BrahmaShakti</description>
 
     <!-- Need to comment this on Local setup-->
