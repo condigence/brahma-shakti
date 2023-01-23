@@ -11,7 +11,9 @@ import com.condigence.model.*;
 import com.condigence.repository.*;
 import com.condigence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private WalletRepository walletRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Override
@@ -80,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserByContact(String contact) {
-        User user = userRepository.findByContact(contact);
+        User user = userRepository.findByContact(contact).get();
         UserDTO userDTO = new UserDTO();
         ProfileDTO profileDTO = new ProfileDTO();
         Profile profile = null;
@@ -284,9 +289,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUserContact(String contact) {
-        return userRepository.findByContact(contact);
+        return userRepository.findByContact(contact).get();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public UserDTO saveUser(UserBean userBean) {
 
         User user = new User();
@@ -304,6 +310,12 @@ public class UserServiceImpl implements UserService {
 //          //  user.setProfileId(profile.getId());
 //        }
         user.setOtp("1234");
+
+
+        user.setUsername("BrahmaShakti");
+        user.setPassword("password");
+//        user.setPassword(bCryptPasswordEncoder
+//                .encode("condigence"));
         User userObj = userRepository.save(user);
 
         UserDTO userDTO = new UserDTO();
@@ -324,6 +336,7 @@ public class UserServiceImpl implements UserService {
         return userDTO;
 
     }
+
 
     @Override
     public boolean isUserExists(String contact) {

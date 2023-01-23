@@ -9,12 +9,16 @@ import com.condigence.model.User;
 import com.condigence.repository.ProfileRepository;
 import com.condigence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -28,19 +32,43 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder bcryptEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String contact) throws UsernameNotFoundException {
-        User user = userDao.findByContact(contact);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with contact: " + contact);
+
+//    @Override
+//    public UserDetails loadUserByUsername(String contact) throws UsernameNotFoundException {
+//        User user = userDao.findByContact(contact);
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User not found with contact: " + contact);
+//        }
+//        String ROLE_PREFIX = "ROLE_";
+//        authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole()));
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+//                new ArrayList<>());
+//    }
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return (UserDetails) userDao.findByUsername(username).orElseThrow(()->new UsernameNotFoundException(username));
+//    }
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user =  userDao.findByUsername(username).get();
+        if(user == null){
+            throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user));
+    }
+
+    private Set getAuthority(User user) {
+        Set authorities = new HashSet();
+        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        return authorities;
     }
 
 
-    public User findByUserContact(String contact) {
+    public Optional<User> findByUserContact(String contact) {
         return userDao.findByContact(contact);
     }
 
@@ -96,6 +124,9 @@ public class JwtUserDetailsService implements UserDetailsService {
         user.setContact(userBean.getContact());
         user.setEmail(userBean.getEmail());
         user.setRegistered(true);
+        user.setUsername("BrahmaShakti");
+        user.setPassword(bcryptEncoder.encode("password"));
+        //user.setPassword("password");
         User u = userDao.save(user);
         Profile p = new Profile();
         p.setFirstName(userBean.getFirstName());
@@ -105,7 +136,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public UserDTO activateUserAndgetUserDetails(UserBean bean, String journeyName) {
-        User user = findByUserContact(bean.getContact());
+        User user = findByUserContact(bean.getContact()).get();
         if (journeyName.equalsIgnoreCase("register")) {
             user.setRegistered(true);
         }
@@ -117,6 +148,9 @@ public class JwtUserDetailsService implements UserDetailsService {
             p = profileRepository.save(p);
         }
         if (!user.isActive()) { // User is not active
+            user.setActive(true);
+            user.setUsername("BrahmaShakti");
+            user.setPassword(bcryptEncoder.encode("password"));
             user = userDao.save(user);
         }
 

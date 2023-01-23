@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -47,15 +48,26 @@ public class JwtAuthenticationController {
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        // Need to Pass contact as Username
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
+
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
+
 
     @PostMapping({"/", "/login", "otp"})
     public ResponseEntity<?> generateOTP(@RequestBody UserDTO userDTO) throws Exception {
@@ -70,15 +82,15 @@ public class JwtAuthenticationController {
         String userStatus = "";  // NEW ACTIVE REGISTERED
         // Check If User exist already
         // Verify Contact
-        User userDetails = userDetailsService.findByUserContact(contactNumber);
-        if (userDetails != null) {
-            userDTO.setId(userDetails.getId());
+        Optional<User> userDetails = userDetailsService.findByUserContact(contactNumber);
+        if (userDetails.isPresent()) {
+            userDTO.setId(userDetails.get().getId());
             logger.info("User already Exists :) ");
-            if (userDetails.isActive()) {
+            if (userDetails.get().isActive()) {
                 logger.info("User already Exists :) You have not verified your OTP. Please verify your OTP! ");
                 userDTO.setActive(true);
             }
-            if (userDetails.isRegistered()) {
+            if (userDetails.get().isRegistered()) {
                 logger.info("User already Exists :) OTP Generated and Sent Plz check your Messages! ");
                 userDTO.setRegistered(true);
             }
@@ -135,17 +147,6 @@ public class JwtAuthenticationController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/";
-    }
-
-
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
     }
 
 }
