@@ -1,9 +1,6 @@
 package com.condigence.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
@@ -12,7 +9,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Employee implements Serializable {
+@EqualsAndHashCode
+public class Employee implements Serializable, Comparable {
 
     @Id
     private String id;
@@ -22,4 +20,14 @@ public class Employee implements Serializable {
     private String lastName;
     private float salary;
 
+    private String city;
+
+    private String number;
+
+    private int age;
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }

@@ -25,6 +25,8 @@ public interface UserService {
 
     UserDTO getUserById(String userId);
 
+    Optional<User> getUserByUserId(String userId);
+
     void deleteById(String id);
 
     UserDTO saveUser(UserBean user);

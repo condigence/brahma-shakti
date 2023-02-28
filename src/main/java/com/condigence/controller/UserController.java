@@ -44,16 +44,6 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAll());
     }
 
-    @GetMapping("/one-by-email/{email}")
-    public UserDTO getUserByEmail(@PathVariable String email) {
-        return userService.getUserByEmail(email);
-    }
-
-    @GetMapping("/one-by-contact/{contact}")
-    public UserDTO getUserByContact(@PathVariable String contact) {
-        return userService.getUserByContact(contact);
-    }
-
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable String id) {
         return userService.getUserById(id);
@@ -98,6 +88,17 @@ public class UserController {
                     HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<UserDTO>(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/one-by-email/{email}")
+    public UserDTO getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/one-by-contact/{contact}")
+    public UserDTO getUserByContact(@PathVariable String contact) {
+        return userService.getUserByContact(contact);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,7 +16,7 @@
     <description>Condigence project for BrahmaShakti</description>
 
     <!-- Need to comment this on Local setup-->
-        <packaging>war</packaging>
+<!--    <packaging>war</packaging>-->
 
     <properties>
         <java.version>11</java.version>
@@ -114,13 +114,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!--razorpay Integration -->
         <dependency>
             <groupId>com.razorpay</groupId>
             <artifactId>razorpay-java</artifactId>
-            <version>1.3.9</version>
-        </dependency>
-        <dependency>
+            <version>1.4.3</version>
+        </dependency>        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -129,17 +127,17 @@
             <artifactId>mockito-core</artifactId>
         </dependency>
         <!-- Need to comment this on local setup -->
-                        <dependency>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-tomcat</artifactId>
-                            <scope>provided</scope>
-                        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
     </dependencies>
 
     <build>
         <!-- Need to comment this on local setup -->
-                <finalName>brahmashakti</finalName>
+<!--        <finalName>brahmashakti</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

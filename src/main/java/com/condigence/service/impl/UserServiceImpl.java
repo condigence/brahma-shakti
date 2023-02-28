@@ -154,6 +154,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> getUserByUserId(String userId) {
+        return userRepository.findById(userId);
+    }
+
+    @Override
     public void deleteById(String id) {
         userRepository.deleteById(id);
     }
